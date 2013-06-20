@@ -1,0 +1,4 @@
+_client/oscrollbar.cmo : _client/size.cmo _client/options.cmo _client/log.cmo
+_client/oscrollbar.cmx : _client/size.cmx _client/options.cmx _client/log.cmx
+_client/oscrollbar.cmo : _server/oscrollbar.type_mli
+_client/oscrollbar.cmx : _server/oscrollbar.type_mli

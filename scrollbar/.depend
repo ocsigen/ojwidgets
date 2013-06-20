@@ -1,0 +1,35 @@
+_server/oscrollbar.cmi :
+_server/log.cmo :
+_server/log.cmx :
+_server/log.cmo : _server/log.type_mli
+_server/log.cmx : _server/log.type_mli
+_server/options.cmo :
+_server/options.cmx :
+_server/options.cmo : _server/options.type_mli
+_server/options.cmx : _server/options.type_mli
+_server/oscrollbar.cmo : _server/oscrollbar.cmi
+_server/oscrollbar.cmx : _server/oscrollbar.cmi
+_server/oscrollbar.type_mli : _server/oscrollbar.cmi
+_server/oscrollbar.cmo : _server/oscrollbar.type_mli
+_server/oscrollbar.cmx : _server/oscrollbar.type_mli
+_server/size.cmo :
+_server/size.cmx :
+_server/size.cmo : _server/size.type_mli
+_server/size.cmx : _server/size.type_mli
+_client/oscrollbar.cmi :
+_client/log.cmo :
+_client/log.cmx :
+_client/log.cmo : _server/log.type_mli
+_client/log.cmx : _server/log.type_mli
+_client/options.cmo :
+_client/options.cmx :
+_client/options.cmo : _server/options.type_mli
+_client/options.cmx : _server/options.type_mli
+_client/oscrollbar.cmo : _client/size.cmo _client/options.cmo _client/log.cmo _client/oscrollbar.cmi
+_client/oscrollbar.cmx : _client/size.cmx _client/options.cmx _client/log.cmx _client/oscrollbar.cmi
+_client/oscrollbar.cmo : _server/oscrollbar.type_mli
+_client/oscrollbar.cmx : _server/oscrollbar.type_mli
+_client/size.cmo : _client/options.cmo
+_client/size.cmx : _client/options.cmx
+_client/size.cmo : _server/size.type_mli
+_client/size.cmx : _server/size.type_mli

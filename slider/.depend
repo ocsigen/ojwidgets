@@ -1,0 +1,11 @@
+_server/oslider.cmi :
+_server/oslider.cmo : _server/oslider.cmi
+_server/oslider.cmx : _server/oslider.cmi
+_server/oslider.type_mli : _server/oslider.cmi
+_server/oslider.cmo : _server/oslider.type_mli
+_server/oslider.cmx : _server/oslider.type_mli
+_client/oslider.cmi :
+_client/oslider.cmo : _client/oslider.cmi
+_client/oslider.cmx : _client/oslider.cmi
+_client/oslider.cmo : _server/oslider.type_mli
+_client/oslider.cmx : _server/oslider.type_mli
