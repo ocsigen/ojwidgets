@@ -1,4 +1,5 @@
-(* Copyright Université Paris Diderot. *)
+(* Copyright Université Paris Diderot.
+Author : Christophe Lecointe*)
 
 {client{
 open Eliom_content.Html5
