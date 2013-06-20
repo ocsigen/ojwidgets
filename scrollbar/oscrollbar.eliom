@@ -1,3 +1,5 @@
+(* Copyright Université Paris Diderot. *)
+
 {client{
 open Size
 open Log
@@ -65,6 +67,7 @@ let scroll_to ?scroll elt =
            | Right  -> "right"
            | First  -> "first"
            | Last   -> "last"
+           | _ -> ""
          in
          a##mCustomScrollbar_s(Js.string "scrollTo", Js.string s));
     Lwt.return ()

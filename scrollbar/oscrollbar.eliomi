@@ -1,3 +1,5 @@
+(* Copyright Université Paris Diderot*)
+
 {client{
 (**
    @author Christophe Lecointe
