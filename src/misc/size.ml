@@ -1,4 +1,3 @@
-{client{
 open Options
 
 let page = Dom_html.document##documentElement
@@ -55,4 +54,3 @@ let client_left elt =
   int_of_float (Js.to_float elt##getBoundingClientRect()##left)
 let client_right elt =
   int_of_float (Js.to_float elt##getBoundingClientRect()##right)
-}}

@@ -1,0 +1,10 @@
+# OASIS_START
+# DO NOT EDIT (digest: 032e88f46c34c4e92efd88a44c78d575)
+version = "0.1"
+description = "Widgets for browser applications written in OCaml."
+requires = "js_of_ocaml js_of_ocaml.syntax lwt.syntax react jquery"
+archive(byte) = "ojwidgets.cma"
+archive(byte, plugin) = "ojwidgets.cma"
+exists_if = "ojwidgets.cma"
+# OASIS_STOP
+

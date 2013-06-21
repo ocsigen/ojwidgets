@@ -1,0 +1,31 @@
+<src/*.ml{,i}>: syntax_camlp4o
+<src/misc/*.ml{,i}>: syntax_camlp4o
+
+# OASIS_START
+# DO NOT EDIT (digest: 1912a6b1c714c73f0b2a7d0f552c5a6b)
+# Ignore VCS directories, you can use the same kind of rule outside 
+# OASIS_START/STOP if you want to exclude directories that contains 
+# useless stuff for the build process
+<**/.svn>: -traverse
+<**/.svn>: not_hygienic
+".bzr": -traverse
+".bzr": not_hygienic
+".hg": -traverse
+".hg": not_hygienic
+".git": -traverse
+".git": not_hygienic
+"_darcs": -traverse
+"_darcs": not_hygienic
+# Library ojwidgets
+"src/ojwidgets.cmxs": use_ojwidgets
+<src/*.ml{,i}>: pkg_js_of_ocaml
+<src/*.ml{,i}>: pkg_js_of_ocaml.syntax
+<src/*.ml{,i}>: pkg_lwt.syntax
+<src/*.ml{,i}>: pkg_react
+<src/*.ml{,i}>: pkg_jquery
+<src/misc/*.ml{,i}>: pkg_js_of_ocaml
+<src/misc/*.ml{,i}>: pkg_js_of_ocaml.syntax
+<src/misc/*.ml{,i}>: pkg_lwt.syntax
+<src/misc/*.ml{,i}>: pkg_react
+<src/misc/*.ml{,i}>: pkg_jquery
+# OASIS_STOP

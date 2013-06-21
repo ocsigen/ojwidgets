@@ -66,9 +66,16 @@ let get_value elt =
   let slider = Js.Unsafe.coerce (JQuery.jQelt elt) in
   slider##slider_v(Js.string "value")
 
+let set_on_slide elt f =
+  let scrollbar = Js.Unsafe.coerce (JQuery.jQelt elt) in
+  scrollbar##on(Js.string "slide", Js.wrap_callback (f))
+
+let get_value elt =
+  let scrollbar = Js.Unsafe.coerce (JQuery.jQelt elt) in
+  scrollbar##slider_v(Js.string "value")
+
 let add_slider ?vertical ?slide elt =
-  let elt = To_dom.of_element elt in
-  let slider = Js.Unsafe.coerce (JQuery.jQelt elt) in
+  let scrollbar = Js.Unsafe.coerce (JQuery.jQelt elt) in
   let options = create_empty_options () in
   let iter_callbacks list = (Js.wrap_callback
                                (fun () -> (list :=

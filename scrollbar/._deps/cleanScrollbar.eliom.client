@@ -1,4 +1,0 @@
-_client/cleanScrollbar.cmo : _client/oscrollbar.cmo _client/log.cmo
-_client/cleanScrollbar.cmx : _client/oscrollbar.cmx _client/log.cmx
-_client/cleanScrollbar.cmo : _server/cleanScrollbar.type_mli
-_client/cleanScrollbar.cmx : _server/cleanScrollbar.type_mli
