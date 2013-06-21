@@ -69,9 +69,6 @@ val get_dragger_pct : _ Eliom_content.Html5.elt -> int
 val lwt_scroll_to : ?scroll:scroll_t  ->
   _ Eliom_content.Html5.elt -> unit Lwt.t
 
-
-
-
 (** Update the scrollbar. You should call this function each time the content of the element the scrollbar is attached to is changed. *)
 val update : ?height:(Dom_html.element Js.t -> int) ->
   ?scroll:scroll_t -> Dom_html.element Js.t -> unit Lwt.t

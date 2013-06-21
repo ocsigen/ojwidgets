@@ -288,7 +288,8 @@ let add_scrollbar
   let elt = To_dom.of_element elt in
   let iter_callbacks list = (Js.wrap_callback
                                (fun () -> (list :=
-                                             (List.filter (fun fon -> fon ())
+                                             (List.filter
+                                                (fun fon -> fon ())
                                                 !list)))) in
   let scrollbar = Js.Unsafe.coerce (JQuery.jQelt elt) in
   (Js.Unsafe.coerce elt)##scrollbar <- scrollbar;

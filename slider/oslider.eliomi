@@ -15,5 +15,5 @@ val add_slider : ?vertical:bool -> ?slide:(unit->unit) -> _ Eliom_content.Html5.
 val get_value : _ Eliom_content.Html5.elt -> int
 
 (** Replace the callback function done on slides. *)
-val set_on_slide : _ Eliom_content.Html5.elt -> (unit -> unit) -> unit
+val on_slide : _ Eliom_content.Html5.elt -> (unit -> unit) -> 'a Lwt.t
 }}
