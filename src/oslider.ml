@@ -1,10 +1,6 @@
 (* Copyright Université Paris Diderot.
 Author : Christophe Lecointe*)
 
-{client{
-open Eliom_content.Html5
-open Eliom_content.Html5.F
-
 class type slider_utils = object
   method onSlideList : (((unit -> bool) list) ref) Js.prop
 end
@@ -58,11 +54,9 @@ let on_slide_ elt f =
   append_callback on_slide f elt
 
 let on_slide elt f =
-  let elt = To_dom.of_element elt in
   on_slide_ elt f
 
 let get_value elt =
-  let elt = To_dom.of_element elt in
   let slider = Js.Unsafe.coerce (JQuery.jQelt elt) in
   slider##slider_v(Js.string "value")
 
@@ -75,7 +69,7 @@ let get_value elt =
   scrollbar##slider_v(Js.string "value")
 
 let add_slider ?vertical ?slide elt =
-  let scrollbar = Js.Unsafe.coerce (JQuery.jQelt elt) in
+  let slider = Js.Unsafe.coerce (JQuery.jQelt elt) in
   let options = create_empty_options () in
   let iter_callbacks list = (Js.wrap_callback
                                (fun () -> (list :=
@@ -88,5 +82,5 @@ let add_slider ?vertical ?slide elt =
   (match (slide) with
   | Some f -> ignore (on_slide_ elt f)
   | None -> ());
-  slider##slider(options)
-}}
+  slider##slider(options);
+  ()
