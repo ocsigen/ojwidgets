@@ -1,6 +1,5 @@
 (* Copyright Université Paris Diderot*)
 
-{client{
 (**
    @author Christophe Lecointe
    Scrollbar module. Used to add customizable scrollbars to your pages.
@@ -49,25 +48,25 @@ val add_scrollbar : ?height:(Dom_html.element Js.t -> int) ->
   ?while_scrolling_callback:(unit -> unit) ->
   ?on_total_scroll_offset:int ->
   ?on_total_scroll_back_offset:int ->
-  _ Eliom_content.Html5.elt -> unit Lwt.t
+  Dom_html.element Js.t -> unit Lwt.t
 
 (** Returns the position of the dragger. The position is updated only
     when the dragger has finished its movement. Thus if you call it while the
     dragger is moving, the position returned will be the position of the
     dragger before the scroll *)
-val get_dragger_pos : _ Eliom_content.Html5.elt -> int
+val get_dragger_pos : #Dom_html.element Js.t -> int
 
 (** Returns the position of the dragger in the bar in percent. As
     get_dragger_pos, the position is only updated when the dragger has
     finished its movement. *)
-val get_dragger_pct : _ Eliom_content.Html5.elt -> int
+val get_dragger_pct : #Dom_html.element Js.t -> int
 
 (** lwt_scroll_to , as its name suggests, scroll the scrollbar bound
     to elt to a point defined by scroll ([ `Bottom | `First | `Int of int |
     |`Last | `Left | `Right | `Top ]). It returns a thread which end when
     the scrolling is done (immadiately if inertia is desactivated).*)
 val lwt_scroll_to : ?scroll:scroll_t  ->
-  _ Eliom_content.Html5.elt -> unit Lwt.t
+  #Dom_html.element Js.t -> unit Lwt.t
 
 
 
@@ -78,9 +77,8 @@ val update : ?height:(Dom_html.element Js.t -> int) ->
 
 (** Adds a function to the list of function to do when a scroll
  is required, and before it is actually done. *)
-val scroll_starts : (unit -> unit) -> _ Eliom_content.Html5.elt -> 'a Lwt.t
+val scroll_starts : (unit -> unit) -> #Dom_html.element Js.t -> 'a Lwt.t
 
 (** Adds a function to the list of function to do after
     a scroll. *)
-val scrolls : (unit -> unit) -> _ Eliom_content.Html5.elt -> 'a Lwt.t
-}}
+val scrolls : (unit -> unit) -> #Dom_html.element Js.t -> 'a Lwt.t

@@ -1,6 +1,3 @@
-{shared{
-open Eliom_content.Html5
-open Eliom_content.Html5.F
 let (>>=) = Lwt.bind
 
 let map_option f v =
@@ -53,9 +50,6 @@ module List = struct
 end
 
 external id : 'a -> 'a = "%identity"
-}}
 
-{client{
-    let of_opt elt =
-      Js.Opt.case elt (fun () -> failwith "of_opt") (fun elt -> elt)
-  }}
+let of_opt elt =
+  Js.Opt.case elt (fun () -> failwith "of_opt") (fun elt -> elt)

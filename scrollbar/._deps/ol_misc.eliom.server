@@ -1,4 +1,0 @@
-_server/ol_misc.cmo :
-_server/ol_misc.cmx :
-_server/ol_misc.cmo : _server/ol_misc.type_mli
-_server/ol_misc.cmx : _server/ol_misc.type_mli

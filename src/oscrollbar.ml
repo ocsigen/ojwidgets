@@ -1,12 +1,9 @@
 (* Copyright Université Paris Diderot.
 Author : Christophe Lecointe*)
 
-{client{
 open Size
 open Log
 open List
-open Eliom_content.Html5
-open Eliom_content.Html5.F
 
 type scroll_t =
   | Bottom
@@ -127,7 +124,6 @@ let scrollbar_utils_constructor elt =
     will be the position of the dragger before the scroll **)
 
 let get_dragger_pos elt : int =
-  let elt = To_dom.of_element elt in
   (get_scrollbar_utils elt)##draggerPos
 
 (** This function returns the position of the dragger in the bar in percent.
@@ -135,7 +131,6 @@ let get_dragger_pos elt : int =
     dragger has finished its movement. **)
 
 let get_dragger_pct elt : int =
-  let elt = To_dom.of_element elt in
   (get_scrollbar_utils elt)##draggerPct
 
 (** lwt_scroll_to , as its name suggests, scroll the scrollbar bound
@@ -144,7 +139,6 @@ let get_dragger_pct elt : int =
     the scrolling is done (immadiately if inertia is desactivated).**)
 
 let lwt_scroll_to ?scroll elt =
-  let elt = To_dom.of_element elt in
   ignore (match scroll with
       | None -> scroll_to elt
       | Some s -> scroll_to ~scroll:s elt);
@@ -202,7 +196,6 @@ let while_scrolling_ f elt =
   append_callback while_scrolling f elt
 
 let while_scrolling f elt =
-  let elt = To_dom.of_element elt in
   while_scrolling_ f elt
 
 (** This function adds a function to the list of function to do when
@@ -213,7 +206,6 @@ let scroll_starts_ f elt =
   append_callback scroll_start f elt
 
 let scroll_starts f elt =
-  let elt = To_dom.of_element elt in
   scroll_starts_ f elt
 
 (** This function adds a function to the list of function to do when the
@@ -221,13 +213,10 @@ let scroll_starts f elt =
     the list, and thus will be called last during the callback.
     (until you add an other one of course) **)
 
-let scrolls_ f elt =
+let scrolls f elt =
   let on_scroll = (get_scroll_list elt) in
   append_callback on_scroll f elt
 
-let scrolls f elt =
-  let elt = To_dom.of_element elt in
-  scrolls_ f elt
 
 (** This function add a customScrollbar to the element elt. There are
       several optionnal arguments (to have the full details, see the doc
@@ -285,7 +274,6 @@ let add_scrollbar
   let de_optize_callback callback = Js.wrap_callback (match callback with
       | None -> (fun () -> ())
       | Some f -> f) in
-  let elt = To_dom.of_element elt in
   let iter_callbacks list = (Js.wrap_callback
                                (fun () -> (list :=
                                              (List.filter (fun fon -> fon ())
@@ -309,10 +297,10 @@ let add_scrollbar
          Js.string (string_of_int (f elt)^"px");
        options##set_height <- f elt);
   options##callbacks##onScroll <- (iter_callbacks (get_scroll_list elt));
-  ignore (scrolls_ (stop_scroll_wait elt) elt);
-  ignore (scrolls_ (fun () -> set_dragger_pos elt
+  ignore (scrolls (stop_scroll_wait elt) elt);
+  ignore (scrolls (fun () -> set_dragger_pos elt
                        (Js.Unsafe.eval_string "mcs.draggerTop")) elt);
-  ignore (scrolls_ (fun () -> set_dragger_pct elt
+  ignore (scrolls (fun () -> set_dragger_pct elt
                        (Js.Unsafe.eval_string "mcs.topPct")) elt);
   options##callbacks##onScrollStart <-
     (iter_callbacks (get_scroll_start_list elt));
@@ -320,7 +308,7 @@ let add_scrollbar
     (iter_callbacks (get_scrolling_list elt));
   (match on_scroll_callback with
    | None -> ()
-   | Some f -> ignore (scrolls_ f elt));
+   | Some f -> ignore (scrolls f elt));
   (match on_scroll_start_callback with
    | None -> ()
    | Some f -> ignore (scroll_starts_ f elt));
@@ -344,4 +332,3 @@ let add_scrollbar
     scroll_to ?scroll elt
   end
   else Lwt.return ()
-}}
