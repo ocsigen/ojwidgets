@@ -1,21 +1,21 @@
 let (>>=) = Lwt.bind
 
-let map_option f v =
+let map f v =
   match v with
     | None -> None
     | Some a -> Some (f a)
 
-let map_option_lwt f v =
+let map_lwt f v =
   match v with
     | None -> Lwt.return None
     | Some a -> f a >>= fun r -> Lwt.return (Some r)
 
-let apply_option f v =
+let iter f v =
   match v with
     | None -> ()
     | Some a -> f a
 
-let apply_option_lwt f v =
+let iter_lwt f v =
   match v with
     | None -> Lwt.return ()
     | Some a -> f a
