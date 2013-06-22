@@ -14,7 +14,7 @@ Library ojwidgets
     Ojwidgets
   InternalModules: 
     misc/Log, misc/Options, misc/Size,
-    Oscrollbar, Oslider
+    Oscrollbar, Oslider, Dragndrop
   BuildDepends:
     js_of_ocaml, js_of_ocaml.syntax, lwt.syntax, react, jquery
   CompiledObject:  byte
@@ -28,5 +28,5 @@ Document doc
   XOCamlbuildPath:	src
   XOCamlbuildModules: 	
     misc/Log, misc/Size,
-    Oscrollbar, Oslider
+    Oscrollbar, Oslider, Dragndrop
   XOCamlbuildLibraries:	ojwidgets
