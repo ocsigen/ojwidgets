@@ -150,7 +150,7 @@ let lwt_scroll_to ?scroll elt =
 let update ?height ?scroll elt =
   try
     let a = (Js.Unsafe.coerce elt)##scrollbar in
-    Options.apply_option (fun f -> (Js.Unsafe.coerce elt)##style##height <-
+    Option.iter (fun f -> (Js.Unsafe.coerce elt)##style##height <-
                                      Js.string (string_of_int
                                                   (f elt)^"px")) height;
     a##mCustomScrollbar(Js.string "update");

@@ -1,4 +1,4 @@
-open Options
+open Option
 
 let page = Dom_html.document##documentElement
 
