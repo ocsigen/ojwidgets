@@ -1,10 +1,9 @@
 (* Copyright Université Paris Diderot*)
 
-(**
-   @author Christophe Lecointe
-   Scrollbar module. Used to add customizable scrollbars to your pages.
-   Binding of the
-   @see < http://manos.malihu.gr/jquery-custom-content-scroller/ > JS scrollbar
+(** Scrollbar module. Used to add customizable scrollbars to your pages.
+    Binding of the JS custom scrollbar by Manos Malihutsakis
+    @see < http://manos.malihu.gr/jquery-custom-content-scroller/ > Scrollbar of Manos Malihutsakis
+    @author Christophe Lecointe
 *)
 
 (** Type used mainly to describe where the dragger should scroll to.
@@ -19,24 +18,24 @@ type scroll_t =
   | Right
   | Top
 
-(** This function add a customScrollbar to the element elt. There are
-      several optionnal arguments (to have the full details, see the doc
-      of the js lib used :
-      http://manos.malihu.gr/jquery-custom-content-scroller/)
+(** This function add a custom scrollbar to the element elt. There are
+    several optionnal callbacks that you can add at construction, but you can
+    also add them later.
 
-      - height determines the height of the scrollbar. If none, the
-      scrollbar will have the size of the element.
+    @param height determines the height of the scrollbar. If none, the
+    scrollbar will have the size of the element.
 
-      - scroll determines the starting position of the dragger. The dragger
+    @param scroll determines the starting position of the dragger. The dragger
     will actually be positionned
 
-      - Inertia : scrolling inertia in milliseconds. Really low
-      values (<10) are forced to 10, because it breaks the scrollbar when
-      under 10. Low values are irrelevant anyway, since the user can't
-      even see it. To disable the inertia, put 0.
+    @param inertia : scrolling inertia in milliseconds. Really low
+    values (<10) are forced to 10, because it breaks the scrollbar when
+    under 10. Low values are irrelevant anyway, since the user can't
+    even see it. To disable the inertia, put 0.
 
-      - mouseWheelPixel : Mouse wheel scrolling amount in pixel. If
-      undefined , the value "auto" is used. *)
+    @param mouse_wheel_pixels : Mouse wheel scrolling amount in pixel. If
+    undefined , the value "auto" is used. *)
+
 val add_scrollbar : ?height:(Dom_html.element Js.t -> int) ->
   ?scroll:scroll_t ->
   ?inertia:int ->
@@ -51,7 +50,7 @@ val add_scrollbar : ?height:(Dom_html.element Js.t -> int) ->
   Dom_html.element Js.t -> unit Lwt.t
 
 (** Returns the position of the dragger. The position is updated only
-    when the dragger has finished its movement. Thus if you call it while the
+    when the dragger has finished its movement. Thus, if you call it while the
     dragger is moving, the position returned will be the position of the
     dragger before the scroll *)
 val get_dragger_pos : #Dom_html.element Js.t -> int
