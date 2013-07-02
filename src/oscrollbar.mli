@@ -7,7 +7,7 @@
    @see < http://manos.malihu.gr/jquery-custom-content-scroller/ > JS scrollbar
 *)
 
-    (** Type used mainly to describe where the dragger should scroll to.
+(** Type used mainly to describe where the dragger should scroll to.
         `Bottom and `Top are for vertical scrollbar, `Left and `Right for
         horizontal. *)
 type scroll_t =
@@ -61,11 +61,17 @@ val get_dragger_pos : #Dom_html.element Js.t -> int
     finished its movement. *)
 val get_dragger_pct : #Dom_html.element Js.t -> int
 
-(** lwt_scroll_to , as its name suggests, scroll the scrollbar bound
+(** lwt_scroll_to , as its name suggests, scrolls the scrollbar bound
     to elt to a point defined by scroll ([ `Bottom | `First | `Int of int |
     |`Last | `Left | `Right | `Top ]). It returns a thread which end when
     the scrolling is done (immadiately if inertia is desactivated).*)
 val lwt_scroll_to : ?scroll:scroll_t  ->
+  #Dom_html.element Js.t -> unit Lwt.t
+
+(** Scrolls the scrollbar bound to elt instantly to a
+    point defined by scroll ([ `Bottom | `First | `Int of int |`Last | `Left
+    | `Right | `Top ]). The inertia is deactivated during the scroll. *)
+val instant_scroll_to : ?scroll:scroll_t ->
   #Dom_html.element Js.t -> unit Lwt.t
 
 (** Update the scrollbar. You should call this function each time the content of the element the scrollbar is attached to is changed. *)

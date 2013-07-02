@@ -16,7 +16,7 @@ Library ojwidgets
     misc/Log, misc/Options, misc/Size,
     Oscrollbar, Oslider
   BuildDepends:
-    js_of_ocaml, js_of_ocaml.syntax, lwt.syntax, react, jquery
+    js_of_ocaml, js_of_ocaml.syntax, lwt, lwt.syntax, react, jquery
   CompiledObject:  byte
 
 Document doc

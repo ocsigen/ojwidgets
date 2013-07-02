@@ -1,8 +1,7 @@
 (* Copyright Université Paris Diderot.
-Author : Christophe Lecointe*)
+   Author : Christophe Lecointe*)
 
 open Size
-open Log
 open List
 
 type scroll_t =
@@ -44,6 +43,34 @@ let empty_options () : options Js.t =
   let o = Js.Unsafe.obj [||] in
   o##callbacks <- Js.Unsafe.obj [||];
   o
+
+let instant_scroll_to ?scroll elt =
+  try
+    let options = empty_options () in
+    options##scrollInertia <- 0;
+    let a = (Js.Unsafe.coerce elt)##scrollbar in
+    (match scroll with
+     | None -> ()
+     | Some (Int (i : int)) ->
+         a##mCustomScrollbar_i(Js.string "scrollTo", i, options)
+     | Some (Bottom as v)
+     | Some (Top    as v)
+     | Some (Left   as v)
+     | Some (Right  as v)
+     | Some (First  as v)
+     | Some (Last   as v) ->
+         let s = match v with
+           | Bottom -> "bottom"
+           | Top    -> "top"
+           | Left   -> "left"
+           | Right  -> "right"
+           | First  -> "first"
+           | Last   -> "last"
+           | _ -> ""
+         in
+         a##mCustomScrollbar_s(Js.string "scrollTo", Js.string s, options));
+    Lwt.return ()
+  with _ -> Lwt.return ()
 
 let scroll_to ?scroll elt =
   try
@@ -151,11 +178,11 @@ let update ?height ?scroll elt =
   try
     let a = (Js.Unsafe.coerce elt)##scrollbar in
     Option.iter (fun f -> (Js.Unsafe.coerce elt)##style##height <-
-                                     Js.string (string_of_int
-                                                  (f elt)^"px")) height;
+                            Js.string (string_of_int
+                                         (f elt)^"px")) height;
     a##mCustomScrollbar(Js.string "update");
     scroll_to ?scroll elt
-  with e -> log ("scroll update error: "^Printexc.to_string e); Lwt.return ()
+  with e -> Log.log ("scroll update error: "^Printexc.to_string e); Lwt.return ()
 
 let add =
   let t = ref [] in
@@ -300,9 +327,9 @@ let add_scrollbar
   options##callbacks##onScroll <- (iter_callbacks (get_scroll_list elt));
   ignore (scrolls (stop_scroll_wait elt) elt);
   ignore (scrolls (fun () -> set_dragger_pos elt
-                       (Js.Unsafe.eval_string "mcs.draggerTop")) elt);
+                      (Js.Unsafe.eval_string "mcs.draggerTop")) elt);
   ignore (scrolls (fun () -> set_dragger_pct elt
-                       (Js.Unsafe.eval_string "mcs.topPct")) elt);
+                      (Js.Unsafe.eval_string "mcs.topPct")) elt);
   options##callbacks##onScrollStart <-
     (iter_callbacks (get_scroll_start_list elt));
   options##callbacks##whileScrolling <-
