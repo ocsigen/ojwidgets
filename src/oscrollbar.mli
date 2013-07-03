@@ -1,6 +1,7 @@
 (* Copyright Université Paris Diderot*)
 
 (** Scrollbar module. Used to add customizable scrollbars to your pages.
+    To use it, you must include the original js file, and jQuery to your page.
     Binding of the JS custom scrollbar by Manos Malihutsakis
     @see < http://manos.malihu.gr/jquery-custom-content-scroller/ > Scrollbar of Manos Malihutsakis
     @author Christophe Lecointe
@@ -64,13 +65,7 @@ val get_dragger_pct : #Dom_html.element Js.t -> int
     to elt to a point defined by scroll ([ `Bottom | `First | `Int of int |
     |`Last | `Left | `Right | `Top ]). It returns a thread which end when
     the scrolling is done (immadiately if inertia is desactivated).*)
-val lwt_scroll_to : ?scroll:scroll_t  ->
-  #Dom_html.element Js.t -> unit Lwt.t
-
-(** Scrolls the scrollbar bound to elt instantly to a
-    point defined by scroll ([ `Bottom | `First | `Int of int |`Last | `Left
-    | `Right | `Top ]). The inertia is deactivated during the scroll. *)
-val instant_scroll_to : ?scroll:scroll_t ->
+val lwt_scroll_to : ?inertia:bool -> ?scroll:scroll_t  ->
   #Dom_html.element Js.t -> unit Lwt.t
 
 (** Update the scrollbar. You should call this function each time the content of the element the scrollbar is attached to is changed. *)
@@ -78,7 +73,7 @@ val update : ?height:(Dom_html.element Js.t -> int) ->
   ?scroll:scroll_t -> Dom_html.element Js.t -> unit Lwt.t
 
 (** Adds a function to the list of function to do when a scroll
- is required, and before it is actually done. *)
+    is required, and before it is actually done. *)
 val scroll_starts : (unit -> unit) -> #Dom_html.element Js.t -> 'a Lwt.t
 
 (** Adds a function to the list of function to do after

@@ -44,15 +44,23 @@ let empty_options () : options Js.t =
   o##callbacks <- Js.Unsafe.obj [||];
   o
 
-let instant_scroll_to ?scroll elt =
+let scroll_to_i a i options =
+  a##mCustomScrollbar_i(Js.string "scrollTo", i, options)
+
+let scroll_to_s a s options =
+  a##mCustomScrollbar_s(Js.string "scrollTo", Js.string s, options)
+
+let scroll_to ?inertia ?scroll elt =
   try
     let options = empty_options () in
-    options##scrollInertia <- 0;
+    (match inertia with
+    | None | Some true -> ()
+    | Some false -> (options##scrollInertia <- 0));
     let a = (Js.Unsafe.coerce elt)##scrollbar in
     (match scroll with
      | None -> ()
      | Some (Int (i : int)) ->
-         a##mCustomScrollbar_i(Js.string "scrollTo", i, options)
+         scroll_to_i a i options
      | Some (Bottom as v)
      | Some (Top    as v)
      | Some (Left   as v)
@@ -68,35 +76,8 @@ let instant_scroll_to ?scroll elt =
            | Last   -> "last"
            | _ -> ""
          in
-         a##mCustomScrollbar_s(Js.string "scrollTo", Js.string s, options));
-    Lwt.return ()
-  with _ -> Lwt.return ()
-
-let scroll_to ?scroll elt =
-  try
-    let a = (Js.Unsafe.coerce elt)##scrollbar in
-    (match scroll with
-     | None -> ()
-     | Some (Int (i : int)) ->
-         a##mCustomScrollbar_i(Js.string "scrollTo", i)
-     | Some (Bottom as v)
-     | Some (Top    as v)
-     | Some (Left   as v)
-     | Some (Right  as v)
-     | Some (First  as v)
-     | Some (Last   as v) ->
-         let s = match v with
-           | Bottom -> "bottom"
-           | Top    -> "top"
-           | Left   -> "left"
-           | Right  -> "right"
-           | First  -> "first"
-           | Last   -> "last"
-           | _ -> ""
-         in
-         a##mCustomScrollbar_s(Js.string "scrollTo", Js.string s));
-    Lwt.return ()
-  with _ -> Lwt.return ()
+         scroll_to_s a s options)
+  with _ -> ()
 
 let get_scrollbar_utils elt : scrollbar_utils Js.t =
   (Js.Unsafe.coerce elt)##oscroll_utils
@@ -165,10 +146,8 @@ let get_dragger_pct elt : int =
     |`Last | `Left | `Right | `Top ]). It returns a thread which end when
     the scrolling is done (immadiately if inertia is desactivated).**)
 
-let lwt_scroll_to ?scroll elt =
-  ignore (match scroll with
-      | None -> scroll_to elt
-      | Some s -> scroll_to ~scroll:s elt);
+let lwt_scroll_to ?inertia ?scroll elt =
+  scroll_to ?inertia ?scroll elt;
   let lwt_onscroll = get_lwt_on_scroll elt in
   lwt _ = fst !(lwt_onscroll) in
   lwt_onscroll := Lwt.wait();
@@ -181,8 +160,10 @@ let update ?height ?scroll elt =
                             Js.string (string_of_int
                                          (f elt)^"px")) height;
     a##mCustomScrollbar(Js.string "update");
-    scroll_to ?scroll elt
-  with e -> Log.log ("scroll update error: "^Printexc.to_string e); Lwt.return ()
+    scroll_to ?scroll elt;
+    Lwt.return ()
+  with e -> Log.log ("scroll update error: "^Printexc.to_string e);
+      Lwt.return ()
 
 let add =
   let t = ref [] in
@@ -357,6 +338,7 @@ let add_scrollbar
   if scroll <> None || height <> None
   then begin
     add ?scroll ?height elt;
-    scroll_to ?scroll elt
+    scroll_to ?scroll elt;
+    Lwt.return ()
   end
   else Lwt.return ()
