@@ -13,6 +13,10 @@ Library ojwidgets
   Modules:         
     Ojwidgets
   InternalModules: 
+    Button,
+    Button_alert,
+    Button_show_hide,
+    Button_show_hide_focus,
     misc/Log, misc/Options, misc/Size,
     Oscrollbar, Oslider
   BuildDepends:
@@ -27,6 +31,10 @@ Document doc
   BuildTools:		ocamldoc, ocamlbuild
   XOCamlbuildPath:	src
   XOCamlbuildModules: 	
+    Button,
+    Button_alert,
+    Button_show_hide,
+    Button_show_hide_focus,
     misc/Log, misc/Size,
     Oscrollbar, Oslider
   XOCamlbuildLibraries:	ojwidgets
