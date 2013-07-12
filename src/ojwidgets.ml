@@ -15,6 +15,3 @@ end
 module Log = Log
 
 module Size = Size
-
-module Jcrop = Jcrop
-
