@@ -40,7 +40,6 @@ object(self)
   method get_node : Dom_html.element Js.t list Lwt.t = Lwt.return []
 
   method on_press =
-    Firebug.console##log("press alert");
     lwt n = self#get_node in
     let d = Dom_html.createDiv Dom_html.document in
     let () =
