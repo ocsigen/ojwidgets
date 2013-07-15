@@ -18,37 +18,41 @@
     the alert box.
 *)
 class button_alert
-  ?pressed ?set
+  ?set ?pressed
   ?method_closeable
   ?button_closeable
+  ?button
   ?(parent_node = (Dom_html.document##body :> Dom_html.element Js.t))
-  ?(classes = [])
-  ~button
+  ?(class_ = [])
   ()
   =
 object(self)
   inherit Button.button
-         ?pressed ?set
+         ~pressed:(pressed <> None) ?set
          ?method_closeable
          ?button_closeable
-         ~button
+         ?button
          ()
 
   val mutable node = None
+  val mutable parent_node = parent_node
 
   method get_node : Dom_html.element Js.t list Lwt.t = Lwt.return []
 
   method on_press =
+    Firebug.console##log("press alert");
     lwt n = self#get_node in
     let d = Dom_html.createDiv Dom_html.document in
-    let () = List.iter
-               (fun cl -> d##classList##add(Js.string cl))
-               ("ojw_alert"::classes)
+    let () =
+      List.iter
+        (fun cl -> d##classList##add(Js.string cl))
+        ("ojw_alert"::class_)
     in
     d##classList##add(Js.string "ojw_pressed");
-    let () = List.iter
-               (fun n -> Dom.appendChild d n)
-               (n)
+    let () =
+      List.iter
+        (fun n -> Dom.appendChild d n)
+        (n)
     in
     let ud = (Js.Unsafe.coerce d) in
     ud##o <- self;
@@ -63,5 +67,15 @@ object(self)
     in
     Lwt.return ()
 
+  initializer
+    match pressed with
+      | None -> ()
+      | Some elt ->
+          (Js.Unsafe.coerce elt)##o <- self;
+          Js.Opt.iter (elt##parentNode)
+            (fun p ->
+               Js.Opt.iter (Dom_html.CoerceTo.element p)
+                 (fun p -> parent_node <- p));
+          node <- pressed
 end
 

@@ -4,16 +4,17 @@
             Charly Chevalier
 *)
 
-(** Same as button_show_hide, but also set focus to an element after
-    pressed_action.
-*)
+class type focusable = object
+  inherit Dom_html.element
+  method focus : unit Js.meth
+end
 
 class button_show_hide_focus
-  ?pressed ?set
+  ?set ?pressed
   ?method_closeable
   ?button_closeable
-  ?focused
-  ~button
+  ?button
+  ?(focused : focusable Js.t option)
   elt
   =
 object
@@ -21,7 +22,7 @@ object
     ?pressed ?set
     ?method_closeable
     ?button_closeable
-    ~button
+    ?button
     elt
   as super
 

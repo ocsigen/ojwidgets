@@ -4,15 +4,7 @@
             Charly Chevalier
 *)
 
-let new_set ()
-      :
-      < press : unit Lwt.t; switch : unit Lwt.t; unpress : unit Lwt.t; .. >
-        Button_set.button_set
-      = new Button_set.button_set
-                   ~on_first:(fun bu -> bu#press)
-                   ~on_same:(fun bu -> bu#switch)
-                   ~on_open:(fun bu -> bu#press)
-                   ~on_close:(fun bu -> bu#unpress)
+let new_radio_set () : (unit -> unit Lwt.t) ref = ref (fun () -> Lwt.return ())
 
 (** Something that behave like a button, with press, unpress and switch action.
     If [pressed] is true (default false) the button is pressed by default.
@@ -32,15 +24,21 @@ let new_set ()
     if you want something to happen just before or after pressing/unpressing.
 *)
 class button
-  ?set
+  ?(set : (unit -> unit Lwt.t) ref option)
   ?(pressed = false)
   ?(method_closeable = true)
   ?(button_closeable = true)
-  ~button
+  ?(button : Dom_html.element Js.t option)
   ()
   =
 object(self)
   val mutable press_state = pressed
+
+  method private internal_press =
+    press_state <- true;
+    match button with
+      | None -> ()
+      | Some b -> b##classList##add(Js.string "ojw_pressed")
 
   method on_pre_press = Lwt.return ()
   method on_post_press = Lwt.return ()
@@ -53,8 +51,17 @@ object(self)
     press_state
 
   method press =
-    press_state <- true;
-    button##classList##add(Js.string "ojw_pressed");
+    lwt () = match set with
+      | None -> Lwt.return ()
+      | Some f ->
+          if not self#pressed
+          then
+            (lwt () = !f () in
+             f := (fun () -> self#unpress);
+             Lwt.return ())
+          else Lwt.return ()
+    in
+    self#internal_press;
     lwt () = self#on_pre_press in
     lwt () = self#on_press in
     self#on_post_press
@@ -63,8 +70,20 @@ object(self)
     if not method_closeable
     then Lwt.return ()
     else begin
+      lwt () = match set with
+        | None -> Lwt.return ()
+        | Some f ->
+            if self#pressed
+            then
+              (f := (fun () -> Lwt.return ());
+               Lwt.return ())
+            else Lwt.return ()
+      in
       press_state <- false;
-      button##classList##remove(Js.string "ojw_pressed");
+      let () = match button with
+        | None -> ()
+        | Some b -> b##classList##remove(Js.string "ojw_pressed");
+      in
       lwt () = self#on_pre_unpress in
       lwt () = self#on_unpress in
       self#on_post_unpress
@@ -80,18 +99,13 @@ object(self)
     end
 
   initializer
-    if pressed then button##classList##add(Js.string "ojw_pressed");
-    let open Lwt_js_events in
-      Lwt.async
-        (fun () ->
-           clicks button
-             (fun e _ ->
-                lwt () = match set with
-                  | Some set -> set#update self
-                  | None -> self#switch;
-                in
-                  Dom.preventDefault e;
-                  Dom_html.stopPropagation e;
-                  Lwt.return ()))
+    if pressed then self#internal_press;
+    match button with
+      | None -> ()
+      | Some b ->
+          let open Lwt_js_events in
+          Lwt.async
+            (fun () ->
+               clicks b (fun e _ -> lwt () = self#switch in Lwt.return ()))
 
 end
