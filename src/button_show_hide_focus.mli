@@ -4,6 +4,9 @@
             Charly Chevalier
 *)
 
+module In_button_show_hide_focus_m
+  : Button_show_hide_focus_f.In with type button_t = Dom_html.element Js.t
+
 (** Same as button_show_hide, but also set focus to an element after
     pressed_action.
 *)

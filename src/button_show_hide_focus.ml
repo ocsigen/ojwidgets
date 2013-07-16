@@ -9,28 +9,14 @@ class type focusable = object
   method focus : unit Js.meth
 end
 
-class button_show_hide_focus
-  ?set ?pressed
-  ?method_closeable
-  ?button_closeable
-  ?button
-  ?(focused : focusable Js.t option)
-  elt
-  =
-object
-  inherit Button_show_hide.button_show_hide
-    ?pressed ?set
-    ?method_closeable
-    ?button_closeable
-    ?button
-    elt
-  as super
+module In_button_show_hide_focus_m = struct
+  include Button_show_hide.In_button_show_hide_m
 
-  method on_post_press =
-    lwt () = super#on_post_press in
-    let () = match focused with
-       | None -> ()
-       | Some e -> e##focus()
-    in
-    Lwt.return ()
+  type showed_elt_t = Dom_html.element Js.t
+  type focus_t = focusable Js.t
+
+  let to_showed_elt selt = selt
+  let to_focus focus = focus
 end
+
+include Button_show_hide_focus_f.Make(In_button_show_hide_focus_m)

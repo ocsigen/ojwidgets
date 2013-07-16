@@ -4,6 +4,10 @@
             Charly Chevalier
 *)
 
+module In_button_show_hide_m
+  : Button_show_hide_f.In with type button_t = Dom_html.element Js.t
+
+
 (** show_hide shows or hides a box when pressed/unpressed.
     Set style property "display: none" for unpressed elements if
     you do not want them to appear shortly when the page is displayed.

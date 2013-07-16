@@ -4,6 +4,9 @@
             Charly Chevalier
 *)
 
+module In_button_m
+  : Button_f.In with type button_t = Dom_html.element Js.t
+
 val new_radio_set : unit -> (unit -> unit Lwt.t) ref
 
 (** Something that behave like a button, with press, unpress and switch action.

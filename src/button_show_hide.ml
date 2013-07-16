@@ -4,37 +4,12 @@
             Charly Chevalier
 *)
 
-class button_show_hide
-  ?set ?pressed
-  ?method_closeable
-  ?button_closeable
-  ?button
-  elt
-  =
-object
-  val mutable display = "block"
+module In_button_show_hide_m = struct
+  include Button.In_button_m
 
-  inherit Button.button
-        ?pressed ?set
-        ?method_closeable
-        ?button_closeable
-        ?button
-        ()
+  type elt_t = Dom_html.element Js.t
 
-  method on_press =
-    elt##style##display <- Js.string display;
-    Lwt.return ()
-
-  method on_unpress =
-    elt##style##display <- Js.string "none";
-    Lwt.return ()
-
-  initializer
-  let () = match (Js.to_string elt##style##display) with
-    | "none" -> ()
-    | d -> display <- d
-  in
-    if not press_state
-    then elt##style##display <- Js.string "none" (*VVV will blink ... *)
+  let to_elt elt = elt
 end
 
+include Button_show_hide_f.Make(In_button_show_hide_m)

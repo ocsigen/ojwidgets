@@ -4,6 +4,9 @@
             Charly Chevalier
 *)
 
+module In_button_alert_m
+  : Button_alert_f.In with type button_t = Dom_html.element Js.t
+
 (** Alert displays an alert box when a button is pressed.
     [get_node] returns the list of elements to be displayed and
 
