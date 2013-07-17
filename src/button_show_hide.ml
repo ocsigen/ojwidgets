@@ -7,9 +7,9 @@
 module In_button_show_hide_m = struct
   include Button.In_button_m
 
-  type elt_t = Dom_html.element Js.t
+  type showed_elt_t = Dom_html.element Js.t
 
-  let to_elt elt = elt
+  let to_showed_elt selt = selt
 end
 
 include Button_show_hide_f.Make(In_button_show_hide_m)

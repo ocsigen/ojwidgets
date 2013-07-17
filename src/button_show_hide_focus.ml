@@ -4,7 +4,7 @@
             Charly Chevalier
 *)
 
-class type focusable = object
+class type focusable_t = object
   inherit Dom_html.element
   method focus : unit Js.meth
 end
@@ -12,10 +12,8 @@ end
 module In_button_show_hide_focus_m = struct
   include Button_show_hide.In_button_show_hide_m
 
-  type showed_elt_t = Dom_html.element Js.t
-  type focus_t = focusable Js.t
+  type focus_t = focusable_t Js.t
 
-  let to_showed_elt selt = selt
   let to_focus focus = focus
 end
 

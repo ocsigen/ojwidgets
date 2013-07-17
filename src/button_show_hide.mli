@@ -5,7 +5,9 @@
 *)
 
 module In_button_show_hide_m
-  : Button_show_hide_f.In with type button_t = Dom_html.element Js.t
+  : Button_show_hide_f.In
+    with type button_t = Dom_html.element Js.t
+    with type showed_elt_t = Dom_html.element Js.t
 
 
 (** show_hide shows or hides a box when pressed/unpressed.

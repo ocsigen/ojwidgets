@@ -53,16 +53,12 @@ module Make(M : In) = struct
       d##classList##add(Js.string "ojw_pressed");
       let () =
         List.iter
-          (fun n ->
-             Firebug.console##log("appendChild 1");
-             Dom.appendChild d n)
+          (fun n -> Dom.appendChild d n)
           (n)
       in
       (Js.Unsafe.coerce d)##o <- self;
       node <- Some d;
-      Firebug.console##log("appendChild 2");
       Dom.appendChild parent_node d;
-      Firebug.console##log("appendChild 2");
       Lwt.return ()
 
     method on_unpress =
