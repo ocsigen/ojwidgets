@@ -91,7 +91,13 @@ module Make(M : In) = struct
       end
 
     initializer
-      if pressed then self#internal_press;
+      if pressed then begin
+        let () = match set with
+          | None -> ()
+          | Some f -> f := (fun () -> self#unpress);
+        in
+        self#internal_press;
+      end;
       match button with
         | None -> ()
         | Some b ->
