@@ -41,6 +41,8 @@ module Make(M : In) = struct
 
     method get_node : M.node_t list Lwt.t = Lwt.return []
 
+    method set_parent_node (p : M.parent_t) = parent_node <- (M.to_parent p)
+
     method on_press =
       lwt n = self#get_node in
       let n = List.map (M.to_node) (n) in
