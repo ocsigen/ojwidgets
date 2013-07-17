@@ -12,7 +12,8 @@ end
 
 module Make(M : In) = struct
 
-  let new_radio_set () : (unit -> unit Lwt.t) ref = ref (fun () -> Lwt.return ())
+  type radio_set_t = (unit -> unit Lwt.t) ref
+  let new_radio_set () : radio_set_t  = ref (fun () -> Lwt.return ())
 
   class button
     ?(set : (unit -> unit Lwt.t) ref option)
