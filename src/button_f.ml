@@ -10,11 +10,11 @@ module type In = sig
   val to_button : button_t -> Dom_html.element Js.t
 end
 
+type radio_set_t = (unit -> unit Lwt.t) ref
+
 module Make(M : In) = struct
 
-  type radio_set_t = (unit -> unit Lwt.t) ref
-  let new_radio_set () : radio_set_t  = ref (fun () -> Lwt.return ())
-
+  let new_radio_set () : radio_set_t = ref (fun () -> Lwt.return ())
   class button
     ?(set : (unit -> unit Lwt.t) ref option)
     ?(pressed = false)

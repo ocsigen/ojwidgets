@@ -10,4 +10,6 @@ module In_button_m = struct
   let to_button button = button
 end
 
+type radio_set_t = Button_f.radio_set_t
+
 include Button_f.Make(In_button_m)
