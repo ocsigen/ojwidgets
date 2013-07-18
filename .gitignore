@@ -34,4 +34,6 @@ Session.vim
 
 ### others
 _build
-setup.*
+_deps
+META
+.depend

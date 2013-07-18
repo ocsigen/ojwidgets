@@ -1,6 +1,10 @@
 # OASIS_START
-# DO NOT EDIT (digest: f7de60c219e2701ded5719a3f3b303f0)
+# DO NOT EDIT (digest: 56966f0ccfb71a2e81c9eb02b4bd8c94)
 Ojwidgets
+Button
+Button_alert
+Button_show_hide
+Button_show_hide_focus
 misc/Log
 misc/Options
 misc/Size
