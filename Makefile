@@ -80,6 +80,7 @@ META: META.in
 		-e 's#@@PKG_VERS@@#$(PKG_VERS)#g' \
 		-e 's#@@PKG_DESC@@#$(PKG_DESC)#g' \
 		-e 's#@@REQUIRES@@#$(PACKAGES)#g' \
+		-e 's#@@ARCHIVES_BYTE@@#$(PKG_NAME).cma#g' \
 		$< > $@
 
 CMI=$(wildcard $(addsuffix /*.cmi,$(addprefix $(BUILDDIR)/,$(DIRS))))
@@ -120,6 +121,7 @@ $(DEPSDIR):
 clean:
 	-rm -f *.cm[ioax] *.cmxa *.cmxs *.o *.a *.annot
 	-rm -f *.type_mli
+	-rm -f META
 	-rm -rf ${BUILDDIR} ${LIBDIR}
 
 distclean: clean
