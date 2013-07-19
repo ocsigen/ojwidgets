@@ -18,7 +18,7 @@ end
 
 module Make(M : In) = struct
 
-  class button_alert
+  class alert
     ?set
     ?(pressed : M.node_t option)
     ?method_closeable

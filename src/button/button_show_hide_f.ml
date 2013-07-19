@@ -14,7 +14,7 @@ end
 
 module Make(M : In) = struct
 
-  class button_show_hide
+  class show_hide
     ?set ?pressed
     ?method_closeable
     ?button_closeable

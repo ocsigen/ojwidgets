@@ -20,7 +20,7 @@ module In_button_alert_m
     the object is inserted as JS field [o] of the DOM element of
     the alert box.
 *)
-class button_alert :
+class alert :
      ?set:(unit -> unit Lwt.t) ref
   -> ?pressed:Dom_html.divElement Js.t
   -> ?method_closeable:bool

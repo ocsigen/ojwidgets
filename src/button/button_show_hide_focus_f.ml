@@ -19,7 +19,7 @@ end
 
 module Make(M : In) = struct
 
-  class button_show_hide_focus
+  class show_hide_focus
     ?set ?pressed
     ?method_closeable
     ?button_closeable
@@ -28,7 +28,7 @@ module Make(M : In) = struct
     (elt : M.showed_elt_t)
     =
   object
-    inherit Button_show_hide.button_show_hide
+    inherit Button_show_hide.show_hide
       ?pressed ?set
       ?method_closeable
       ?button_closeable

@@ -17,7 +17,7 @@ class type focusable_t = object
   method focus : unit Js.meth
 end
 
-class button_show_hide_focus :
+class show_hide_focus :
      ?set:(unit -> unit Lwt.t) ref
   -> ?pressed:bool
   -> ?method_closeable:bool
@@ -27,5 +27,5 @@ class button_show_hide_focus :
   -> Dom_html.element Js.t
   ->
 object
-    inherit Button_show_hide.button_show_hide
+    inherit Button_show_hide.show_hide
 end

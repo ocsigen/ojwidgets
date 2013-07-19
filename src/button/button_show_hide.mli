@@ -14,7 +14,7 @@ module In_button_show_hide_m
     Set style property "display: none" for unpressed elements if
     you do not want them to appear shortly when the page is displayed.
 *)
-class button_show_hide :
+class show_hide :
      ?set:(unit -> unit Lwt.t) ref
   -> ?pressed:bool
   -> ?method_closeable:bool
