@@ -93,11 +93,12 @@ module Make(M : In) = struct
         | Some b ->
             let open Lwt_js_events in
             Lwt.async
-              (fun () -> clicks (M.to_button b)
-                (fun e _ ->
-                  Dom.preventDefault e;
-                  Dom_html.stopPropagation e;
-                  self#button_switch))
+              (fun () ->
+                 clicks (M.to_button b)
+                   (fun e _ ->
+                      Dom.preventDefault e;
+                      Dom_html.stopPropagation e;
+                      self#button_switch))
 
   end
 

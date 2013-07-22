@@ -60,8 +60,8 @@ module Make(M : In) = struct
           (n)
       in
       (* Are the handlers remove if the element to which they are
-      * attached is removed too ? If not, this part of the code
-      * should be optimized and maybe re-think. *)
+       * attached is removed too ? If not, this part of the code
+       * should be optimized and maybe re-think. *)
       let () =
         if not allow_outer_click then
           Lwt.async
