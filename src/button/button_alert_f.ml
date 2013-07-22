@@ -20,6 +20,7 @@ module Make(M : In) = struct
 
   class alert
     ?set
+    ?(allow_outer_click = false)
     ?(pressed : M.node_t option)
     ?method_closeable
     ?button_closeable
@@ -71,6 +72,20 @@ module Make(M : In) = struct
       Lwt.return ()
 
     initializer
+      let () =
+        if not allow_outer_click then
+          Lwt.async
+            (fun () ->
+               Lwt_js_events.clicks (Dom_html.document##body)
+                 (fun e _ ->
+                    if not self#pressed
+                    then Lwt.return ()
+                    else
+                      (lwt () = self#unpress in
+                       Dom.preventDefault e;
+                       Dom_html.stopPropagation e;
+                       Lwt.return ())))
+      in
       match pressed with
         | None -> ()
         | Some n ->

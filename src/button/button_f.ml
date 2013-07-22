@@ -106,7 +106,10 @@ module Make(M : In) = struct
             Lwt.async
               (fun () ->
                  clicks (M.to_button b)
-                   (fun e _ -> lwt () = self#switch in Lwt.return ()))
+                   (fun e _ ->
+                      Dom.preventDefault e;
+                      Dom_html.stopPropagation e;
+                      self#switch))
 
   end
 

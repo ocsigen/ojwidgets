@@ -22,6 +22,7 @@ module In_button_alert_m
 *)
 class alert :
      ?set:(unit -> unit Lwt.t) ref
+  -> ?allow_outer_click:bool
   -> ?pressed:Dom_html.divElement Js.t
   -> ?method_closeable:bool
   -> ?button_closeable:bool
