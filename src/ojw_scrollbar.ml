@@ -287,7 +287,7 @@ let add_scrollbar
                                              (List.filter
                                                 (fun fon -> fon ())
                                                 !list)))) in
-  let scrollbar = Js.Unsafe.coerce (JQuery.jQelt elt) in
+  let scrollbar = Js.Unsafe.coerce (Ojquery.js_jQelt elt) in
   (Js.Unsafe.coerce elt)##scrollbar <- scrollbar;
   scrollbar_utils_constructor elt;
   lwt () = Lwt_js_events.request_animation_frame () in

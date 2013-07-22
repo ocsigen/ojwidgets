@@ -12,7 +12,7 @@ PKG_DESC := your description
 FILES := $(wildcard src/*.ml* src/misc/*.ml* src/button/*.ml* src/log/*.ml*)
 
 # OCamlfind packages for the package
-PACKAGES := js_of_ocaml js_of_ocaml.syntax lwt lwt.syntax react jquery
+PACKAGES := js_of_ocaml js_of_ocaml.syntax lwt lwt.syntax react ojquery
 
 # Debug package (yes/no): Debugging info in compilation
 DEBUG := no
