@@ -59,6 +59,18 @@ module Make(M : In) = struct
           (fun n -> Dom.appendChild d n)
           (n)
       in
+      (* Are the handlers remove if the element to which they are
+      * attached is removed too ? If not, this part of the code
+      * should be optimized and maybe re-think. *)
+      let () =
+        if not allow_outer_click then
+          Lwt.async
+            (fun () ->
+               Lwt_js_events.clicks (d)
+                 (fun e _ ->
+                    Dom_html.stopPropagation e;
+                    Lwt.return ()));
+      in
       (Js.Unsafe.coerce d)##o <- self;
       node <- Some d;
       Dom.appendChild parent_node d;
