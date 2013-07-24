@@ -21,8 +21,8 @@ module Make(M : In) = struct
 
   class show_hide_focus
     ?set ?pressed
-    ?method_closeable
-    ?button_closeable
+    ?closeable_by_method
+    ?closeable_by_button
     ?button
     ?(focused : M.focus_t option)
     (elt : M.showed_elt_t)
@@ -30,8 +30,8 @@ module Make(M : In) = struct
   object
     inherit Button_show_hide.show_hide
       ?pressed ?set
-      ?method_closeable
-      ?button_closeable
+      ?closeable_by_method
+      ?closeable_by_button
       ?button:(Internals.opt_coerce M.to_button button)
       (M.to_showed_elt elt)
     as super

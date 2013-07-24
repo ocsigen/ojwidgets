@@ -16,8 +16,8 @@ val new_radio_set : unit -> (unit -> unit Lwt.t) ref
     If [set] is present, the button will act like a radio button: only one
     with the same set can be opened at the same time.
     Call function [new_set] to create a new set.
-    If [button_closeable] is false, then the button will open but not close.
-    If [method_closeable] is false, then the unpress method will have no effect.
+    If [closeable_by_button] is false, then the button will open but not close.
+    If [closeable_by_method] is false, then the unpress method will have no effect.
     If both are false, the only way to unpress is
     to press another one belonging to the same set.
 
@@ -29,8 +29,8 @@ val new_radio_set : unit -> (unit -> unit Lwt.t) ref
 class button :
      ?set:(unit -> unit Lwt.t) ref
   -> ?pressed:bool
-  -> ?method_closeable:bool
-  -> ?button_closeable:bool
+  -> ?closeable_by_method:bool
+  -> ?closeable_by_button:bool
   -> ?button:Dom_html.element Js.t
   -> unit
   ->

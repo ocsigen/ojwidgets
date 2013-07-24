@@ -17,8 +17,8 @@ module In_button_show_hide_m
 class show_hide :
      ?set:(unit -> unit Lwt.t) ref
   -> ?pressed:bool
-  -> ?method_closeable:bool
-  -> ?button_closeable:bool
+  -> ?closeable_by_method:bool
+  -> ?closeable_by_button:bool
   -> ?button:Dom_html.element Js.t
   -> Dom_html.element Js.t
   ->
@@ -27,4 +27,3 @@ object
 
   inherit Button.button
 end
-

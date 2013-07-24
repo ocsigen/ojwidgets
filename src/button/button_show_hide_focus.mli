@@ -20,8 +20,8 @@ end
 class show_hide_focus :
      ?set:(unit -> unit Lwt.t) ref
   -> ?pressed:bool
-  -> ?method_closeable:bool
-  -> ?button_closeable:bool
+  -> ?closeable_by_method:bool
+  -> ?closeable_by_button:bool
   -> ?button:Dom_html.element Js.t
   -> ?focused:focusable_t Js.t
   -> Dom_html.element Js.t

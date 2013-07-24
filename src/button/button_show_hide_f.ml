@@ -16,8 +16,8 @@ module Make(M : In) = struct
 
   class show_hide
     ?set ?pressed
-    ?method_closeable
-    ?button_closeable
+    ?closeable_by_method
+    ?closeable_by_button
     ?button
     (elt : M.showed_elt_t)
     =
@@ -26,8 +26,8 @@ module Make(M : In) = struct
 
     inherit Button.button
           ?pressed ?set
-          ?method_closeable
-          ?button_closeable
+          ?closeable_by_method
+          ?closeable_by_button
           ?button:(Internals.opt_coerce M.to_button button)
           ()
 

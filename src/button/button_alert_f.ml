@@ -22,8 +22,8 @@ module Make(M : In) = struct
     ?set
     ?(allow_outer_click = false)
     ?(pressed : M.node_t option)
-    ?method_closeable
-    ?button_closeable
+    ?closeable_by_method
+    ?closeable_by_button
     ?button
     ?(parent_node = M.default_parent ())
     ?(class_ = [])
@@ -32,8 +32,8 @@ module Make(M : In) = struct
   object(self)
     inherit Button.button
            ~pressed:(pressed <> None) ?set
-           ?method_closeable
-           ?button_closeable
+           ?closeable_by_method
+           ?closeable_by_button
            ?button:(Internals.opt_coerce M.to_button button)
            ()
 
