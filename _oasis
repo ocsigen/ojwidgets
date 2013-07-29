@@ -1,0 +1,63 @@
+OASISFormat: 0.3
+Name: ojwidgets
+Version: 0.1
+Synopsis: Widgets for browser applications written in OCaml.
+Authors:
+  Charly Chevalier,
+  Vincent Balat,
+  Gabriel Radanne,
+  Chistophe Lecointe
+License: LGPL-3.0
+BuildTools: ocamlbuild
+Plugins: META (0.3), DevFiles (0.3)
+
+Library "ojwidgets"
+  Path: src
+  Modules:
+    Internals,
+    Ojw_button,
+    Ojw_fun,
+    Ojw_jcrop,
+    Ojw_log,
+    Ojw_misc,
+    Ojw_popup,
+    Ojw_scrollbar,
+    Ojw_slider,
+    Ojw_unit,
+    Ojw_swipejs,
+    Ojw_hookjs,
+    Ojw_hammer_swipe,
+    Ojw_jsstorage,
+    Ojw_tools,
+    Ojw_event_tools,
+    Ojw_mobile_tools,
+    Scrollbar_f,
+    button/functor/Button_alert_f,
+    button/Button_alert,
+    button/functor/Button_f,
+    button/Button,
+    button/functor/Button_show_hide_f,
+    button/Button_show_hide,
+    button/functor/Button_show_hide_focus_f,
+    button/Button_show_hide_focus,
+    jcrop/Jcrop,
+    log/Log,
+    misc/Option,
+    misc/Size
+  BuildDepends:
+    js_of_ocaml,
+    js_of_ocaml.syntax,
+    lwt,
+    lwt.syntax,
+    react,
+    ojquery
+  CompiledObject: byte
+
+Document doc
+  Title: API reference for Ojwidgets
+  Type: ocamlbuild (0.3)
+  Install: true
+  InstallDir: $htmldir/api
+  BuildTools: ocamldoc
+  XOCamlbuildPath: .
+  XOCamlbuildLibraries: ojwidgets

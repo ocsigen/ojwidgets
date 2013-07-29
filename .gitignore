@@ -37,3 +37,10 @@ _build
 _deps
 META
 .depend
+
+### OASIS ###
+setup.data
+setup.log
+
+### OCamlbuild ###
+doc.docdir
