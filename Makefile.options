@@ -9,7 +9,7 @@ PKG_VERS := your version
 PKG_DESC := your description
 
 # Source files for the package
-FILES := $(wildcard src/*.ml* src/misc/*.ml* src/button/*.ml* src/log/*.ml*)
+FILES := $(wildcard src/*.ml* src/misc/*.ml* src/button/*.ml* src/log/*.ml* src/jcrop/*.ml*)
 
 # OCamlfind packages for the package
 PACKAGES := js_of_ocaml js_of_ocaml.syntax lwt lwt.syntax react ojquery
