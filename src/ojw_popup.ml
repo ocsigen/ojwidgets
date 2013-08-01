@@ -100,13 +100,7 @@ object(self)
   method close = self#unpress
 
   method update =
-    (* maybe we could make a patch to include it into js_of_ocaml
-     * (getComputedStyle) ? *)
-    let getComputedStyle = Js.Unsafe.variable "getComputedStyle" in
-    let popup_css =
-      Js.Unsafe.fun_call getComputedStyle
-        [| Js.Unsafe.inject (self#to_html); Js.Unsafe.inject Js.null |]
-    in
+    let popup_css = Ojw_fun.getComputedStyle self#to_html in
     let open Ojw_unit in
     (self#to_html)##style##width <- pxstring_of_int width';
     let w_inner =
