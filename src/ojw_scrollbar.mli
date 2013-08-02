@@ -1,4 +1,10 @@
-(* Copyright Université Paris Diderot*)
+(* Copyright Université Paris Diderot
+   Author : Vincent Balat
+      Christophe Lecointe
+*)
+
+module In_dom_element_m
+  : Scrollbar_f.In with type element_t = Dom_html.element Js.t
 
 (** Scrollbar module. Used to add customizable scrollbars to your pages.
     To use it, you must include the original js file, and jQuery to your page.
@@ -48,34 +54,34 @@ val add_scrollbar : ?height:(Dom_html.element Js.t -> int) ->
   ?while_scrolling_callback:(unit -> unit) ->
   ?on_total_scroll_offset:int ->
   ?on_total_scroll_back_offset:int ->
-  Dom_html.element Js.t -> unit Lwt.t
+  In_dom_element_m.element_t -> unit Lwt.t
 
 (** Returns the position of the dragger. The position is updated only
     when the dragger has finished its movement. Thus, if you call it while the
     dragger is moving, the position returned will be the position of the
     dragger before the scroll *)
-val get_dragger_pos : #Dom_html.element Js.t -> int
+val get_dragger_pos : In_dom_element_m.element_t -> int
 
 (** Returns the position of the dragger in the bar in percent. As
     get_dragger_pos, the position is only updated when the dragger has
     finished its movement. *)
-val get_dragger_pct : #Dom_html.element Js.t -> int
+val get_dragger_pct : In_dom_element_m.element_t -> int
 
 (** lwt_scroll_to , as its name suggests, scrolls the scrollbar bound
     to elt to a point defined by scroll ([ `Bottom | `First | `Int of int |
     |`Last | `Left | `Right | `Top ]). It returns a thread which end when
     the scrolling is done (immadiately if inertia is desactivated).*)
 val lwt_scroll_to : ?inertia:bool -> ?scroll:scroll_t  ->
-  #Dom_html.element Js.t -> unit Lwt.t
+  In_dom_element_m.element_t -> unit Lwt.t
 
 (** Update the scrollbar. You should call this function each time the content of the element the scrollbar is attached to is changed. *)
 val update : ?height:(Dom_html.element Js.t -> int) ->
-  ?scroll:scroll_t -> Dom_html.element Js.t -> unit Lwt.t
+  ?scroll:scroll_t -> In_dom_element_m.element_t -> unit Lwt.t
 
 (** Adds a function to the list of function to do when a scroll
     is required, and before it is actually done. *)
-val scroll_starts : (unit -> unit) -> #Dom_html.element Js.t -> 'a Lwt.t
+val scroll_starts : (unit -> unit) -> In_dom_element_m.element_t -> 'a Lwt.t
 
 (** Adds a function to the list of function to do after
     a scroll. *)
-val scrolls : (unit -> unit) -> #Dom_html.element Js.t -> 'a Lwt.t
+val scrolls : (unit -> unit) -> In_dom_element_m.element_t -> 'a Lwt.t

@@ -77,7 +77,7 @@ object(self)
   opt##bgOpacity <- bg_opacity;
 
   let img =
-    Js.Unsafe.coerce (JQuery.jQelt (elt :> Dom_html.element Js.t))
+    Js.Unsafe.coerce (Ojquery.js_jQelt (elt :> Dom_html.element Js.t))
   in
   (* We can't use the extension syntax of jsoo, because Jcrop is not a valid
    * identifier, so we use meth_call instead. *)
