@@ -38,5 +38,6 @@ object
   inherit Button.button
 
   method set_parent_node : Dom_html.element Js.t -> unit
+  method get_alert_box : Dom_html.divElement Js.t option
   method get_node : Dom_html.element Js.t list Lwt.t
 end

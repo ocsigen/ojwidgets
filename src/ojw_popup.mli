@@ -30,9 +30,6 @@ object
   method set_footer : Dom_html.element Js.t list -> unit
   (** Force the update of the popup, if the content has been changed *)
   method update : unit
-  (** Return the html equivalent of the popup (to include it into the
-    * dom for exemple) *)
-  method to_html : Dom_html.element Js.t
 
   (** Change the width of the popup *)
   method set_width : int -> unit

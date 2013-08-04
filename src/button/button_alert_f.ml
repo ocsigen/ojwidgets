@@ -10,6 +10,7 @@ module type In = sig
   type node_t
   type parent_t
 
+  val of_node : Dom_html.divElement Js.t -> node_t
   val to_node : node_t -> Dom_html.divElement Js.t
   val to_parent : parent_t -> Dom_html.element Js.t
 
@@ -41,6 +42,11 @@ module Make(M : In) = struct
     val mutable parent_node = M.to_parent parent_node
 
     method get_node : M.node_t list Lwt.t = Lwt.return []
+
+    method get_alert_box : M.node_t option =
+      match node with
+        | None -> None
+        | Some n -> Some (M.of_node n)
 
     method set_parent_node (p : M.parent_t) = parent_node <- (M.to_parent p)
 
@@ -81,6 +87,7 @@ module Make(M : In) = struct
         | None -> ()
         | Some n -> try Dom.removeChild parent_node n with _ -> ()
       in
+      node <- None;
       Lwt.return ()
 
     initializer

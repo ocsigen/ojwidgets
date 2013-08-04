@@ -52,12 +52,12 @@ object(self)
   val mutable header' = div ~cls:"ojw_popup_header" []
   val mutable footer' = div ~cls:"ojw_popup_footer" []
   val mutable body'   = div ~cls:"ojw_popup_body"   []
-  val mutable popup'  = div ~cls:"ojw_popup"        []
   val mutable width' = width
 
   inherit Ojw_button.alert
         ~button:attached_to
-        ~parent_node:(Dom_html.document##body)
+        ~class_:["ojw_popup"]
+        ~parent_node:(get_global_bg ())
         ?set
         ()
 
@@ -93,33 +93,33 @@ object(self)
     remove_nodes body';
     append_nodes body' b
 
-  method to_html =
-    popup'
-
   method show = self#press
   method close = self#unpress
 
   method update =
-    let popup_css = Ojw_fun.getComputedStyle self#to_html in
-    let open Ojw_unit in
-    (self#to_html)##style##width <- pxstring_of_int width';
-    let w_inner =
-      (int_of_pxstring popup_css##paddingLeft)
-      + (int_of_pxstring popup_css##paddingRight)
-      + (int_of_pxstring popup_css##borderLeft)
-      + (int_of_pxstring popup_css##borderRight)
-    in
-    let h_inner =
-      (int_of_pxstring popup_css##paddingTop)
-      + (int_of_pxstring popup_css##paddingBottom)
-      + (int_of_pxstring popup_css##borderTop)
-      + (int_of_pxstring popup_css##borderBottom)
-    in
-    let pw = ((int_of_pxstring popup_css##width) + (w_inner * 2)) / 2 in
-    let ph = ((int_of_pxstring popup_css##height) + (h_inner * 2)) / 2 in
-    (self#to_html)##style##marginLeft <- pxstring_of_int (-pw);
-    (self#to_html)##style##marginTop <- pxstring_of_int (-ph);
-
+    match self#get_alert_box with
+      | None -> ()
+      | Some abox ->
+          let popup_css = Ojw_fun.getComputedStyle abox in
+          let open Ojw_unit in
+          Ojw_log.log (popup_css##paddingTop);
+          Ojw_log.log (popup_css##paddingBottom);
+          (abox)##style##width <- pxstring_of_int width';
+          let h_inner =
+            (int_of_pxstring popup_css##paddingTop)
+            + (int_of_pxstring popup_css##paddingBottom)
+          in
+          let ph = (int_of_pxstring popup_css##height) + (h_inner * 2) in
+          let wh = (Dom_html.document##documentElement)##clientHeight in
+          Ojw_log.log ("ph:"^(string_of_int ph));
+          Ojw_log.log ("wh:"^(string_of_int wh));
+          let margin =
+            if ph < wh
+            then (wh - ph) / 2
+            else (20)
+          in
+          (abox)##style##marginTop <- pxstring_of_int (margin);
+          (abox)##style##marginBottom <- pxstring_of_int (margin);
 
   method on_pre_press =
     if with_background
@@ -127,7 +127,6 @@ object(self)
     Lwt.return ()
 
   method on_post_press =
-    (self#to_html)##style##display <- Js.string "block";
     self#update;
     Lwt.return ()
 
@@ -137,7 +136,7 @@ object(self)
     Lwt.return ()
 
   method get_node =
-    Lwt.return [self#to_html]
+    Lwt.return [header'; body'; footer'];
 
   method set_width w =
     width' <- w
@@ -158,7 +157,6 @@ object(self)
     | None -> ()
     | Some f -> self#set_footer f
   in
-  popup' <- div ~cls:"ojw_popup" [header'; body'; footer'];
   Dom.appendChild (Dom_html.document##body :> Dom_html.element Js.t) (get_global_bg ())
 
 end

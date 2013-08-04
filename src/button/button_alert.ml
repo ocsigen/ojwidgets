@@ -10,6 +10,7 @@ module In_button_alert_m = struct
   type node_t = Dom_html.element Js.t
   type parent_t = Dom_html.element Js.t
 
+  let of_node node = node
   let to_node node = node
   let to_parent parent = parent
 
