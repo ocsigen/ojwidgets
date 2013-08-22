@@ -1,0 +1,59 @@
+html, body, #carousel, #carousel ul.hsw_conteneur, #carousel li.hsw_pane {
+    padding: 0;
+    margin: 0;
+    position: relative;
+}
+
+#debug {
+    position: fixed;
+    background: #fff;
+    padding: 5px;
+    color: #000;
+    top: 0;
+    left: 0;
+    z-index: 1337;
+}
+
+#carousel {
+    /* height: calc(100% - 60px); */
+    /* height: -moz-calc(100% - 60px); */
+    /* height: -webkit-calc(100% - 60px); */
+    background: silver;
+    overflow: hidden;
+    width:100%;
+    -webkit-backface-visibility: hidden;
+    -webkit-transform: translate3d(0,0,0) scale3d(1,1,1);
+    -webkit-transform-style: preserve-3d;
+}
+
+#carousel ul.hsw_conteneur.animate  {
+    -webkit-transition: all .3s;
+    -moz-transition: all .3s;
+    -o-transition: all .3s;
+    transition: all .3s;
+}
+
+#carousel ul.hsw_conteneur {
+    transform: translate3d(0%,0,0) scale3d(1,1,1);
+    -o-transform: translate3d(0%,0,0) scale3d(1,1,1);
+    -ms-transform: translate3d(0%,0,0) scale3d(1,1,1);
+    -moz-transform: translate3d(0%,0,0) scale3d(1,1,1);
+    -webkit-transform: translate3d(0%,0,0) scale3d(1,1,1);
+    overflow: hidden;
+    -webkit-backface-visibility: hidden;
+    -webkit-transform-style: preserve-3d;
+}
+
+#carousel ul.hsw_conteneur {
+    -webkit-box-shadow: 0 0 20px rgba(0,0,0,.2);
+    box-shadow: 0 0 20px rgba(0,0,0,.2);
+    position: relative;
+}
+
+#carousel li.hsw_pane {
+    min-height: 100%;
+    float: left;
+    overflow: hidden;
+    -webkit-transform-style: preserve-3d;
+    -webkit-transform: translate3d(0,0,0);
+}
