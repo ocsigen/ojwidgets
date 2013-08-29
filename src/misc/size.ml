@@ -2,6 +2,33 @@ open Option
 
 let page = Dom_html.document##documentElement
 
+let get_full_width
+      ?(with_width = true)
+      ?(with_padding = true)
+      ?(with_border = true)
+      (elt_style : Dom_html.cssStyleDeclaration Js.t)
+  =
+  let ifdef b v = if b then v else 0 in
+  let open Ojw_unit in
+    (ifdef with_width (int_of_pxstring (elt_style##width)))
+  + (ifdef with_padding (int_of_pxstring (elt_style##paddingLeft)))
+  + (ifdef with_padding (int_of_pxstring (elt_style##paddingRight)))
+  + (ifdef with_border (int_of_pxstring (elt_style##borderLeftWidth)))
+  + (ifdef with_border (int_of_pxstring (elt_style##borderRightWidth)))
+
+let get_full_height
+      ?(with_height = true)
+      ?(with_padding = true)
+      ?(with_border = true)
+      (elt_style : Dom_html.cssStyleDeclaration Js.t)
+  =
+  let ifdef b v = if b then v else 0 in
+  let open Ojw_unit in
+    (ifdef with_height (int_of_pxstring (elt_style##height)))
+  + (ifdef with_padding (int_of_pxstring (elt_style##paddingTop)))
+  + (ifdef with_padding (int_of_pxstring (elt_style##paddingBottom)))
+  + (ifdef with_border (int_of_pxstring (elt_style##borderTopWidth)))
+  + (ifdef with_border (int_of_pxstring (elt_style##borderBottomWidth)))
 
 let width_height, width, height =
   let wh, set_wh = React.S.create (page##clientWidth, page##clientHeight) in
