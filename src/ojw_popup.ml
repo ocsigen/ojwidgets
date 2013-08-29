@@ -102,8 +102,6 @@ object(self)
       | Some abox ->
           let popup_css = Ojw_fun.getComputedStyle abox in
           let open Ojw_unit in
-          Ojw_log.log (popup_css##paddingTop);
-          Ojw_log.log (popup_css##paddingBottom);
           (abox)##style##width <- pxstring_of_int width';
           let h_inner =
             (int_of_pxstring popup_css##paddingTop)
@@ -111,8 +109,6 @@ object(self)
           in
           let ph = (int_of_pxstring popup_css##height) + (h_inner * 2) in
           let wh = (Dom_html.document##documentElement)##clientHeight in
-          Ojw_log.log ("ph:"^(string_of_int ph));
-          Ojw_log.log ("wh:"^(string_of_int wh));
           let margin =
             if ph < wh
             then (wh - ph) / 2
