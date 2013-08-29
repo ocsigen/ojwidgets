@@ -13,3 +13,7 @@ module In_button_show_hide_m = struct
 end
 
 include Button_show_hide_f.Make(In_button_show_hide_m)
+
+class type show_hide_t = object
+  inherit Button.button_t
+end

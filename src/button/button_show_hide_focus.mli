@@ -29,3 +29,7 @@ class show_hide_focus :
 object
     inherit Button_show_hide.show_hide
 end
+
+class type show_hide_focus_t = object
+  inherit Button_show_hide.show_hide_t
+end

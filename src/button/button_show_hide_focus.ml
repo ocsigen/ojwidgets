@@ -18,3 +18,7 @@ module In_button_show_hide_focus_m = struct
 end
 
 include Button_show_hide_focus_f.Make(In_button_show_hide_focus_m)
+
+class type show_hide_focus_t = object
+  inherit Button_show_hide.show_hide_t
+end

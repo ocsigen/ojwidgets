@@ -1,4 +1,4 @@
-(* Copyright Université Paris Diderot.
+(*Copyright Université Paris Diderot.
 
    Author : Vincent Balat
             Charly Chevalier

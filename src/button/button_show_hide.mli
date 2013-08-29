@@ -27,3 +27,7 @@ object
 
   inherit Button.button
 end
+
+class type show_hide_t = object
+  inherit Button.button_t
+end

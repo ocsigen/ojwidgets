@@ -50,6 +50,8 @@ module Make(M : In) = struct
 
     method set_parent_node (p : M.parent_t) = parent_node <- (M.to_parent p)
 
+    method on_outclick = Lwt.return ()
+
     method on_press =
       lwt n = self#get_node in
       let n = List.map (M.to_node) (n) in
@@ -101,6 +103,7 @@ module Make(M : In) = struct
                     then Lwt.return ()
                     else
                       (lwt () = self#unpress in
+                       lwt () = self#on_outclick in
                        Dom.preventDefault e;
                        Dom_html.stopPropagation e;
                        Lwt.return ())))

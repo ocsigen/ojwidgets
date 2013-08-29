@@ -18,3 +18,14 @@ module In_button_alert_m = struct
 end
 
 include Button_alert_f.Make(In_button_alert_m)
+
+class type alert_t = object
+  inherit Button.button_t
+
+  method on_outclick : unit Lwt.t
+
+  method set_parent_node : Dom_html.element Js.t -> unit
+  method get_alert_box : Dom_html.element Js.t option
+  method get_node : Dom_html.element Js.t list Lwt.t
+end
+
