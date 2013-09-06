@@ -1,6 +1,10 @@
 open Option
 
+(* No: this must be recomputed every time,
+   otherwise it won't work after a change page
+   -- Vincent
 let page = Dom_html.document##documentElement
+*)
 
 let get_full_width
       ?(with_width = true)
@@ -31,9 +35,11 @@ let get_full_height
   + (ifdef with_border (int_of_pxstring (elt_style##borderBottomWidth)))
 
 let width_height, width, height =
+  let page = Dom_html.document##documentElement in
   let wh, set_wh = React.S.create (page##clientWidth, page##clientHeight) in
   Lwt_js_events.(async (fun () -> onresizes
     (fun _ _ ->
+      let page = Dom_html.document##documentElement in
       let w = page##clientWidth in
       let h = page##clientHeight in
       set_wh (w, h);
@@ -65,11 +71,12 @@ let set_adaptative_height elt f =
 
 (* Compute the height of an element to the bottom of the page *)
 let height_to_bottom offset elt =
+  let page = Dom_html.document##documentElement in
   let h = page##clientHeight in
-    try
-      let top = Js.to_float (of_opt (elt##getClientRects()##item(0)))##top in
-      h - int_of_float top - offset
-    with Failure _ -> h - offset
+  try
+    let top = Js.to_float (of_opt (elt##getClientRects()##item(0)))##top in
+    h - int_of_float top - offset
+  with Failure _ -> h - offset
 
 let client_top elt =
   int_of_float (Js.to_float elt##getBoundingClientRect()##top)

@@ -1,4 +1,3 @@
-val page : Dom_html.element Js.t
 val get_full_width : ?with_width:bool -> ?with_padding:bool -> ?with_border:bool -> Dom_html.cssStyleDeclaration Js.t -> int
 val get_full_height : ?with_height:bool -> ?with_padding:bool -> ?with_border:bool -> Dom_html.cssStyleDeclaration Js.t -> int
 val width_height : (int * int) React.signal
