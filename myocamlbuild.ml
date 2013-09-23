@@ -1,5 +1,5 @@
 (* OASIS_START *)
-(* DO NOT EDIT (digest: 1d3a053ffedd239046179c9b63ced5ed) *)
+(* DO NOT EDIT (digest: a1e5275c9dd21a552013cf628a8c0254) *)
 module OASISGettext = struct
 (* # 21 "src/oasis/OASISGettext.ml" *)
 
@@ -477,18 +477,7 @@ end
 open Ocamlbuild_plugin;;
 let package_default =
   {
-     MyOCamlbuildBase.lib_ocaml =
-       [
-          ("ojwidgets",
-            [
-               "src";
-               "src/button";
-               "src/button/functor";
-               "src/jcrop";
-               "src/log";
-               "src/misc"
-            ])
-       ];
+     MyOCamlbuildBase.lib_ocaml = [("ojwidgets", ["src"])];
      lib_c = [];
      flags = [];
      includes =
@@ -530,6 +519,6 @@ let package_default =
 
 let dispatch_default = MyOCamlbuildBase.dispatch_default package_default;;
 
-# 534 "myocamlbuild.ml"
+# 523 "myocamlbuild.ml"
 (* OASIS_STOP *)
 Ocamlbuild_plugin.dispatch dispatch_default;;

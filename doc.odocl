@@ -1,6 +1,5 @@
 # OASIS_START
-# DO NOT EDIT (digest: 4a494b2b681431868098f4187edf63d1)
-src/Internals
+# DO NOT EDIT (digest: d449e479954e9da239eeb1ac0491a1a4)
 src/Ojw_button
 src/Ojw_fun
 src/Ojw_jcrop
@@ -17,17 +16,4 @@ src/Ojw_jsstorage
 src/Ojw_tools
 src/Ojw_event_tools
 src/Ojw_mobile_tools
-src/Scrollbar_f
-src/button/functor/Button_alert_f
-src/button/Button_alert
-src/button/functor/Button_f
-src/button/Button
-src/button/functor/Button_show_hide_f
-src/button/Button_show_hide
-src/button/functor/Button_show_hide_focus_f
-src/button/Button_show_hide_focus
-src/jcrop/Jcrop
-src/log/Log
-src/misc/Option
-src/misc/Size
 # OASIS_STOP
