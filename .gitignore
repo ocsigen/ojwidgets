@@ -21,19 +21,10 @@ Session.vim
 .netrwhist
 *~
 
-### OCaml ###
-*.annot
-*.cmo
-*.cma
-*.cmi
-*.a
-*.o
-*.cmx
-*.cmxs
-*.cmxa
+### OASIS ###
+setup.data
+setup.log
 
-### others
+### OCamlbuild ###
 _build
-_deps
-META
-.depend
+doc.docdir

@@ -1,0 +1,19 @@
+# OASIS_START
+# DO NOT EDIT (digest: d449e479954e9da239eeb1ac0491a1a4)
+src/Ojw_button
+src/Ojw_fun
+src/Ojw_jcrop
+src/Ojw_log
+src/Ojw_misc
+src/Ojw_popup
+src/Ojw_scrollbar
+src/Ojw_slider
+src/Ojw_unit
+src/Ojw_swipejs
+src/Ojw_hookjs
+src/Ojw_hammer_swipe
+src/Ojw_jsstorage
+src/Ojw_tools
+src/Ojw_event_tools
+src/Ojw_mobile_tools
+# OASIS_STOP
