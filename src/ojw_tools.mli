@@ -1,4 +1,7 @@
-(* size and orientation *)
+
+(** Various utility tools. *)
+
+(** {3 Size and orientation} *)
 
 type orientation = Portrait | Landscape
 
@@ -13,6 +16,8 @@ val get_size :
 
 val get_document_size : unit -> int * int
 
-(* time *)
+(** {3 Time} *)
 
 val get_timestamp : unit -> float
+
+(* TODOC Do we really need to have three different tools modules ? Can we merge them ? *)

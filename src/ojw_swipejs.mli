@@ -6,6 +6,12 @@
  *
  *)
 
+
+(** Swiping library.
+    @author Arnaud Parant
+*)
+(* TODOC More info ? *)
+
 type jq_elt
 type t
 
@@ -19,23 +25,22 @@ object
   method callback : (int -> 'a -> unit) Js.callback Js.writeonly_prop
   method transitionEnd : (int -> 'a -> unit) Js.callback Js.writeonly_prop
 end
+(* TODOC Some options may deserve some explainations. *)
 
-(** create html_content
-
-    Return:
-      - html_elt to include in your page
-      - jq_elt to be able to init swipe *)
+(** Create a swipe from an dom node.
+    Return the element to be included in your page and [jq_elt], to be able to init swipe *)
 val create :
   #Dom.node Js.t ->
   Dom_html.divElement Js.t * jq_elt
 
 val empty_options : unit -> options Js.t
 
-(** You need to initialize your swipe content with default value
+(** You need to initialize your swipe content with default values
     to allow future update *)
 val init : jq_elt -> ?options:(options Js.t) -> unit -> t
+(* TODOC : why separate this from create ? jq_elt seems to be used only for this. *)
 
-(** Start motion
+(** Start motion.
     If you set another swipe after, the first will be stoped *)
 val start : t -> unit
 
@@ -47,7 +52,6 @@ val get_position : t -> int
 
 val get_number_of_slides : t -> int
 
-(** slide_to [js_swipe index duration unit]
-
-    duration: milliseconds (300 = 300ms) *)
+(** Jump to a specific slide.
+    @param duration in milliseconds *) (* TODOC : default for duration ? *)
 val slide_to : t -> int -> ?duration:int -> unit -> unit

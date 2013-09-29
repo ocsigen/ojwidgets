@@ -1,5 +1,7 @@
 (*** Enable / Disable ***)
 
+(** Various tools to activate mobile features. *)
+
 let disable_zoom () =
   Ojw_event_tools.disable_event Dom_html.Event.touchmove Dom_html.document
 

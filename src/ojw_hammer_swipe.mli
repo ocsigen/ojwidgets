@@ -6,6 +6,8 @@
  * Licensed under the MIT license
  *)
 
+(* TODOC : See ojw_swipejs.mli and do the same here. *)
+
 type t
 
 (** create swipe and fill with panes_list

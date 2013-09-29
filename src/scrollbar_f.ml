@@ -136,25 +136,11 @@ module Make(M : In) = struct
     set_scrolling_list elt (ref []);
     ()
 
-  (** This function returns the position of the dragger. Please be aware that
-      the position is updated only when the dragger has finished its movement.
-      So if you call it while the dragger is moving, the position returned
-      will be the position of the dragger before the scroll **)
-
   let get_dragger_pos elt : int =
     (get_scrollbar_utils (M.to_element elt))##draggerPos
 
-  (** This function returns the position of the dragger in the bar in percent.
-      As above, please be aware that the position is updated only when the
-      dragger has finished its movement. **)
-
   let get_dragger_pct elt : int =
     (get_scrollbar_utils (M.to_element elt))##draggerPct
-
-  (** lwt_scroll_to , as its name suggests, scroll the scrollbar bound
-      to elt to a point defined by scroll ([ `Bottom | `First | `Int of int |
-      |`Last | `Left | `Right | `Top ]). It returns a thread which end when
-      the scrolling is done (immadiately if inertia is desactivated).**)
 
   let lwt_scroll_to ?inertia ?scroll elt =
     let elt = (M.to_element elt) in
@@ -211,9 +197,6 @@ module Make(M : In) = struct
     list := (List.rev ((filterFunc f a)::(List.rev (!list))));
     a
 
-  (** This function adds a function to the list of function to do when
-      the "scrolling" event is triggered.**)
-
   let while_scrolling_ f elt =
     let while_scrolling = (get_scrolling_list elt) in
     append_callback while_scrolling f elt
@@ -221,9 +204,6 @@ module Make(M : In) = struct
   let while_scrolling f elt =
     let elt = (M.to_element elt) in
     while_scrolling_ f elt
-
-  (** This function adds a function to the list of function to do when
-      the "Scroll Start" event is triggered.**)
 
   let scroll_starts_ f elt =
     let scroll_start = (get_scroll_start_list elt) in
@@ -282,8 +262,7 @@ module Make(M : In) = struct
         on_total_scroll_back_offset, and is the beginning of the content by default.
 
         while_scrolling is triggered during scrolling.
-     **)
-
+     **) (* TODOC : this description is different than the .mli one, merge them. *)
   let add_scrollbar
       ?height
       ?scroll

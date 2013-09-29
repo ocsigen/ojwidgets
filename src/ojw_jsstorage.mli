@@ -3,6 +3,11 @@
    Author : Arnaud Parant
 *)
 
+(** Allow to store informations on the client.
+    @author : Arnaud Parant
+*)
+
+(** Generic signature for storage on the client side. *)
 module type JSSTORAGE =
   sig
 
