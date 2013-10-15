@@ -18,6 +18,8 @@
    * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
    *)
 
+open Lwt
+
 let slide_without_start move_events end_event moves_func end_func =
   Lwt.pick [move_events Dom_html.document moves_func;
             end_event Dom_html.document >>= end_func]

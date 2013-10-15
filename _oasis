@@ -7,6 +7,7 @@ Authors:
   Vincent Balat,
   Gabriel Radanne,
   Chistophe Lecointe
+  Arnaud Parant
 License: LGPL-3.0
 BuildTools: ocamlbuild
 Plugins: META (0.3), DevFiles (0.3)
@@ -21,6 +22,7 @@ Library "ojwidgets"
     Ojw_misc,
     Ojw_popup,
     Ojw_scrollbar,
+    Ojw_slide_event,
     Ojw_slider,
     Ojw_unit,
     Ojw_swipejs,
