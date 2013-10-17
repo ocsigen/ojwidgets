@@ -1,5 +1,5 @@
 # OASIS_START
-# DO NOT EDIT (digest: 53834b6e0cdca7e653d80ec1ece3ff7e)
+# DO NOT EDIT (digest: 4d7498b0d7e2e5a9abd9e5d4473dfe48)
 Ojw_button
 Ojw_fun
 Ojw_jcrop
@@ -7,6 +7,7 @@ Ojw_log
 Ojw_misc
 Ojw_popup
 Ojw_scrollbar
+Ojw_slide_event
 Ojw_slider
 Ojw_unit
 Ojw_swipejs

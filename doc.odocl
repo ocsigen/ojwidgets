@@ -1,5 +1,5 @@
 # OASIS_START
-# DO NOT EDIT (digest: d449e479954e9da239eeb1ac0491a1a4)
+# DO NOT EDIT (digest: 577137b3cb0675035a0dffe748359e59)
 src/Ojw_button
 src/Ojw_fun
 src/Ojw_jcrop
@@ -7,6 +7,7 @@ src/Ojw_log
 src/Ojw_misc
 src/Ojw_popup
 src/Ojw_scrollbar
+src/Ojw_slide_event
 src/Ojw_slider
 src/Ojw_unit
 src/Ojw_swipejs
