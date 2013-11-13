@@ -31,7 +31,8 @@ Library "ojwidgets"
     Ojw_jsstorage,
     Ojw_tools,
     Ojw_event_tools,
-    Ojw_mobile_tools
+    Ojw_mobile_tools,
+    Ojw_pos
   InternalModules:
     Internals,
     Scrollbar_f,
