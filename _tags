@@ -1,5 +1,5 @@
 # OASIS_START
-# DO NOT EDIT (digest: a891710959a52749113588f1eaed1dc3)
+# DO NOT EDIT (digest: c8b3cf5ec382aeaf032c993ff18b8efc)
 # Ignore VCS directories, you can use the same kind of rule outside 
 # OASIS_START/STOP if you want to exclude directories that contains 
 # useless stuff for the build process
@@ -21,6 +21,12 @@
 <src/*.ml{,i}>: pkg_lwt.syntax
 <src/*.ml{,i}>: pkg_react
 <src/*.ml{,i}>: pkg_ojquery
+<src/functors/*.ml{,i}>: pkg_js_of_ocaml
+<src/functors/*.ml{,i}>: pkg_js_of_ocaml.syntax
+<src/functors/*.ml{,i}>: pkg_lwt
+<src/functors/*.ml{,i}>: pkg_lwt.syntax
+<src/functors/*.ml{,i}>: pkg_react
+<src/functors/*.ml{,i}>: pkg_ojquery
 <src/button/*.ml{,i}>: pkg_js_of_ocaml
 <src/button/*.ml{,i}>: pkg_js_of_ocaml.syntax
 <src/button/*.ml{,i}>: pkg_lwt

@@ -1,5 +1,5 @@
 (* OASIS_START *)
-(* DO NOT EDIT (digest: ca9c4b40b57ec07a42c883527c834d89) *)
+(* DO NOT EDIT (digest: 422c6ecec94a2328308fbd2934b8a223) *)
 module OASISGettext = struct
 (* # 21 "src/oasis/OASISGettext.ml" *)
 
@@ -477,7 +477,7 @@ end
 open Ocamlbuild_plugin;;
 let package_default =
   {
-     MyOCamlbuildBase.lib_ocaml = [("ojwidgets", ["src"])];
+     MyOCamlbuildBase.lib_ocaml = [("ojwidgets", ["src"; "src/functors"])];
      lib_c = [];
      flags = [];
      includes =
@@ -487,6 +487,7 @@ let package_default =
                "src";
                "src/button";
                "src/button/functor";
+               "src/functors";
                "src/jcrop";
                "src/log"
             ]);
@@ -495,20 +496,51 @@ let package_default =
                "src";
                "src/button";
                "src/button/functor";
+               "src/functors";
                "src/jcrop";
                "src/misc"
             ]);
           ("src/jcrop",
-            ["src"; "src/button"; "src/button/functor"; "src/log"; "src/misc"
+            [
+               "src";
+               "src/button";
+               "src/button/functor";
+               "src/functors";
+               "src/log";
+               "src/misc"
+            ]);
+          ("src/functors",
+            [
+               "src";
+               "src/button";
+               "src/button/functor";
+               "src/jcrop";
+               "src/log";
+               "src/misc"
             ]);
           ("src/button/functor",
-            ["src"; "src/button"; "src/jcrop"; "src/log"; "src/misc"]);
+            [
+               "src";
+               "src/button";
+               "src/functors";
+               "src/jcrop";
+               "src/log";
+               "src/misc"
+            ]);
           ("src/button",
-            ["src"; "src/button/functor"; "src/jcrop"; "src/log"; "src/misc"]);
+            [
+               "src";
+               "src/button/functor";
+               "src/functors";
+               "src/jcrop";
+               "src/log";
+               "src/misc"
+            ]);
           ("src",
             [
                "src/button";
                "src/button/functor";
+               "src/functors";
                "src/jcrop";
                "src/log";
                "src/misc"
@@ -519,6 +551,6 @@ let package_default =
 
 let dispatch_default = MyOCamlbuildBase.dispatch_default package_default;;
 
-# 523 "myocamlbuild.ml"
+# 555 "myocamlbuild.ml"
 (* OASIS_STOP *)
 Ocamlbuild_plugin.dispatch dispatch_default;;
