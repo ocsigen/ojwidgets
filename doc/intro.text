@@ -1,0 +1,29 @@
+
+Ojwidgets is a libraries of web widget for OCaml and {{:http://ocsigen.org/js_of_ocaml/}js_of_ocaml}.
+It contains widgets, useful functions when developing web interface in OCaml and bindings to some Javascript widgets.
+
+Sources are available {{: https://github.com/ocsigen/ojwidgets }here}.
+
+
+{2 Pure OCaml widgets }
+
+{!modules: Ojw_scrollbar Ojw_jsstorage}
+
+
+{2 Utilities }
+
+{!modules: Ojw_unit Ojw_misc Ojw_fun Ojw_log Ojw_tools Ojw_event_tools Ojw_mobile_tools Ojw_position}
+
+{2 Javascript bindings }
+
+{!modules: Ojw_jcrop Ojw_slider Ojw_swipejs Ojw_hookjs Ojw_hammer_swipe}
+
+
+{2 Experimental }
+
+{!modules: Ojw_slide_event }
+
+
+{2 Index }
+
+{!indexlist}
