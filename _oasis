@@ -15,12 +15,10 @@ Plugins: META (0.3), DevFiles (0.3)
 Library "ojwidgets"
   Path: src
   Modules:
-    Ojw_button,
     Ojw_fun,
     Ojw_jcrop,
     Ojw_log,
     Ojw_misc,
-    Ojw_popup,
     Ojw_scrollbar,
     Ojw_slide_event,
     Ojw_slider,
@@ -32,9 +30,7 @@ Library "ojwidgets"
     Ojw_tools,
     Ojw_event_tools,
     Ojw_mobile_tools,
-    Ojw_position,
-    Ojw_alert,
-    functors/Ojw_alert_f
+    Ojw_position
   InternalModules:
     Internals,
     Scrollbar_f,
