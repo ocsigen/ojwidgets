@@ -96,8 +96,6 @@ let absolute_coord
   let rel_h' = Ojw_misc.get_full_height rel' in
   let elt_w' = Ojw_misc.get_full_width elt' in
   let elt_h' = Ojw_misc.get_full_height elt' in
-  Firebug.console##debug(elt_w');
-  Firebug.console##debug(elt_h');
   let s_left = document##body##scrollLeft in
   let s_top = document##body##scrollTop in
   let hshift,vshift =
