@@ -1,11 +1,9 @@
 # OASIS_START
-# DO NOT EDIT (digest: 577137b3cb0675035a0dffe748359e59)
-src/Ojw_button
+# DO NOT EDIT (digest: c0ada9b9a66fda2fd581dc3527696c34)
 src/Ojw_fun
 src/Ojw_jcrop
 src/Ojw_log
 src/Ojw_misc
-src/Ojw_popup
 src/Ojw_scrollbar
 src/Ojw_slide_event
 src/Ojw_slider
@@ -17,4 +15,18 @@ src/Ojw_jsstorage
 src/Ojw_tools
 src/Ojw_event_tools
 src/Ojw_mobile_tools
+src/Ojw_position
+src/experimental/Ojw_base_widget
+src/experimental/Ojw_active_set
+src/experimental/Ojw_event
+src/experimental/Ojw_alert_f
+src/experimental/Ojw_alert
+src/experimental/Ojw_button_f
+src/experimental/Ojw_button
+src/experimental/Ojw_dropdown_f
+src/experimental/Ojw_dropdown
+src/experimental/Ojw_traversable_f
+src/experimental/Ojw_traversable
+src/experimental/Ojw_completion_f
+src/experimental/Ojw_completion
 # OASIS_STOP
