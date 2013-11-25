@@ -1,5 +1,5 @@
 # OASIS_START
-# DO NOT EDIT (digest: a891710959a52749113588f1eaed1dc3)
+# DO NOT EDIT (digest: a53c1296c96880831c3c9d682859bbff)
 # Ignore VCS directories, you can use the same kind of rule outside 
 # OASIS_START/STOP if you want to exclude directories that contains 
 # useless stuff for the build process
@@ -21,18 +21,12 @@
 <src/*.ml{,i}>: pkg_lwt.syntax
 <src/*.ml{,i}>: pkg_react
 <src/*.ml{,i}>: pkg_ojquery
-<src/button/*.ml{,i}>: pkg_js_of_ocaml
-<src/button/*.ml{,i}>: pkg_js_of_ocaml.syntax
-<src/button/*.ml{,i}>: pkg_lwt
-<src/button/*.ml{,i}>: pkg_lwt.syntax
-<src/button/*.ml{,i}>: pkg_react
-<src/button/*.ml{,i}>: pkg_ojquery
-<src/button/functor/*.ml{,i}>: pkg_js_of_ocaml
-<src/button/functor/*.ml{,i}>: pkg_js_of_ocaml.syntax
-<src/button/functor/*.ml{,i}>: pkg_lwt
-<src/button/functor/*.ml{,i}>: pkg_lwt.syntax
-<src/button/functor/*.ml{,i}>: pkg_react
-<src/button/functor/*.ml{,i}>: pkg_ojquery
+<src/experimental/*.ml{,i}>: pkg_js_of_ocaml
+<src/experimental/*.ml{,i}>: pkg_js_of_ocaml.syntax
+<src/experimental/*.ml{,i}>: pkg_lwt
+<src/experimental/*.ml{,i}>: pkg_lwt.syntax
+<src/experimental/*.ml{,i}>: pkg_react
+<src/experimental/*.ml{,i}>: pkg_ojquery
 <src/jcrop/*.ml{,i}>: pkg_js_of_ocaml
 <src/jcrop/*.ml{,i}>: pkg_js_of_ocaml.syntax
 <src/jcrop/*.ml{,i}>: pkg_lwt

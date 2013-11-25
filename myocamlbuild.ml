@@ -1,5 +1,5 @@
 (* OASIS_START *)
-(* DO NOT EDIT (digest: ca9c4b40b57ec07a42c883527c834d89) *)
+(* DO NOT EDIT (digest: aa135880ccac5c8da62e50316f100bec) *)
 module OASISGettext = struct
 (* # 21 "src/oasis/OASISGettext.ml" *)
 
@@ -477,48 +477,22 @@ end
 open Ocamlbuild_plugin;;
 let package_default =
   {
-     MyOCamlbuildBase.lib_ocaml = [("ojwidgets", ["src"])];
+     MyOCamlbuildBase.lib_ocaml = [("ojwidgets", ["src"; "src/experimental"])];
      lib_c = [];
      flags = [];
      includes =
        [
-          ("src/misc",
-            [
-               "src";
-               "src/button";
-               "src/button/functor";
-               "src/jcrop";
-               "src/log"
-            ]);
-          ("src/log",
-            [
-               "src";
-               "src/button";
-               "src/button/functor";
-               "src/jcrop";
-               "src/misc"
-            ]);
-          ("src/jcrop",
-            ["src"; "src/button"; "src/button/functor"; "src/log"; "src/misc"
-            ]);
-          ("src/button/functor",
-            ["src"; "src/button"; "src/jcrop"; "src/log"; "src/misc"]);
-          ("src/button",
-            ["src"; "src/button/functor"; "src/jcrop"; "src/log"; "src/misc"]);
-          ("src",
-            [
-               "src/button";
-               "src/button/functor";
-               "src/jcrop";
-               "src/log";
-               "src/misc"
-            ])
+          ("src/misc", ["src"; "src/experimental"; "src/jcrop"; "src/log"]);
+          ("src/log", ["src"; "src/experimental"; "src/jcrop"; "src/misc"]);
+          ("src/jcrop", ["src"; "src/experimental"; "src/log"; "src/misc"]);
+          ("src/experimental", ["src"; "src/jcrop"; "src/log"; "src/misc"]);
+          ("src", ["src/experimental"; "src/jcrop"; "src/log"; "src/misc"])
        ];
      }
   ;;
 
 let dispatch_default = MyOCamlbuildBase.dispatch_default package_default;;
 
-# 523 "myocamlbuild.ml"
+# 497 "myocamlbuild.ml"
 (* OASIS_STOP *)
 Ocamlbuild_plugin.dispatch dispatch_default;;
