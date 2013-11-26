@@ -20,6 +20,7 @@
 
 open Dom
 open Dom_html
+open Ojw_pervasives
 
 type common_orientation = [
   | `center
@@ -41,10 +42,10 @@ let relative_coord
       ~relative elt =
   let elt' = Ojw_fun.getComputedStyle elt in
   let rel' = Ojw_fun.getComputedStyle relative in
-  let rel_w' = Ojw_misc.get_full_width rel' in
-  let rel_h' = Ojw_misc.get_full_height rel' in
-  let elt_w' = Ojw_misc.get_full_width elt' in
-  let elt_h' = Ojw_misc.get_full_height elt' in
+  let rel_w' = Size.get_full_width rel' in
+  let rel_h' = Size.get_full_height rel' in
+  let elt_w' = Size.get_full_width elt' in
+  let elt_h' = Size.get_full_height elt' in
   let s_left = document##body##scrollLeft in
   let s_top = document##body##scrollTop in
   let calc_h = function
@@ -82,8 +83,8 @@ let relative_coord
 
 let relative_move ?h ?v ~relative elt =
   let container_left, container_top = relative_coord ?v ?h ~relative elt in
-  elt##style##top <- (Ojw_unit.pxstring_of_int container_top);
-  elt##style##left <- (Ojw_unit.pxstring_of_int container_left);
+  elt##style##top <-  (Ojw_pervasives.pxstring_of_int container_top);
+  elt##style##left <- (Ojw_pervasives.pxstring_of_int container_left);
   elt##style##position <- Js.string "absolute"
 
 let absolute_coord
@@ -92,10 +93,10 @@ let absolute_coord
       ~relative elt =
   let elt' = Ojw_fun.getComputedStyle elt in
   let rel' = Ojw_fun.getComputedStyle relative in
-  let rel_w' = Ojw_misc.get_full_width rel' in
-  let rel_h' = Ojw_misc.get_full_height rel' in
-  let elt_w' = Ojw_misc.get_full_width elt' in
-  let elt_h' = Ojw_misc.get_full_height elt' in
+  let rel_w' = Size.get_full_width rel' in
+  let rel_h' = Size.get_full_height rel' in
+  let elt_w' = Size.get_full_width elt' in
+  let elt_h' = Size.get_full_height elt' in
   let s_left = document##body##scrollLeft in
   let s_top = document##body##scrollTop in
   let hshift,vshift =
@@ -116,6 +117,6 @@ let absolute_coord
 
 let absolute_move ?h ?v ~relative elt =
   let container_left, container_top = absolute_coord ?v ?h ~relative elt in
-  elt##style##top <- (Ojw_unit.pxstring_of_int container_top);
-  elt##style##left <- (Ojw_unit.pxstring_of_int container_left);
+  elt##style##top <- (Ojw_pervasives.pxstring_of_int container_top);
+  elt##style##left <- (Ojw_pervasives.pxstring_of_int container_left);
   elt##style##position <- Js.string "absolute"

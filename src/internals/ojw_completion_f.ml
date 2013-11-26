@@ -2,12 +2,10 @@
 
 
 module Make
-    (D : Dom_conv.T)
-    (Dropdown : Dropdown_sigs.T
+    (D : Ojw_dom_sigs.T)
+    (Dropdown : Ojw_dropdown_sigs.T
      with module D = D
-      and module Button.D = D
-      and type Traversable.D.element = D.element
-      and type 'a Traversable.D.elt = 'a D.elt)
+      and module Button.D = D)
 = struct
 
   module D = D
@@ -85,5 +83,5 @@ module Make
            end;
            Lwt.return ()));
 
-    [ elt ; elt_traversable ]
+    ( elt , elt_traversable )
 end

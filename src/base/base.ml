@@ -1,7 +1,8 @@
-(* Copyright Université Paris Diderot.
 
-   Author : Charly Chevalier
-*)
+external id : 'a -> 'a = "%identity"
+
+let of_opt elt =
+  Js.Opt.case elt (fun () -> failwith "of_opt") id
 
 let subs_suffix s n = String.sub s 0 ((String.length s) - n)
 
@@ -15,5 +16,3 @@ let int_of_pxstring px =
 
 let pxstring_of_int px =
   Js.string ((string_of_int px)^"px")
-
-(* TODOC, Same questions as ojw_fun. Also : what's this name ?! *)

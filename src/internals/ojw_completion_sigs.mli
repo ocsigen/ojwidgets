@@ -1,8 +1,8 @@
 
 module type T = sig
 
-  module D : Dom_conv.T
-  module Dropdown : Dropdown_sigs.T
+  module D : Ojw_dom_sigs.T
+  module Dropdown : Ojw_dropdown_sigs.T
 
   class type completion = object
     inherit Dropdown.dropdown
@@ -24,5 +24,6 @@ module type T = sig
      refresh : (string -> Dropdown.Traversable.D.item_element Dropdown.Traversable.D.elt list)
   -> D.element D.elt
   -> Dropdown.Traversable.D.element Dropdown.Traversable.D.elt
-  -> Dropdown.D.element Dropdown.D.elt list
+  -> (Dropdown.D.element Dropdown.D.elt *
+      Dropdown.Traversable.D.element Dropdown.Traversable.D.elt)
 end

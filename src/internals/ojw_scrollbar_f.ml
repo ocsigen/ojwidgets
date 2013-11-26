@@ -1,19 +1,14 @@
-(* Copyright Université Paris Diderot
-
-   Author : Vincent Balat
-   Christophe Lecointe
+(* This file is needed by oasis/ocamlbuild for now.
+   It will not be needed with the next version of oasis.
+   It must stay strictly eual to his .mli
 *)
 
-open Size
-open List
+module Make (D : Ojw_dom_sigs.T)
 
-module type In = sig
-  type element_t
+  = struct
 
-  val to_element : element_t -> Dom_html.element Js.t
-end
+  module D = D
 
-module Make(M : In) = struct
   type scroll_t =
     | Bottom
     | First
@@ -137,13 +132,13 @@ module Make(M : In) = struct
     ()
 
   let get_dragger_pos elt : int =
-    (get_scrollbar_utils (M.to_element elt))##draggerPos
+    (get_scrollbar_utils (D.to_dom_elt elt))##draggerPos
 
   let get_dragger_pct elt : int =
-    (get_scrollbar_utils (M.to_element elt))##draggerPct
+    (get_scrollbar_utils (D.to_dom_elt elt))##draggerPct
 
   let lwt_scroll_to ?inertia ?scroll elt =
-    let elt = (M.to_element elt) in
+    let elt = (D.to_dom_elt elt) in
     scroll_to ?inertia ?scroll elt;
     let lwt_onscroll = get_lwt_on_scroll elt in
     lwt _ = fst !(lwt_onscroll) in
@@ -163,7 +158,7 @@ module Make(M : In) = struct
         Lwt.return ()
 
   let update ?height ?scroll elt =
-    let elt = (M.to_element elt) in
+    let elt = (D.to_dom_elt elt) in
     update_ ?height ?scroll elt
 
   let add =
@@ -202,7 +197,7 @@ module Make(M : In) = struct
     append_callback while_scrolling f elt
 
   let while_scrolling f elt =
-    let elt = (M.to_element elt) in
+    let elt = (D.to_dom_elt elt) in
     while_scrolling_ f elt
 
   let scroll_starts_ f elt =
@@ -210,7 +205,7 @@ module Make(M : In) = struct
     append_callback scroll_start f elt
 
   let scroll_starts f elt =
-    let elt = (M.to_element elt) in
+    let elt = (D.to_dom_elt elt) in
     scroll_starts_ f elt
 
   let scrolls_ f elt =
@@ -223,7 +218,7 @@ module Make(M : In) = struct
       (until you add an other one of course) **)
 
   let scrolls f elt =
-    let elt = (M.to_element elt) in
+    let elt = (D.to_dom_elt elt) in
     scrolls_ f elt
 
   (** This function add a customScrollbar to the element elt. There are
@@ -286,7 +281,7 @@ module Make(M : In) = struct
                                                (List.filter
                                                   (fun fon -> fon ())
                                                   !list)))) in
-    let elt = (M.to_element elt) in
+    let elt = (D.to_dom_elt elt) in
     let scrollbar = Js.Unsafe.coerce (Ojquery.js_jQelt elt) in
     (Js.Unsafe.coerce elt)##scrollbar <- scrollbar;
     scrollbar_utils_constructor elt;

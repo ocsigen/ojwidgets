@@ -1,7 +1,7 @@
 open Dom
 open Dom_html
 
-module Make(D : Dom_conv.Parent) = struct
+module Make(D : Ojw_dom_sigs.Parent) = struct
   exception Close_during_initialization
 
   module D = D

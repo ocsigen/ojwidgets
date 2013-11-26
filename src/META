@@ -1,5 +1,5 @@
 # OASIS_START
-# DO NOT EDIT (digest: 659990057f69c37ec80cfb1914afe7d0)
+# DO NOT EDIT (digest: 62fdd589cf9e26c3c36314f73da23f35)
 version = "0.1"
 description = "Widgets for browser applications written in OCaml."
 requires =
@@ -11,7 +11,7 @@ package "internals" (
  version = "0.1"
  description = "Widgets for browser applications written in OCaml."
  requires =
- "js_of_ocaml js_of_ocaml.syntax lwt lwt.syntax react ojwidgets.base"
+ "js_of_ocaml js_of_ocaml.syntax lwt lwt.syntax react ojquery ojwidgets.base"
  archive(byte) = "internals.cma"
  archive(byte, plugin) = "internals.cma"
  exists_if = "internals.cma"

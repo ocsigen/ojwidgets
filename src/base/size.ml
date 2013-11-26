@@ -1,3 +1,4 @@
+open Base
 open Option
 
 (* No: this must be recomputed every time,
@@ -13,7 +14,6 @@ let get_full_width
       (elt_style : Dom_html.cssStyleDeclaration Js.t)
   =
   let ifdef b v = if b then v else 0 in
-  let open Ojw_unit in
     (ifdef with_width (int_of_pxstring (elt_style##width)))
   + (ifdef with_padding (int_of_pxstring (elt_style##paddingLeft)))
   + (ifdef with_padding (int_of_pxstring (elt_style##paddingRight)))
@@ -27,7 +27,6 @@ let get_full_height
       (elt_style : Dom_html.cssStyleDeclaration Js.t)
   =
   let ifdef b v = if b then v else 0 in
-  let open Ojw_unit in
     (ifdef with_height (int_of_pxstring (elt_style##height)))
   + (ifdef with_padding (int_of_pxstring (elt_style##paddingTop)))
   + (ifdef with_padding (int_of_pxstring (elt_style##paddingBottom)))
@@ -49,8 +48,6 @@ let width_height, width, height =
   (React.S.l1 fst) wh,
   (React.S.l1 snd) wh
 
-(** [set_adaptative_width elt f] will make the width of the element
-    recomputed using [f] everytime the width of the window changes. *)
 let set_adaptative_width elt f =
   (*VVV Warning: it works only because we do not have weak pointers
     on client side, thus the signal is not garbage collected.
@@ -60,8 +57,6 @@ let set_adaptative_width elt f =
             (fun w -> elt##style##width <-
               Js.string (string_of_int (f w)^"px")) height)
 
-(** [set_adaptative_height elt f] will make the width of the element
-    recomputed using [f] everytime the height of the window changes. *)
 let set_adaptative_height elt f =
   (*VVV see above *)
   ignore
@@ -69,7 +64,6 @@ let set_adaptative_height elt f =
        (fun w -> elt##style##height <-
          Js.string (string_of_int (f w)^"px")) height)
 
-(* Compute the height of an element to the bottom of the page *)
 let height_to_bottom offset elt =
   let page = Dom_html.document##documentElement in
   let h = page##clientHeight in

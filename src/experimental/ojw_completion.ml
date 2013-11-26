@@ -38,16 +38,6 @@
     else searchopt_to_bool w0 w1
     *)
 
-let nothing r = r
-module M = Ojw_internals.Completion_f.Make
-    (struct
-      type 'a elt = Dom_html.element Js.t
-      type element = Dom_html.element
-
-      let to_dom_elt = nothing
-      let of_dom_elt = nothing
-
-    end)
+include Ojw_completion_f.Make
+    (Ojw_dom.T)
     (Ojw_dropdown)
-
-include M

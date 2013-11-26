@@ -513,6 +513,7 @@ dispatch
             (S[A"-t"; A"Ojwidgets user guide";
                A"-intro"; P doc_intro;
                A"-colorize-code";
+               A"-short-functors";
                A"-charset"; P "utf-8"
               ]);
         | _ -> ()

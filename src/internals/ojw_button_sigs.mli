@@ -1,9 +1,9 @@
 
 module type T = sig
 
-  module D : Dom_conv.T
+  module D : Ojw_dom_sigs.T
 
-  module Alert : Alert_sigs.T
+  module Alert : Ojw_alert_sigs.T
 
   class type button = object
     inherit Ojw_active_set.item

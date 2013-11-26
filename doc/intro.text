@@ -1,31 +1,68 @@
 
-Ojwidgets is a libraries of web widget for OCaml and {{:http://ocsigen.org/js_of_ocaml/}js_of_ocaml}.
+Ojwidgets is a library of web widget for OCaml and {{:http://ocsigen.org/js_of_ocaml/}js_of_ocaml}.
 It contains widgets, useful functions when developing web interface in OCaml and bindings to some Javascript widgets.
 
 Sources are available {{: https://github.com/ocsigen/ojwidgets }here}.
 
-
 {2 Pure OCaml widgets }
 
-{!modules: Ojw_scrollbar Ojw_jsstorage Ojw_alert Ojw_button Ojw_dropdown Ojw_traversable Ojw_completion}
-
+{!modules:
+ Ojw_scrollbar
+ Ojw_jsstorage
+ Ojw_alert
+ Ojw_button
+ Ojw_dropdown
+ Ojw_traversable
+ Ojw_completion
+ Ojw_base_widget
+ Ojw_active_set
+}
 
 {2 Utilities }
 
-{!modules: Ojw_unit Ojw_misc Ojw_fun Ojw_log Ojw_tools Ojw_event_tools Ojw_mobile_tools Ojw_position}
+{!modules:
+ Ojw_pervasives
+ Ojw_fun
+ Ojw_log
+ Ojw_tools
+ Ojw_event_tools
+ Ojw_mobile_tools
+ Ojw_position
+ }
 
 {2 Javascript bindings }
 
-{!modules: Ojw_jcrop Ojw_slider Ojw_swipejs Ojw_hookjs Ojw_hammer_swipe}
-
+{!modules:
+ Ojw_jcrop
+ Ojw_slider
+ Ojw_swipejs
+ Ojw_hookjs
+ Ojw_hammer_swipe
+}
 
 {2 Experimental }
 
-{!modules: Ojw_slide_event }
+{!modules:
+ Ojw_slide_event
+}
 
-{2 Interals }
+{2 Internals }
 
-{!modules: Ojw_internals }
+{!modules:
+ Ojw_dom_sigs
+ Ojw_alert_f
+ Ojw_button_f
+ Ojw_dropdown_f
+ Ojw_traversable_f
+ Ojw_completion_f
+ Ojw_scrollbar_f
+ Ojw_alert_sigs
+ Ojw_button_sigs
+ Ojw_dropdown_sigs
+ Ojw_traversable_sigs
+ Ojw_completion_sigs
+ Ojw_scrollbar_sigs
+}
 
 {2 Index }
 

@@ -1,6 +1,6 @@
 
 
-module Make(D : Dom_conv.Opt ) = struct
+module Make(D : Ojw_dom_sigs.Opt ) = struct
 
   module D = D
 

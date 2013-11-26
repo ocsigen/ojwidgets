@@ -1,12 +1,10 @@
 
 
 module Make
-    (D : Dom_conv.T)
-    (Button : Button_sigs.T
+    (D : Ojw_dom_sigs.T)
+    (Button : Ojw_button_sigs.T
      with module D = D)
-    (Traversable : Traversable_sigs.T
-     with type D.element = D.element
-      and type 'a D.elt = 'a D.elt)
+    (Traversable : Ojw_traversable_sigs.T)
 = struct
 
   module D = D

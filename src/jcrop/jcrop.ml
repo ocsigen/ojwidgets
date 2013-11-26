@@ -62,7 +62,7 @@ object(self)
   initializer
   (* Create default object for options *)
   let opt = (Js.Unsafe.obj [||] :> options Js.t) in
-  let open Ojw_misc in
+  let open Ojw_pervasives in
 
   Option.iter (fun ov -> opt##onSelect <- wrap_callback ov) on_select;
   Option.iter (fun ov -> opt##onChange <- wrap_callback ov) on_change;

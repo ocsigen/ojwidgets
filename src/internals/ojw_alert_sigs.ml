@@ -1,8 +1,12 @@
+(* This file is needed by oasis/ocamlbuild for now.
+   It will not be needed with the next version of oasis.
+   It must stay strictly eual to his .mli
+*)
 
 module type T = sig
   exception Close_during_initialization
 
-  module D : Dom_conv.Parent
+  module D : Ojw_dom_sigs.Parent
 
   (** The type which reprensents an alert. *)
   type t

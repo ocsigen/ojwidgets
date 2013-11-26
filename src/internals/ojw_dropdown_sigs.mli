@@ -1,10 +1,10 @@
 
 module type T = sig
 
-  module D : Dom_conv.T
+  module D : Ojw_dom_sigs.T
 
-  module Button : Button_sigs.T
-  module Traversable : Traversable_sigs.T
+  module Button : Ojw_button_sigs.T
+  module Traversable : Ojw_traversable_sigs.T
 
   class type dropdown = object
     inherit Button.button

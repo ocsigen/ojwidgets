@@ -1,5 +1,5 @@
 # OASIS_START
-# DO NOT EDIT (digest: 4aa985d5aeef2c22764a14c4c1def2e5)
+# DO NOT EDIT (digest: 7c74af8d5d7b494c101903f4e84e0052)
 # Ignore VCS directories, you can use the same kind of rule outside 
 # OASIS_START/STOP if you want to exclude directories that contains 
 # useless stuff for the build process
@@ -22,23 +22,13 @@
 <src/base/*.ml{,i}>: pkg_react
 # Library internals
 "src/internals/internals.cmxs": use_internals
-"src/internals/dom_conv.cmx": for-pack(Internals)
-"src/internals/alert_f.cmx": for-pack(Internals)
-"src/internals/button_f.cmx": for-pack(Internals)
-"src/internals/dropdown_f.cmx": for-pack(Internals)
-"src/internals/traversable_f.cmx": for-pack(Internals)
-"src/internals/completion_f.cmx": for-pack(Internals)
-"src/internals/alert_sigs.cmx": for-pack(Internals)
-"src/internals/button_sigs.cmx": for-pack(Internals)
-"src/internals/dropdown_sigs.cmx": for-pack(Internals)
-"src/internals/traversable_sigs.cmx": for-pack(Internals)
-"src/internals/completion_sigs.cmx": for-pack(Internals)
 <src/internals/*.ml{,i}>: use_base
 <src/internals/*.ml{,i}>: pkg_js_of_ocaml
 <src/internals/*.ml{,i}>: pkg_js_of_ocaml.syntax
 <src/internals/*.ml{,i}>: pkg_lwt
 <src/internals/*.ml{,i}>: pkg_lwt.syntax
 <src/internals/*.ml{,i}>: pkg_react
+<src/internals/*.ml{,i}>: pkg_ojquery
 # Library ojwidgets
 "src/ojwidgets.cmxs": use_ojwidgets
 <src/*.ml{,i}>: use_internals
