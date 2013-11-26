@@ -1,5 +1,6 @@
-  let nothing r = r
-  include Ojw_traversable_f.Make(struct
+
+let nothing r = r
+include Ojw_internals.Traversable_f.Make(struct
     type 'a opt = 'a Js.opt
 
     type 'a elt = Dom_html.element Js.t

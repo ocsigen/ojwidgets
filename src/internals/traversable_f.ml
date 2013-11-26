@@ -1,88 +1,19 @@
-module type T = sig
-  type 'a opt
 
-  type 'a elt
-  type element
-  type item_element
 
-  val to_opt : 'a Js.opt -> 'a opt
-  val of_opt : 'a opt -> 'a Js.opt
+module Make(D : Dom_conv.Opt ) = struct
 
-  val opt_none : 'a opt
-  val opt_some : 'a -> 'a opt
-
-  val opt_iter : 'a opt -> ('a -> unit) -> unit
-  val opt_case : 'a opt -> (unit -> 'b) -> ('a -> 'b) -> 'b
-
-  val to_dom_elt : element elt -> Dom_html.element Js.t
-  val of_dom_elt : Dom_html.element Js.t -> element elt
-
-  val to_dom_item_elt : item_element elt -> Dom_html.element Js.t
-  val of_dom_item_elt : Dom_html.element Js.t -> item_element elt
+  module D = D
 
   class type traversable = object
     inherit Ojw_base_widget.widget
 
-    method getContainer : element elt Js.meth
+    method getContainer : D.element D.elt  Js.meth
 
     method next : unit Js.meth
     method prev : unit Js.meth
     method resetActive : unit Js.meth
-    method setActive : element elt -> unit Js.meth
-    method getActive : element elt opt Js.meth
-    method isTraversable : bool Js.meth
-  end
-
-  val traversable :
-      ?enable_link : bool
-  -> ?focus : bool
-  -> ?is_traversable : (#traversable Js.t -> bool)
-  -> ?on_keydown : (Dom_html.keyboardEvent Js.t -> bool)
-  -> element elt
-  -> element elt
-
-  val to_traversable : element elt -> traversable Js.t
-end
-
-module Make(M : sig
-  type 'a opt
-
-  type 'a elt
-  type element
-  type item_element
-
-  val to_opt : 'a Js.opt -> 'a opt
-  val of_opt : 'a opt -> 'a Js.opt
-
-  val opt_none : 'a opt
-  val opt_some : 'a -> 'a opt
-
-  val opt_iter : 'a opt -> ('a -> unit) -> unit
-  val opt_case : 'a opt -> (unit -> 'b) -> ('a -> 'b) -> 'b
-
-  val to_dom_elt : element elt -> Dom_html.element Js.t
-  val of_dom_elt : Dom_html.element Js.t -> element elt
-
-  val to_dom_item_elt : item_element elt -> Dom_html.element Js.t
-  val of_dom_item_elt : Dom_html.element Js.t -> item_element elt
-end)
-  : T with type element = M.element
-    with type 'a elt = 'a M.elt
-    with type item_element = M.item_element
-= struct
-
-  include M
-
-  class type traversable = object
-    inherit Ojw_base_widget.widget
-
-    method getContainer : element elt Js.meth
-
-    method next : unit Js.meth
-    method prev : unit Js.meth
-    method resetActive : unit Js.meth
-    method setActive : element elt -> unit Js.meth
-    method getActive : element elt opt Js.meth
+    method setActive : D.element D.elt -> unit Js.meth
+    method getActive : D.element D.elt D.opt Js.meth
     method isTraversable : bool Js.meth
   end
 
@@ -90,13 +21,13 @@ end)
     inherit traversable
     inherit Ojw_base_widget.widget'
 
-    method _getContainer : (#traversable Js.t, unit -> element elt) Js.meth_callback Js.prop
+    method _getContainer : (#traversable Js.t, unit -> D.element D.elt) Js.meth_callback Js.prop
 
     method _next : (#traversable Js.t, unit -> unit) Js.meth_callback Js.prop
     method _prev : (#traversable Js.t, unit -> unit) Js.meth_callback Js.prop
     method _resetActive : (#traversable Js.t, unit -> unit) Js.meth_callback Js.prop
-    method _setActive : (#traversable Js.t, element elt -> unit) Js.meth_callback Js.prop
-    method _getActive : (#traversable Js.t, unit -> element elt opt) Js.meth_callback Js.prop
+    method _setActive : (#traversable Js.t, D.element D.elt -> unit) Js.meth_callback Js.prop
+    method _getActive : (#traversable Js.t, unit -> D.element D.elt D.opt) Js.meth_callback Js.prop
     method _isTraversable : (#traversable Js.t, unit -> bool) Js.meth_callback Js.prop
   end
 
@@ -118,7 +49,7 @@ end)
         ?(is_traversable = default_is_traversable)
         ?(on_keydown = default_on_keydown)
         elt =
-    let elt' = (Js.Unsafe.coerce (M.to_dom_elt elt) :> traversable' Js.t) in
+    let elt' = (Js.Unsafe.coerce (D.to_dom_elt elt) :> traversable' Js.t) in
     let meth = Js.wrap_meth_callback in
 
     ignore (Ojw_base_widget.ctor elt' "traversable");
@@ -128,10 +59,10 @@ end)
     in
 
     let move ~default ~next this =
-      let set item = this##setActive(M.of_dom_elt (Js.Unsafe.coerce item)) in
-      M.opt_case (this##getActive())
+      let set item = this##setActive(D.of_dom_elt (Js.Unsafe.coerce item)) in
+      D.opt_case (this##getActive())
         (fun () ->
-           M.opt_iter (M.to_opt (default ())) (fun item -> set item))
+           D.opt_iter (D.to_opt (default ())) (fun item -> set item))
         (fun active ->
            let rec aux item =
              Js.Opt.case (next item)
@@ -147,7 +78,7 @@ end)
                     set item
                   )
                   else aux item)
-           in aux (M.to_dom_elt active))
+           in aux (D.to_dom_elt active))
     in
 
     elt'##_getContainer <-
@@ -173,34 +104,34 @@ end)
 
     elt'##_resetActive <-
     meth (fun this () ->
-      M.opt_iter (this##getActive())
+      D.opt_iter (this##getActive())
         (fun item ->
-           (M.to_dom_elt item)##classList##remove(Js.string "selected"));
+           (D.to_dom_elt item)##classList##remove(Js.string "selected"));
     );
 
     elt'##_getActive <-
     meth (fun this () ->
       Js.Opt.case (!$ "li[data-value].ew_dropdown_element.selected")
-        (fun () -> M.opt_none)
-        (fun item -> M.opt_some (M.of_dom_elt item))
+        (fun () -> D.opt_none)
+        (fun item -> D.opt_some (D.of_dom_elt item))
     );
 
     elt'##_setActive <-
     meth (fun this item ->
-      Js.Opt.case ((M.to_dom_elt item)##parentNode)
+      Js.Opt.case ((D.to_dom_elt item)##parentNode)
         (* if there is no parent, so item is not a child of
          * the traversable element *)
         (fun () -> ())
         (fun parent ->
-           if not (parent = ((M.to_dom_elt elt) :> Dom.node Js.t))
+           if not (parent = ((D.to_dom_elt elt) :> Dom.node Js.t))
            then ()
            else (
-             M.opt_iter (this##getActive())
+             D.opt_iter (this##getActive())
                (fun item ->
-                  (M.to_dom_elt item)##classList##remove(Js.string "selected"));
-             (M.to_dom_elt item)##classList##add(Js.string "selected");
+                  (D.to_dom_elt item)##classList##remove(Js.string "selected"));
+             (D.to_dom_elt item)##classList##add(Js.string "selected");
              if focus then
-               Js.Opt.iter ((M.to_dom_elt item)##firstChild)
+               Js.Opt.iter ((D.to_dom_elt item)##firstChild)
                  (fun item -> (Js.Unsafe.coerce item)##focus());
              ()))
     );
@@ -245,7 +176,7 @@ end)
                             if not (contains elt "ew_dropdown_element")
                             then (Js.Opt.iter (elt##parentNode) (fun p -> aux p))
                             else (
-                              elt'##setActive (M.of_dom_elt elt);
+                              elt'##setActive (D.of_dom_elt elt);
                               if not enable_link
                               then Dom.preventDefault e
                               else (()))
@@ -257,5 +188,5 @@ end)
 
     elt
 
-  let to_traversable elt = (Js.Unsafe.coerce (M.to_dom_elt elt) :> traversable Js.t)
+  let to_traversable elt = (Js.Unsafe.coerce (D.to_dom_elt elt) :> traversable Js.t)
 end

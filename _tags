@@ -1,5 +1,5 @@
 # OASIS_START
-# DO NOT EDIT (digest: a53c1296c96880831c3c9d682859bbff)
+# DO NOT EDIT (digest: 4aa985d5aeef2c22764a14c4c1def2e5)
 # Ignore VCS directories, you can use the same kind of rule outside 
 # OASIS_START/STOP if you want to exclude directories that contains 
 # useless stuff for the build process
@@ -13,37 +13,57 @@
 ".git": not_hygienic
 "_darcs": -traverse
 "_darcs": not_hygienic
+# Library base
+"src/base/base.cmxs": use_base
+<src/base/*.ml{,i}>: pkg_js_of_ocaml
+<src/base/*.ml{,i}>: pkg_js_of_ocaml.syntax
+<src/base/*.ml{,i}>: pkg_lwt
+<src/base/*.ml{,i}>: pkg_lwt.syntax
+<src/base/*.ml{,i}>: pkg_react
+# Library internals
+"src/internals/internals.cmxs": use_internals
+"src/internals/dom_conv.cmx": for-pack(Internals)
+"src/internals/alert_f.cmx": for-pack(Internals)
+"src/internals/button_f.cmx": for-pack(Internals)
+"src/internals/dropdown_f.cmx": for-pack(Internals)
+"src/internals/traversable_f.cmx": for-pack(Internals)
+"src/internals/completion_f.cmx": for-pack(Internals)
+"src/internals/alert_sigs.cmx": for-pack(Internals)
+"src/internals/button_sigs.cmx": for-pack(Internals)
+"src/internals/dropdown_sigs.cmx": for-pack(Internals)
+"src/internals/traversable_sigs.cmx": for-pack(Internals)
+"src/internals/completion_sigs.cmx": for-pack(Internals)
+<src/internals/*.ml{,i}>: use_base
+<src/internals/*.ml{,i}>: pkg_js_of_ocaml
+<src/internals/*.ml{,i}>: pkg_js_of_ocaml.syntax
+<src/internals/*.ml{,i}>: pkg_lwt
+<src/internals/*.ml{,i}>: pkg_lwt.syntax
+<src/internals/*.ml{,i}>: pkg_react
 # Library ojwidgets
 "src/ojwidgets.cmxs": use_ojwidgets
+<src/*.ml{,i}>: use_internals
+<src/*.ml{,i}>: use_base
 <src/*.ml{,i}>: pkg_js_of_ocaml
 <src/*.ml{,i}>: pkg_js_of_ocaml.syntax
 <src/*.ml{,i}>: pkg_lwt
 <src/*.ml{,i}>: pkg_lwt.syntax
 <src/*.ml{,i}>: pkg_react
 <src/*.ml{,i}>: pkg_ojquery
+<src/experimental/*.ml{,i}>: use_internals
+<src/experimental/*.ml{,i}>: use_base
 <src/experimental/*.ml{,i}>: pkg_js_of_ocaml
 <src/experimental/*.ml{,i}>: pkg_js_of_ocaml.syntax
 <src/experimental/*.ml{,i}>: pkg_lwt
 <src/experimental/*.ml{,i}>: pkg_lwt.syntax
 <src/experimental/*.ml{,i}>: pkg_react
 <src/experimental/*.ml{,i}>: pkg_ojquery
+<src/jcrop/*.ml{,i}>: use_internals
+<src/jcrop/*.ml{,i}>: use_base
 <src/jcrop/*.ml{,i}>: pkg_js_of_ocaml
 <src/jcrop/*.ml{,i}>: pkg_js_of_ocaml.syntax
 <src/jcrop/*.ml{,i}>: pkg_lwt
 <src/jcrop/*.ml{,i}>: pkg_lwt.syntax
 <src/jcrop/*.ml{,i}>: pkg_react
 <src/jcrop/*.ml{,i}>: pkg_ojquery
-<src/log/*.ml{,i}>: pkg_js_of_ocaml
-<src/log/*.ml{,i}>: pkg_js_of_ocaml.syntax
-<src/log/*.ml{,i}>: pkg_lwt
-<src/log/*.ml{,i}>: pkg_lwt.syntax
-<src/log/*.ml{,i}>: pkg_react
-<src/log/*.ml{,i}>: pkg_ojquery
-<src/misc/*.ml{,i}>: pkg_js_of_ocaml
-<src/misc/*.ml{,i}>: pkg_js_of_ocaml.syntax
-<src/misc/*.ml{,i}>: pkg_lwt
-<src/misc/*.ml{,i}>: pkg_lwt.syntax
-<src/misc/*.ml{,i}>: pkg_react
-<src/misc/*.ml{,i}>: pkg_ojquery
 # OASIS_STOP
 <src/**/*.ml>: syntax_camlp4o

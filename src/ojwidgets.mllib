@@ -1,13 +1,9 @@
 # OASIS_START
-# DO NOT EDIT (digest: 05a09df5ddff980eccb763d5028a2f16)
-Ojw_fun
+# DO NOT EDIT (digest: 51c982a22098559ac87e5641b0598975)
 Ojw_jcrop
-Ojw_log
-Ojw_misc
 Ojw_scrollbar
 Ojw_slide_event
 Ojw_slider
-Ojw_unit
 Ojw_swipejs
 Ojw_hookjs
 Ojw_hammer_swipe
@@ -15,24 +11,12 @@ Ojw_jsstorage
 Ojw_tools
 Ojw_event_tools
 Ojw_mobile_tools
-Ojw_position
-experimental/Ojw_base_widget
-experimental/Ojw_active_set
-experimental/Ojw_event
-experimental/Ojw_alert_f
+Ojw_internals
 experimental/Ojw_alert
-experimental/Ojw_button_f
 experimental/Ojw_button
-experimental/Ojw_dropdown_f
 experimental/Ojw_dropdown
-experimental/Ojw_traversable_f
 experimental/Ojw_traversable
-experimental/Ojw_completion_f
 experimental/Ojw_completion
-Internals
 Scrollbar_f
 jcrop/Jcrop
-log/Log
-misc/Option
-misc/Size
 # OASIS_STOP

@@ -159,7 +159,7 @@ module Make(M : In) = struct
       a##mCustomScrollbar(Js.string "update");
       scroll_to ?scroll elt;
       Lwt.return ()
-    with e -> Log.log ("scroll update error: "^Printexc.to_string e);
+    with e -> Ojw_log.log ("scroll update error: "^Printexc.to_string e);
         Lwt.return ()
 
   let update ?height ?scroll elt =

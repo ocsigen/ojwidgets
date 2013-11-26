@@ -1,16 +1,19 @@
-module type TParam = sig
-  module Traversable : Ojw_traversable_f.T
-  module Button : Ojw_button_f.T
 
-  type element
-  type 'a elt
 
-  val of_dom_elt : element elt -> Dom_html.element Js.t
-  val of_dom_elt : Dom_html.element Js.t -> element elt
-end
+module Make
+    (D : Dom_conv.T)
+    (Button : Button_sigs.T
+     with module D = D)
+    (Traversable : Traversable_sigs.T
+     with type D.element = D.element
+      and type 'a D.elt = 'a D.elt)
+= struct
 
-module type T = sig
-  include TParam
+  module D = D
+  module Button = Button
+  module Traversable = Traversable
+
+  type dropdown_fun = Button.Alert.t -> Traversable.D.element Traversable.D.elt
 
   class type dropdown = object
     inherit Button.button
@@ -18,43 +21,11 @@ module type T = sig
     method traversable : Traversable.traversable Js.t Js.readonly_prop
   end
 
-  val dropdown :
-     ?v : Ojw_position.v_orientation
-  -> ?h : Ojw_position.h_orientation
-  -> ?focus : bool
-  -> ?hover : bool
-  -> ?hover_timeout : float
-  -> Button.element Button.elt
-  -> Traversable.element Traversable.elt
-  -> element elt list
-end
-
-module Make(M : TParam)
-  : T
-    with type element = M.element
-    with type Traversable.element = M.Traversable.element
-    with type Traversable.item_element = M.Traversable.item_element
-    with type Button.element = M.Button.element
-    with type 'a elt = 'a M.elt
-    with type 'a Traversable.elt = 'a M.Traversable.elt
-    with type 'a Button.elt = 'a M.Button.elt
-= struct
-
-  include M
-
-  type dropdown_fun = M.Button.Alert.t -> M.Traversable.element M.Traversable.elt
-
-  class type dropdown = object
-    inherit M.Button.button
-
-    method traversable : M.Traversable.traversable Js.t Js.readonly_prop
-  end
-
   class type dropdown' = object
     inherit dropdown
 
     method _timeout : unit Lwt.t Js.opt Js.prop
-    method _traversable : M.Traversable.traversable Js.t Js.prop
+    method _traversable : Traversable.traversable Js.t Js.prop
   end
 
   let dropdown
@@ -63,8 +34,8 @@ module Make(M : TParam)
         ?(focus = true)
         ?(hover = false)
         ?(hover_timeout = 1.0)
-        elt (elt_traversable : M.Traversable.element M.Traversable.elt) =
-    let elt' = (Js.Unsafe.coerce (M.Button.to_button elt) :> dropdown' Js.t) in
+        elt (elt_traversable : Traversable.D.element Traversable.D.elt) =
+    let elt' = (Js.Unsafe.coerce (Button.to_button elt) :> dropdown' Js.t) in
 
     (* Don't use the 'this' argument because it correspond to dropdown content
      * and not the button used by the dropdown.
@@ -89,17 +60,20 @@ module Make(M : TParam)
          with Lwt.Canceled -> Lwt.return ())
     in
 
-    let elt_traversable' = M.Traversable.to_dom_elt elt_traversable in
+    let elt_traversable' = Traversable.D.to_dom_elt elt_traversable in
 
-    ignore (Ojw_button.button_alert ~pressed:false (elt' :> Dom_html.element Js.t) elt_traversable');
+    ignore (
+      Button.button_alert ~pressed:false elt
+        (Button.Alert.D.of_dom_elt elt_traversable')
+    );
 
     Ojw_position.relative_move ~v ~h
-      ~relative:(M.Button.to_dom_elt elt)
+      ~relative:(Button.D.to_dom_elt elt)
       elt_traversable';
 
     elt'##_traversable <-
-      M.Traversable.to_traversable
-        (M.Traversable.traversable ~focus ~is_traversable elt_traversable);
+      Traversable.to_traversable
+        (Traversable.traversable ~focus ~is_traversable elt_traversable);
 
     if hover then begin
       Lwt.async (fun () ->
@@ -135,7 +109,7 @@ module Make(M : TParam)
     end;
 
     [
-      M.of_dom_elt (M.Button.to_dom_elt elt);
-      M.of_dom_elt (M.Traversable.to_dom_elt elt_traversable);
+      D.of_dom_elt (Button.D.to_dom_elt elt);
+      D.of_dom_elt (Traversable.D.to_dom_elt elt_traversable);
     ]
 end

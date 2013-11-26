@@ -12,17 +12,60 @@ License: LGPL-3.0
 BuildTools: ocamlbuild
 Plugins: META (0.3), DevFiles (0.3)
 
-Library "ojwidgets"
-  Path: src
+Library base
+  Path: src/base
   Modules:
-    Ojw_fun,
-    Ojw_jcrop,
     Ojw_log,
     Ojw_misc,
+    Ojw_fun,
+    Ojw_unit,
+    Ojw_position,
+    Ojw_base_widget,
+    Ojw_active_set,
+    Ojw_event,
+    Option,
+    Size
+  CompiledObject: byte
+  FindlibParent: ojwidgets
+  BuildDepends:
+    js_of_ocaml,
+    js_of_ocaml.syntax,
+    lwt,
+    lwt.syntax,
+    react
+
+Library internals
+  Path: src/internals
+  Pack: true
+  Modules:
+    Dom_conv,
+    Alert_f,
+    Button_f,
+    Dropdown_f,
+    Traversable_f,
+    Completion_f,
+    Alert_sigs,
+    Button_sigs,
+    Dropdown_sigs,
+    Traversable_sigs,
+    Completion_sigs
+  BuildDepends:
+    js_of_ocaml,
+    js_of_ocaml.syntax,
+    lwt,
+    lwt.syntax,
+    react,
+    ojwidgets.base
+  CompiledObject: byte
+  FindlibParent: ojwidgets
+
+Library ojwidgets
+  Path: src
+  Modules:
+    Ojw_jcrop,
     Ojw_scrollbar,
     Ojw_slide_event,
     Ojw_slider,
-    Ojw_unit,
     Ojw_swipejs,
     Ojw_hookjs,
     Ojw_hammer_swipe,
@@ -30,35 +73,23 @@ Library "ojwidgets"
     Ojw_tools,
     Ojw_event_tools,
     Ojw_mobile_tools,
-    Ojw_position,
-    experimental/Ojw_base_widget,
-    experimental/Ojw_active_set,
-    experimental/Ojw_event,
-    experimental/Ojw_alert_f,
+    Ojw_internals,
     experimental/Ojw_alert,
-    experimental/Ojw_button_f,
     experimental/Ojw_button,
-    experimental/Ojw_dropdown_f,
     experimental/Ojw_dropdown,
-    experimental/Ojw_traversable_f,
     experimental/Ojw_traversable,
-    experimental/Ojw_completion_f,
     experimental/Ojw_completion
-
   InternalModules:
-    Internals,
     Scrollbar_f,
-    jcrop/Jcrop,
-    log/Log,
-    misc/Option,
-    misc/Size
+    jcrop/Jcrop
   BuildDepends:
     js_of_ocaml,
     js_of_ocaml.syntax,
     lwt,
     lwt.syntax,
     react,
-    ojquery
+    ojquery,
+    ojwidgets.internals
   CompiledObject: byte
 
 Document doc
@@ -67,5 +98,5 @@ Document doc
   Install: true
   InstallDir: $htmldir/api
   BuildTools: ocamldoc
-  XOCamlbuildPath: .
-  XOCamlbuildLibraries: ojwidgets
+  XOCamlbuildPath: src
+  XOCamlbuildLibraries: ojwidgets.base, ojwidgets.internals, ojwidgets
