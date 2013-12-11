@@ -38,3 +38,6 @@ setup.data:
 .PHONY: build doc test all install uninstall reinstall clean distclean configure
 
 # OASIS_STOP
+
+wikidoc: setup.data build
+	$(SETUP) -build ojwidgets-api.wikidocdir/index.wiki
