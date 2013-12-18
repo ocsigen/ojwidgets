@@ -5,7 +5,14 @@
 
 module type T = sig
 
-  module D : Ojw_dom_sigs.Opt
+  module D : Ojw_dom_sigs.T
+  module Content : Ojw_dom_sigs.T
+
+  type by = [
+      | `Click
+      | `Key of int
+      | `Explicit
+  ]
 
   class type traversable = object
     inherit Ojw_base_widget.widget
@@ -15,16 +22,43 @@ module type T = sig
     method next : unit Js.meth
     method prev : unit Js.meth
     method resetActive : unit Js.meth
-    method setActive : D.element D.elt -> unit Js.meth
-    method getActive : D.element D.elt D.opt Js.meth
+    method setActive : Content.element Content.elt -> unit Js.meth
+    method getActive : Content.element Content.elt Js.opt Js.meth
     method isTraversable : bool Js.meth
   end
+
+  class type traversable_detail_event = object
+    method by : by Js.meth
+  end
+
+  class type traversable_event = [traversable_detail_event] Ojw_event.customEvent
+
+  module Event : sig
+    type event = traversable_event Js.t Dom.Event.typ
+
+    val actives : event
+  end
+
+  module Style : sig
+    val traversable_cls : string
+    val traversable_elt_cls : string
+    val selected_cls : string
+  end
+
+  val active : ?use_capture:bool -> #Dom_html.eventTarget Js.t -> traversable_event Js.t Lwt.t
+
+  val actives :
+    ?cancel_handler:bool
+    -> ?use_capture:bool
+    -> D.element D.elt
+    -> (traversable_event Js.t -> unit Lwt.t -> unit Lwt.t)
+    -> unit Lwt.t
 
   val traversable :
       ?enable_link : bool
   -> ?focus : bool
   -> ?is_traversable : (#traversable Js.t -> bool)
-  -> ?on_keydown : (Dom_html.keyboardEvent Js.t -> bool)
+  -> ?on_keydown : (Dom_html.keyboardEvent Js.t -> bool Lwt.t)
   -> D.element D.elt
   -> D.element D.elt
 
