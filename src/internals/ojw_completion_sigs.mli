@@ -3,6 +3,7 @@ module type T = sig
 
   module D : Ojw_dom_sigs.T
   module Dropdown : Ojw_dropdown_sigs.T
+  module Tr : Ojw_traversable_sigs.T
 
   class type completion = object
     inherit Dropdown.dropdown
@@ -10,18 +11,22 @@ module type T = sig
     method value : Js.js_string Js.t Js.prop
 
     method clear : unit Js.meth
-    method refresh : unit Js.meth
+    method confirm : unit Lwt.t Js.meth
+    method refresh : unit Lwt.t Js.meth
   end
 
-  class type completion' = object
-    inherit completion
-
-    method _clear : (#completion Js.t, unit -> unit) Js.meth_callback Js.prop
-    method _refresh : (#completion Js.t, unit -> unit) Js.meth_callback Js.prop
-  end
-
-  val completion :
-     refresh : (string -> Dropdown.Traversable.D.item_element Dropdown.Traversable.D.elt list)
+  val completion__ :
+     refresh : (int -> string -> Dropdown.Traversable.Content.element Dropdown.Traversable.Content.elt list Lwt.t)
+  -> ?limit : int
+  -> ?accents : bool
+  -> ?from_start : bool
+  -> ?force_refresh : bool
+  -> ?sensitive : bool
+  -> ?adaptive : bool
+  -> ?auto_match : bool
+  -> ?clear_input_on_confirm : bool
+  -> ?move_with_tab : bool
+  -> ?on_confirm : (string -> unit Lwt.t)
   -> D.element D.elt
   -> Dropdown.Traversable.D.element Dropdown.Traversable.D.elt
   -> (Dropdown.D.element Dropdown.D.elt *
