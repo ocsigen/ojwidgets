@@ -68,18 +68,16 @@ let relative_coord
        | `top    -> (calc_v `top,    calc_v `bottom)
        | `center -> (calc_v `center, calc_v `center))
   in
-  Js.Opt.case (relative##getClientRects()##item(0))
-    (fun rect -> (0, 0))
-    (fun rect ->
-       let to_side (shift,shift') x =
-         let to_int shift = (int_of_float (Js.to_float x)) + shift in
-         let integer = to_int shift in
-         let integer =
-           if integer > 0
-           then integer
-           else to_int shift'
-         in integer
-       in (to_side (hshift,hshift') rect##left, to_side (vshift,vshift') rect##top))
+  let rect = relative##getBoundingClientRect() in
+  let to_side (shift,shift') x =
+    let to_int shift = (int_of_float (Js.to_float x)) + shift in
+    let integer = to_int shift in
+    let integer =
+      if integer > 0
+      then integer
+      else to_int shift'
+    in integer
+  in (to_side (hshift,hshift') rect##left, to_side (vshift,vshift') rect##top)
 
 let relative_move ?h ?v ~relative elt =
   let container_left, container_top = relative_coord ?v ?h ~relative elt in
@@ -109,11 +107,9 @@ let absolute_coord
        | `top    -> s_top
        | `center -> s_top + (rel_h' / 2) - (elt_h' / 2))
   in
-  Js.Opt.case (relative##getClientRects()##item(0))
-    (fun rect -> (0, 0))
-    (fun rect ->
-       let to_side shift x = (int_of_float (Js.to_float x)) + shift in
-       (to_side hshift rect##left, to_side vshift rect##top))
+  let rect = relative##getBoundingClientRect() in
+  let to_side shift x = (int_of_float (Js.to_float x)) + shift in
+  (to_side hshift rect##left, to_side vshift rect##top)
 
 let absolute_move ?h ?v ~relative elt =
   let container_left, container_top = absolute_coord ?v ?h ~relative elt in

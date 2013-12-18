@@ -1,11 +1,12 @@
 # OASIS_START
-# DO NOT EDIT (digest: 85b37d539aec954a6fe9a21539e54840)
+# DO NOT EDIT (digest: d534c7b68168f65db9077155b0673b38)
 Ojw_pervasives
 Ojw_log
 Ojw_fun
 Ojw_position
 Ojw_base_widget
 Ojw_active_set
+Ojw_tools
 Ojw_event
 Option
 Base

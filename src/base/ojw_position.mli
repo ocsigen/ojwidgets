@@ -58,8 +58,8 @@ type v_orientation = [
 val relative_coord :
      ?h:h_orientation
   -> ?v:v_orientation
-  -> relative:element Js.t
-  -> element Js.t
+  -> relative:#element Js.t
+  -> #element Js.t
   -> (int * int)
 
 (** [relative_move ?h ?v ~relative elt] same as [relative_coord], but instead
@@ -69,8 +69,8 @@ val relative_coord :
 val relative_move :
      ?h:h_orientation
   -> ?v:v_orientation
-  -> relative:element Js.t
-  -> element Js.t
+  -> relative:#element Js.t
+  -> #element Js.t
   -> unit
 
 (** [absolute_coord ?h ?v ~relative elt] same as [relative_coord], but instead
@@ -79,8 +79,8 @@ val relative_move :
 val absolute_coord :
      ?h:h_orientation
   -> ?v:v_orientation
-  -> relative:element Js.t
-  -> element Js.t
+  -> relative:#element Js.t
+  -> #element Js.t
   -> (int * int)
 
 (** [absolute_move ?h ?v ~relative elt] same as [absolute_coord], but instead
@@ -90,6 +90,6 @@ val absolute_coord :
 val absolute_move :
      ?h:h_orientation
   -> ?v:v_orientation
-  -> relative:element Js.t
-  -> element Js.t
+  -> relative:#element Js.t
+  -> #element Js.t
   -> unit
