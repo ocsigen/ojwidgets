@@ -272,7 +272,7 @@ module Make
       elt'##unpress()
     in
 
-    ignore (Alert.dyn_alert ?allow_outer_clicks ~on_outer_click ~before ~after elt_alert f);
+    ignore (Alert.dyn_alert ?allow_outer_clicks ~on_outer_click ~before ~after elt_alert (f elt));
     Alert.prevent_outer_clicks elt';
 
     elt'##_update <-

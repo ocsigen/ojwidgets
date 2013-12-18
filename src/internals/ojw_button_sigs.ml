@@ -134,7 +134,7 @@ module type T = sig
     -> ?after:(D.element D.elt -> Alert.D.element Alert.D.elt-> unit Lwt.t)
     -> D.element D.elt
     -> Alert.D.element Alert.D.elt
-    -> (Alert.D.element Alert.D.elt -> Alert.Content.element Alert.Content.elt list Lwt.t)
+    -> (D.element D.elt -> Alert.D.element Alert.D.elt -> Alert.Content.element Alert.Content.elt list Lwt.t)
     -> (D.element D.elt * Alert.D.element Alert.D.elt)
 
   val to_button : D.element D.elt -> button Js.t
