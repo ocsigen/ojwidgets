@@ -39,8 +39,18 @@ module Make
 
   class type button_alert = object
     inherit button
+  end
 
-    method alert : Alert.t Js.opt Js.prop
+  class type button_dyn_alert = object
+    inherit button_alert
+
+    method update : unit Lwt.t Js.meth
+  end
+
+  class type button_dyn_alert' = object
+    inherit button_dyn_alert
+
+    method _update : (#button_dyn_alert Js.t, unit -> unit Lwt.t) Js.meth_callback Js.prop
   end
 
   class type button_event = object
@@ -102,8 +112,10 @@ module Make
   let post_unpresses ?cancel_handler ?use_capture t =
     Lwt_js_events.seq_loop post_unpress ?cancel_handler ?use_capture (D.to_dom_elt t)
 
+  let default_predicate () =
+    Lwt.return true
 
-  let button ?set ?(pressed = false) elt =
+  let button ?set ?(pressed = false) ?(predicate = default_predicate) elt =
     let elt' = (Js.Unsafe.coerce (D.to_dom_elt elt) : button' Js.t) in
     let meth = Js.wrap_meth_callback in
 
@@ -166,6 +178,8 @@ module Make
       else this##press()
     );
 
+    elt'##_prevented <- Js._false;
+
     elt'##_prevent <-
     meth (fun this prevent ->
       (wbutton this)##_prevented <- prevent;
@@ -178,22 +192,19 @@ module Make
     Lwt.async (fun () ->
       Lwt_js_events.clicks (D.to_dom_elt elt)
         (fun _ _ ->
-           elt'##toggle();
+           lwt ret = predicate () in
+           if ret then
+             elt'##toggle();
            Lwt.return ()));
     elt
 
-
-  let press ?use_capture target =
-    Lwt_js_events.make_event Event.press ?use_capture target
-  let unpress ?use_capture target =
-    Lwt_js_events.make_event Event.unpress ?use_capture target
-
-  let presses ?cancel_handler ?use_capture t =
-    Lwt_js_events.seq_loop press ?cancel_handler ?use_capture (D.to_dom_elt t)
-  let unpresses ?cancel_handler ?use_capture t =
-    Lwt_js_events.seq_loop unpress ?cancel_handler ?use_capture (D.to_dom_elt t)
-
-  let button_alert ?set ?pressed elt elt_alert =
+  let button_alert
+      ?set ?pressed
+      ?predicate
+      ?allow_outer_clicks
+      ?before
+      ?after
+      elt elt_alert =
     let elt' = (Js.Unsafe.coerce (D.to_dom_elt elt) : button_alert Js.t) in
     let elt_alert' = Alert.to_alert elt_alert in
 
@@ -210,46 +221,46 @@ module Make
            Lwt.return ()));
 
     (* We want to listen events before unpress or press the button *)
-    ignore (button ?set ?pressed elt);
-    ignore (Alert.alert elt_alert);
+    ignore (button ?set ?pressed ?predicate elt);
+    ignore (Alert.alert ?allow_outer_clicks ?before ?after elt_alert);
 
-    elt
+    (elt, elt_alert)
 
-      (*
-  let button_alert ?set ?pressed ?before ?after ?parent ?on_close elt f =
-    let elt' = (Js.Unsafe.coerce (D.to_dom_elt elt) : button_alert Js.t) in
+    let button_dyn_alert
+      ?set ?pressed
+      ?predicate
+      ?allow_outer_clicks
+      ?before
+      ?after
+      elt elt_alert f =
+    let elt' = (Js.Unsafe.coerce (D.to_dom_elt elt) : button_dyn_alert' Js.t) in
+    let elt_alert' = Alert.to_dyn_alert elt_alert in
+    let meth = Js.wrap_meth_callback in
 
-    ignore (button ?set ?pressed elt);
-
-    let on_close' = match on_close with
-      | None -> ignore
-      | Some f -> f
-    in
-
-    let on_close () = elt'##unpress() in
-
-    elt'##alert <- Js.null;
+    elt'##_update <-
+    meth (fun this () ->
+      elt_alert'##update();
+    );
 
     Lwt.async (fun () ->
       presses elt
         (fun _ _ ->
-           Js.Opt.case (elt'##alert)
-             (fun () -> elt'##alert <- Js.some
-                (Alert.alert ?before ?after ?parent ~on_close f))
-             (fun _ -> ());
+           lwt () = elt_alert'##show() in
            Lwt.return ()));
 
     Lwt.async (fun () ->
       unpresses elt
         (fun _ _ ->
-           Js.Opt.iter (elt'##alert)
-             (fun alrt ->
-                on_close' ();
-                Alert.close alrt;
-                elt'##alert <- Js.null);
+           elt_alert'##hide();
            Lwt.return ()));
-    elt
-       *)
+
+    (* We want to listen events before unpress or press the button *)
+    ignore (button ?set ?pressed ?predicate elt);
+    ignore (Alert.dyn_alert ?allow_outer_clicks ?before ?after elt_alert f);
+
+    (elt, elt_alert)
 
   let to_button elt = (Js.Unsafe.coerce (D.to_dom_elt elt) :> button Js.t)
+  let to_button_alert elt = (Js.Unsafe.coerce (D.to_dom_elt elt) :> button_alert Js.t)
+  let to_button_dyn_alert elt = (Js.Unsafe.coerce (D.to_dom_elt elt) :> button_dyn_alert Js.t)
 end

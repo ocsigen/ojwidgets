@@ -37,8 +37,12 @@ module type T = sig
 
   class type button_alert = object
     inherit button
+  end
 
-    method alert : Alert.t Js.opt Js.prop
+  class type button_dyn_alert = object
+    inherit button_alert
+
+    method update : unit Lwt.t Js.meth
   end
 
   class type button_event = object
@@ -106,24 +110,34 @@ module type T = sig
   val button :
     ?set:Ojw_active_set.t
     -> ?pressed:bool
+    -> ?predicate:(unit -> bool Lwt.t)
     -> D.element D.elt
     -> D.element D.elt
 
   val button_alert :
     ?set:Ojw_active_set.t
     -> ?pressed:bool
-         (*
+    -> ?predicate:(unit -> bool Lwt.t)
+    -> ?allow_outer_clicks:bool
     -> ?before:(Alert.D.element Alert.D.elt -> unit)
-    -> ?after:(Alert.D.element Alert.D.elt -> unit)
-    -> ?parent:(Alert.parent Alert.D.elt)
-    -> ?on_close:(unit -> unit)
-          *)
+    -> ?after:(Alert.D.element Alert.D.elt-> unit)
     -> D.element D.elt
-         (*
-    -> (Alert.t -> Alert.D.element Alert.D.elt)
-          *)
     -> Alert.D.element Alert.D.elt
+    -> (D.element D.elt * Alert.D.element Alert.D.elt)
+
+  val button_dyn_alert :
+    ?set:Ojw_active_set.t
+    -> ?pressed:bool
+    -> ?predicate:(unit -> bool Lwt.t)
+    -> ?allow_outer_clicks:bool
+    -> ?before:(Alert.D.element Alert.D.elt -> unit Lwt.t)
+    -> ?after:(Alert.D.element Alert.D.elt-> unit Lwt.t)
     -> D.element D.elt
+    -> Alert.D.element Alert.D.elt
+    -> (Alert.D.element Alert.D.elt -> Alert.Content.element Alert.Content.elt list Lwt.t)
+    -> (D.element D.elt * Alert.D.element Alert.D.elt)
 
   val to_button : D.element D.elt -> button Js.t
+  val to_button_alert : D.element D.elt -> button_alert Js.t
+  val to_button_dyn_alert : D.element D.elt -> button_dyn_alert Js.t
 end
