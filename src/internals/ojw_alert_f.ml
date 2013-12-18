@@ -82,6 +82,13 @@ module Make
 
   let created_alerts = ref ([] : alert Js.t list)
 
+  let get_display elt' =
+    Js.string (match (Js.to_string elt'##style##display) with
+        | "none" -> "block" (* should we force ? *)
+        | "" -> "block" (* should we force ? *)
+        | display -> display
+      )
+
   let alert
       ?(show = false)
       ?(allow_outer_clicks = false)
@@ -104,14 +111,7 @@ module Make
             Lwt.return ()));
     end;
 
-    (* FIXME:
-     * Should we get the display value each time we hide the alert instead ?
-     * *)
-    let display = Js.string (match (Js.to_string elt'##style##display) with
-        | "none" -> "block" (* should we force ? *)
-        | display -> display
-      );
-    in
+    let display = get_display elt' in
 
     elt'##_show <-
     meth (fun this () ->
@@ -133,8 +133,8 @@ module Make
       not (this##style##display = (Js.string "none"))
     );
 
-    if not show then
-      elt'##hide();
+    if show then
+      elt'##show();
 
     elt
 
@@ -152,14 +152,7 @@ module Make
 
     elt'##classList##add(Js.string Style.dyn_alert_cls);
 
-    (* FIXME:
-     * Should we get the display value each time we hide the alert instead ?
-     * *)
-    let display = Js.string (match (Js.to_string elt'##style##display) with
-        | "none" -> "block" (* should we force ? *)
-        | display -> display
-      );
-    in
+    let display = get_display elt' in
 
     let internal_show ?(event = true) ?(update_display = true) this =
       lwt () = before elt in
