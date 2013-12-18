@@ -32,26 +32,35 @@ let as_dom_elt elt f =
   elt##style##visibility <- Js.string "visible";
   ret
 
-let closeable ?parent ?(close = removeChild) elt =
+(* ?parent is a function which returns the parent of the close button.
+ * ?close is a function called when closing the parent of the close button.
+ * *)
+let closeable
+    ?(parent : (#element Js.t -> Dom.node Js.t) option)
+    ?(close : (Dom.node Js.t -> unit) option)
+    (elt : #element Js.t) =
   elt##classList##add(Js.string "ojw_close");
-  let wrap_fun parent =
-    (fun super_parent ->
-       close
-         (Js.Unsafe.coerce super_parent : #element Js.t)
-         (Js.Unsafe.coerce parent : #element Js.t))
+  (* Function wrapper, if there is no close parameter, so we delete the parent
+   * of the close button from the document. *)
+  let close_parent p =
+    match close with
+    | None ->
+        Js.Opt.iter (p##parentNode)
+          (fun super_parent ->
+             removeChild super_parent p)
+    | Some close -> close p
   in
+  (* If there is no parent paramter, we use the parent node of the close
+   * button. *)
   match parent with
   | None ->
       (fun () ->
          Js.Opt.iter (elt##parentNode)
-           (fun parent ->
-              Js.Opt.iter (parent##parentNode) (wrap_fun parent)))
+           (fun p -> close_parent p))
   | Some parent ->
       (fun () ->
-         let parent = parent () in
-         Js.Opt.iter (parent##parentNode)
-           (fun super_parent ->
-              Js.Opt.iter (parent##parentNode) (wrap_fun parent)))
+         close_parent (parent elt))
+
 
 let closeable_by_click ?parent ?close elt =
   let f = closeable ?parent ?close elt in
