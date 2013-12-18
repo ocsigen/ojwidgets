@@ -18,6 +18,10 @@ module type T = sig
   -> ?focus : bool
   -> ?hover : bool
   -> ?hover_timeout : float
+  -> ?enable_link : bool
+  -> ?is_traversable : (#dropdown Js.t -> bool)
+  -> ?predicate : (unit -> bool Lwt.t)
+  -> ?on_keydown : (Dom_html.keyboardEvent Js.t -> bool Lwt.t)
   -> Button.D.element Button.D.elt
   -> Traversable.D.element Traversable.D.elt
   -> D.element D.elt list

@@ -11,8 +11,6 @@ module Make
   module Button = Button
   module Traversable = Traversable
 
-  type dropdown_fun = Button.Alert.t -> Traversable.D.element Traversable.D.elt
-
   class type dropdown = object
     inherit Button.button
 
@@ -32,7 +30,11 @@ module Make
         ?(focus = true)
         ?(hover = false)
         ?(hover_timeout = 1.0)
-        elt (elt_traversable : Traversable.D.element Traversable.D.elt) =
+        ?(enable_link)
+        ?(is_traversable)
+        ?(predicate)
+        ?(on_keydown)
+        elt elt_traversable =
     let elt' = (Js.Unsafe.coerce (Button.to_button elt) :> dropdown' Js.t) in
 
     (* Don't use the 'this' argument because it correspond to dropdown content
@@ -40,7 +42,10 @@ module Make
      *
      * FIXME: Should we check if 'pressed' method is not undefined ? It should
      * never happen.. *)
-    let is_traversable _ = Js.to_bool (elt'##pressed) in
+    let is_traversable = match is_traversable with
+      | None -> (fun _ -> Js.to_bool (elt'##pressed))
+      | Some f -> (fun _ -> f (Js.Unsafe.coerce elt'))
+    in
 
     let on_mouseovers, on_mouseouts =
       (fun f ->
@@ -59,9 +64,13 @@ module Make
     in
 
     let elt_traversable' = Traversable.D.to_dom_elt elt_traversable in
+    let cstyle = Ojw_fun.getComputedStyle elt' in
+    elt_traversable'##style##minWidth <- cstyle##width;
+
+    elt'##classList##add(Js.string "ojw_dropdown");
 
     ignore (
-      Button.button_alert ~pressed:false elt
+      Button.button_alert ~pressed:false ?predicate elt
         (Button.Alert.D.of_dom_elt elt_traversable')
     );
 
@@ -71,7 +80,8 @@ module Make
 
     elt'##_traversable <-
       Traversable.to_traversable
-        (Traversable.traversable ~focus ~is_traversable elt_traversable);
+        (Traversable.traversable
+           ?on_keydown ?enable_link ~focus ~is_traversable elt_traversable);
 
     if hover then begin
       Lwt.async (fun () ->
