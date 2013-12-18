@@ -220,9 +220,17 @@ module Make
            elt_alert'##hide();
            Lwt.return ()));
 
+    let before, after =
+      match before, after with
+      | None, None -> (fun _ -> ()), (fun _ -> ())
+      | Some before, None -> before elt, (fun _ -> ())
+      | None, Some after  -> (fun _ -> ()), after elt
+      | Some before, Some after  -> before elt, after elt
+    in
+
     (* We want to listen events before unpress or press the button *)
     ignore (button ?set ?pressed ?predicate elt);
-    ignore (Alert.alert ?allow_outer_clicks ?before ?after elt_alert);
+    ignore (Alert.alert ?allow_outer_clicks ~before ~after elt_alert);
 
     (elt, elt_alert)
 
@@ -254,9 +262,17 @@ module Make
            elt_alert'##hide();
            Lwt.return ()));
 
+    let before, after =
+      match before, after with
+      | None, None -> (fun _ -> Lwt.return ()), (fun _ -> Lwt.return ())
+      | Some before, None -> before elt, (fun _ -> Lwt.return ())
+      | None, Some after  -> (fun _ -> Lwt.return ()), after elt
+      | Some before, Some after  -> before elt, after elt
+    in
+
     (* We want to listen events before unpress or press the button *)
     ignore (button ?set ?pressed ?predicate elt);
-    ignore (Alert.dyn_alert ?allow_outer_clicks ?before ?after elt_alert f);
+    ignore (Alert.dyn_alert ?allow_outer_clicks ~before ~after elt_alert f);
 
     (elt, elt_alert)
 

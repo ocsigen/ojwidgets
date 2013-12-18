@@ -119,8 +119,8 @@ module type T = sig
     -> ?pressed:bool
     -> ?predicate:(unit -> bool Lwt.t)
     -> ?allow_outer_clicks:bool
-    -> ?before:(Alert.D.element Alert.D.elt -> unit)
-    -> ?after:(Alert.D.element Alert.D.elt-> unit)
+    -> ?before:(D.element D.elt -> Alert.D.element Alert.D.elt -> unit)
+    -> ?after:(D.element D.elt -> Alert.D.element Alert.D.elt-> unit)
     -> D.element D.elt
     -> Alert.D.element Alert.D.elt
     -> (D.element D.elt * Alert.D.element Alert.D.elt)
@@ -130,8 +130,8 @@ module type T = sig
     -> ?pressed:bool
     -> ?predicate:(unit -> bool Lwt.t)
     -> ?allow_outer_clicks:bool
-    -> ?before:(Alert.D.element Alert.D.elt -> unit Lwt.t)
-    -> ?after:(Alert.D.element Alert.D.elt-> unit Lwt.t)
+    -> ?before:(D.element D.elt -> Alert.D.element Alert.D.elt -> unit Lwt.t)
+    -> ?after:(D.element D.elt -> Alert.D.element Alert.D.elt-> unit Lwt.t)
     -> D.element D.elt
     -> Alert.D.element Alert.D.elt
     -> (Alert.D.element Alert.D.elt -> Alert.Content.element Alert.Content.elt list Lwt.t)
