@@ -70,6 +70,7 @@ module type T = sig
   val alert :
      ?show:bool
   -> ?allow_outer_clicks:bool
+  -> ?on_outer_click:(alert Js.t -> unit)
   -> ?before:(D.element D.elt -> unit)
   -> ?after:(D.element D.elt -> unit)
   -> D.element D.elt
@@ -78,6 +79,7 @@ module type T = sig
   val dyn_alert :
      ?show:bool
   -> ?allow_outer_clicks:bool
+  -> ?on_outer_click:(dyn_alert Js.t -> unit)
   -> ?before:(D.element D.elt -> unit Lwt.t)
   -> ?after:(D.element D.elt -> unit Lwt.t)
   -> D.element D.elt

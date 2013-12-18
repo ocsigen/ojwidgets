@@ -90,11 +90,22 @@ module Make
       )
 
   let prevent_outer_clicks elt' =
+    (*
     (Js.Unsafe.coerce elt')##preventOuterClick <- Js._true
+    *)
+    Lwt.async (fun () ->
+      Lwt_js_events.clicks elt'
+        (fun e _ ->
+          Dom_html.stopPropagation e;
+          Lwt.return ()))
+
+  let to_alert elt = (Js.Unsafe.coerce (D.to_dom_elt elt) :> alert Js.t)
+  let to_dyn_alert elt = (Js.Unsafe.coerce (D.to_dom_elt elt) :> dyn_alert Js.t)
 
   let alert
       ?(show = false)
       ?(allow_outer_clicks = false)
+      ?(on_outer_click = (fun elt' -> elt'##hide()))
       ?(before = (fun _ -> ()))
       ?(after = (fun _ -> ()))
       elt =
@@ -131,7 +142,15 @@ module Make
     );
 
     if show then
-      elt'##show();
+      elt'##show()
+    else
+      elt'##hide();
+
+    Lwt.async (fun () ->
+      outer_clicks elt
+        (fun _ _ ->
+           on_outer_click (elt' :> alert Js.t);
+           Lwt.return ()));
 
     elt
 
@@ -139,6 +158,7 @@ module Make
   let dyn_alert
       ?(show = false)
       ?(allow_outer_clicks = false)
+      ?(on_outer_click = (fun elt' -> elt'##hide()))
       ?(before = (fun _ -> Lwt.return ()))
       ?(after = (fun _ -> Lwt.return ()))
       elt f =
@@ -192,7 +212,15 @@ module Make
     );
 
     if show then
-      Lwt.async (fun () -> elt'##show());
+      Lwt.async (fun () -> elt'##show())
+    else
+      elt'##hide();
+
+    Lwt.async (fun () ->
+      outer_clicks elt
+        (fun _ _ ->
+           on_outer_click (elt' :> dyn_alert Js.t);
+           Lwt.return ()));
 
     elt
 
@@ -201,8 +229,15 @@ module Make
       Lwt_js_events.clicks document
         (fun e _ ->
            let close_opened_alerts () =
-             List.iter (fun elt' -> elt'##hide()) !created_alerts
+             List.iter
+               (fun elt' ->
+                 if elt'##visible() then
+                   Ojw_event.dispatchEvent elt'
+                     (Ojw_event.customEvent Event.S.outer_click))
+               !created_alerts
            in
+           close_opened_alerts ();
+           (*
            (Js.Optdef.iter (e##toElement)
               (fun elt' ->
                  Js.Opt.iter (elt')
@@ -211,9 +246,7 @@ module Make
                         (close_opened_alerts)
                         (fun prevent ->
                            if prevent = Js._false then
-                             close_opened_alerts ())));
-            Lwt.return ())))
-
-  let to_alert elt = (Js.Unsafe.coerce (D.to_dom_elt elt) :> alert Js.t)
-  let to_dyn_alert elt = (Js.Unsafe.coerce (D.to_dom_elt elt) :> dyn_alert Js.t)
+                             close_opened_alerts ()))));
+                             *)
+            Lwt.return ()))
 end

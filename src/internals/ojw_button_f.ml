@@ -187,11 +187,13 @@ module Make
 
     (Js.Unsafe.coerce elt')##pressed <- false;
     if pressed then
-      elt'##press();
+      elt'##press()
+    else
+      elt'##unpress();
 
     Lwt.async (fun () ->
       Lwt_js_events.clicks (D.to_dom_elt elt)
-        (fun _ _ ->
+        (fun e _ ->
            lwt ret = predicate () in
            if ret then
              elt'##toggle();
@@ -208,9 +210,25 @@ module Make
     let elt' = (Js.Unsafe.coerce (D.to_dom_elt elt) : button_alert Js.t) in
     let elt_alert' = Alert.to_alert elt_alert in
 
+    let before, after =
+      match before, after with
+      | None, None -> (fun _ -> ()), (fun _ -> ())
+      | Some before, None -> before elt, (fun _ -> ())
+      | None, Some after  -> (fun _ -> ()), after elt
+      | Some before, Some after  -> before elt, after elt
+    in
+
+    let on_outer_click _ =
+      elt'##unpress()
+    in
+
+    ignore (Alert.alert ?allow_outer_clicks ~on_outer_click ~before ~after elt_alert);
+    Alert.prevent_outer_clicks elt';
+
     Lwt.async (fun () ->
       presses elt
         (fun _ _ ->
+           Ojw_log.log "show";
            elt_alert'##show();
            Lwt.return ()));
 
@@ -220,17 +238,14 @@ module Make
            elt_alert'##hide();
            Lwt.return ()));
 
-    let before, after =
-      match before, after with
-      | None, None -> (fun _ -> ()), (fun _ -> ())
-      | Some before, None -> before elt, (fun _ -> ())
-      | None, Some after  -> (fun _ -> ()), after elt
-      | Some before, Some after  -> before elt, after elt
-    in
+    Lwt.async (fun () ->
+      Alert.outer_clicks elt
+        (fun _ _ ->
+           elt'##unpress();
+           Lwt.return ()));
 
     (* We want to listen events before unpress or press the button *)
     ignore (button ?set ?pressed ?predicate elt);
-    ignore (Alert.alert ?allow_outer_clicks ~before ~after elt_alert);
 
     (elt, elt_alert)
 
@@ -244,6 +259,21 @@ module Make
     let elt' = (Js.Unsafe.coerce (D.to_dom_elt elt) : button_dyn_alert' Js.t) in
     let elt_alert' = Alert.to_dyn_alert elt_alert in
     let meth = Js.wrap_meth_callback in
+
+    let before, after =
+      match before, after with
+      | None, None -> (fun _ -> Lwt.return ()), (fun _ -> Lwt.return ())
+      | Some before, None -> before elt, (fun _ -> Lwt.return ())
+      | None, Some after  -> (fun _ -> Lwt.return ()), after elt
+      | Some before, Some after  -> before elt, after elt
+    in
+
+    let on_outer_click _ =
+      elt'##unpress()
+    in
+
+    ignore (Alert.dyn_alert ?allow_outer_clicks ~on_outer_click ~before ~after elt_alert f);
+    Alert.prevent_outer_clicks elt';
 
     elt'##_update <-
     meth (fun this () ->
@@ -262,17 +292,8 @@ module Make
            elt_alert'##hide();
            Lwt.return ()));
 
-    let before, after =
-      match before, after with
-      | None, None -> (fun _ -> Lwt.return ()), (fun _ -> Lwt.return ())
-      | Some before, None -> before elt, (fun _ -> Lwt.return ())
-      | None, Some after  -> (fun _ -> Lwt.return ()), after elt
-      | Some before, Some after  -> before elt, after elt
-    in
-
     (* We want to listen events before unpress or press the button *)
     ignore (button ?set ?pressed ?predicate elt);
-    ignore (Alert.dyn_alert ?allow_outer_clicks ~before ~after elt_alert f);
 
     (elt, elt_alert)
 
