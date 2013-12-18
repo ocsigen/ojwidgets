@@ -89,6 +89,9 @@ module Make
         | display -> display
       )
 
+  let prevent_outer_clicks elt' =
+    (Js.Unsafe.coerce elt')##preventOuterClick <- Js._true
+
   let alert
       ?(show = false)
       ?(allow_outer_clicks = false)
@@ -102,13 +105,7 @@ module Make
 
     if not allow_outer_clicks then begin
       created_alerts := (elt' :> alert Js.t)::!created_alerts;
-
-      Lwt.async (fun () ->
-        Lwt_js_events.clicks elt'
-          (fun e _ ->
-            Dom.preventDefault e;
-            Dom_html.stopPropagation e;
-            Lwt.return ()));
+      prevent_outer_clicks elt';
     end;
 
     let display = get_display elt' in
@@ -202,9 +199,20 @@ module Make
   let () =
     Lwt.async (fun () ->
       Lwt_js_events.clicks document
-        (fun _ _ ->
-          List.iter (fun elt' -> elt'##hide()) !created_alerts;
-          Lwt.return ()))
+        (fun e _ ->
+           let close_opened_alerts () =
+             List.iter (fun elt' -> elt'##hide()) !created_alerts
+           in
+           (Js.Optdef.iter (e##toElement)
+              (fun elt' ->
+                 Js.Opt.iter (elt')
+                   (fun elt' ->
+                      Js.Optdef.case ((Js.Unsafe.coerce elt')##preventOuterClick)
+                        (close_opened_alerts)
+                        (fun prevent ->
+                           if prevent = Js._false then
+                             close_opened_alerts ())));
+            Lwt.return ())))
 
   let to_alert elt = (Js.Unsafe.coerce (D.to_dom_elt elt) :> alert Js.t)
   let to_dyn_alert elt = (Js.Unsafe.coerce (D.to_dom_elt elt) :> dyn_alert Js.t)

@@ -25,6 +25,7 @@ module type T = sig
 
   val show : ?use_capture:bool -> #Dom_html.eventTarget Js.t -> alert_event Js.t Lwt.t
   val hide : ?use_capture:bool -> #Dom_html.eventTarget Js.t -> alert_event Js.t Lwt.t
+  val outer_click : ?use_capture:bool -> #Dom_html.eventTarget Js.t -> alert_event Js.t Lwt.t
 
   val shows :
     ?cancel_handler:bool
@@ -34,6 +35,13 @@ module type T = sig
     -> unit Lwt.t
 
   val hides :
+    ?cancel_handler:bool
+    -> ?use_capture:bool
+    -> D.element D.elt
+    -> (alert_event Js.t -> unit Lwt.t -> unit Lwt.t)
+    -> unit Lwt.t
+
+  val outer_clicks :
     ?cancel_handler:bool
     -> ?use_capture:bool
     -> D.element D.elt
@@ -56,6 +64,8 @@ module type T = sig
     method hide : unit Js.meth
     method update : unit Lwt.t Js.meth
   end
+
+  val prevent_outer_clicks : #Dom_html.element Js.t -> unit
 
   val alert :
      ?show:bool
