@@ -21,6 +21,7 @@ Library base
     Ojw_position,
     Ojw_base_widget,
     Ojw_active_set,
+    Ojw_tools,
     Ojw_event
   InternalModules:
     Option,
@@ -74,7 +75,6 @@ Library ojwidgets
     Ojw_hookjs,
     Ojw_hammer_swipe,
     Ojw_jsstorage,
-    Ojw_tools,
     Ojw_event_tools,
     Ojw_mobile_tools,
     experimental/Ojw_dom,

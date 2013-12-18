@@ -1,11 +1,12 @@
 # OASIS_START
-# DO NOT EDIT (digest: 1ca9b1ff202c6700c1c5d7b59198d111)
+# DO NOT EDIT (digest: b28765de9ddd83f84e6ad74522eaacf7)
 base/Ojw_pervasives
 base/Ojw_log
 base/Ojw_fun
 base/Ojw_position
 base/Ojw_base_widget
 base/Ojw_active_set
+base/Ojw_tools
 base/Ojw_event
 internals/Ojw_dom_sigs
 internals/Ojw_alert_f
@@ -28,7 +29,6 @@ Ojw_swipejs
 Ojw_hookjs
 Ojw_hammer_swipe
 Ojw_jsstorage
-Ojw_tools
 Ojw_event_tools
 Ojw_mobile_tools
 experimental/Ojw_dom
