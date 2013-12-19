@@ -42,27 +42,28 @@ class type item' = object
 end
 
 type t = {
-  at_least_one : bool Js.t;
-  mutable active : item Js.t Js.opt;
+  at_least_one : bool;
+  mutable active : item Js.t option;
 }
 
 let set ?(at_least_one = false) () = {
-    at_least_one = Js.bool at_least_one;
-    active = Js.null;
+    at_least_one;
+    active = None;
   }
 
 let enable ~set it =
-  Js.Opt.iter set.active
-    (fun active -> active##disable());
+  (match set.active with
+   | None -> ()
+   | Some active -> active##disable());
   it##enable();
-  set.active <- Js.some (Js.Unsafe.coerce it :> item Js.t)
+  set.active <- Some (Js.Unsafe.coerce it :> item Js.t)
 
 let disable ~set it =
-  if Js.to_bool set.at_least_one
-  then ()
+  if set.at_least_one
+  then (())
   else
-    (it##disable ();
-     set.active <- Js.null)
+    (it##disable();
+     set.active <- None)
 
 let ctor
     ~(enable : (#item Js.t -> unit -> unit))
