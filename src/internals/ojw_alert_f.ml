@@ -80,14 +80,14 @@ module Make
     let dyn_alert_cls = "ojw_dyn_alert"
   end
 
-  exception Close_button_not_in_popup
+  exception Close_button_not_in_alert
 
   let closeable_by_click elt =
     let unsafe_elt elt = (Js.Unsafe.coerce elt :> Dom_html.element Js.t) in
     let get_parent close =
       let rec aux node =
         Js.Opt.case (node##parentNode)
-          (fun () -> raise Close_button_not_in_popup)
+          (fun () -> raise Close_button_not_in_alert)
           (fun p ->
              let p' = unsafe_elt p in
              if Js.to_bool (p'##classList##contains(Js.string Style.alert_cls))

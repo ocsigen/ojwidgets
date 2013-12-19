@@ -65,7 +65,7 @@ module type T = sig
     method update : unit Lwt.t Js.meth
   end
 
-  exception Close_button_not_in_popup
+  exception Close_button_not_in_alert
   val closeable_by_click : D.element D.elt -> D.element D.elt
 
   (* FIXME: use another module ? Which corresponds to any dom elements ? *)
