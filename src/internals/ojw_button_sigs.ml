@@ -137,6 +137,8 @@ module type T = sig
     -> (D.element D.elt -> Alert.D.element Alert.D.elt -> Alert.Content.element Alert.Content.elt list Lwt.t)
     -> (D.element D.elt * Alert.D.element Alert.D.elt)
 
+  val closeable_by_click : D.element D.elt -> D.element D.elt
+
   val to_button : D.element D.elt -> button Js.t
   val to_button_alert : D.element D.elt -> button_alert Js.t
   val to_button_dyn_alert : D.element D.elt -> button_dyn_alert Js.t

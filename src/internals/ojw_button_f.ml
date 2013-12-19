@@ -297,6 +297,8 @@ module Make
 
     (elt, elt_alert)
 
+  let closeable_by_click = Alert.closeable_by_click
+
   let to_button elt = (Js.Unsafe.coerce (D.to_dom_elt elt) :> button Js.t)
   let to_button_alert elt = (Js.Unsafe.coerce (D.to_dom_elt elt) :> button_alert Js.t)
   let to_button_dyn_alert elt = (Js.Unsafe.coerce (D.to_dom_elt elt) :> button_dyn_alert Js.t)
