@@ -111,12 +111,13 @@ module Make
         | display -> display
       )
 
-  let prevent_outer_clicks elt' =
+  let prevent_outer_clicks elt =
     (*
     (Js.Unsafe.coerce elt')##preventOuterClick <- Js._true
     *)
     Lwt.async (fun () ->
-      Lwt_js_events.clicks elt'
+        (* FIXME: use another module ? Which corresponds to any dom element ? *)
+      Lwt_js_events.clicks (D.to_dom_elt elt)
         (fun e _ ->
           Dom_html.stopPropagation e;
           Lwt.return ()))

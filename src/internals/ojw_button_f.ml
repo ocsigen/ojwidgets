@@ -223,7 +223,7 @@ module Make
     in
 
     ignore (Alert.alert ?allow_outer_clicks ~on_outer_click ~before ~after elt_alert);
-    Alert.prevent_outer_clicks elt';
+    Alert.prevent_outer_clicks elt;
 
     Lwt.async (fun () ->
       presses elt
@@ -273,7 +273,7 @@ module Make
     in
 
     ignore (Alert.dyn_alert ?allow_outer_clicks ~on_outer_click ~before ~after elt_alert (f elt));
-    Alert.prevent_outer_clicks elt';
+    Alert.prevent_outer_clicks elt;
 
     elt'##_update <-
     meth (fun this () ->
