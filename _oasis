@@ -47,12 +47,14 @@ Library internals
     Ojw_traversable_f,
     Ojw_completion_f,
     Ojw_scrollbar_f,
+    Ojw_popup_f,
     Ojw_alert_sigs,
     Ojw_button_sigs,
     Ojw_dropdown_sigs,
     Ojw_traversable_sigs,
     Ojw_completion_sigs,
-    Ojw_scrollbar_sigs
+    Ojw_scrollbar_sigs,
+    Ojw_popup_sigs
   BuildDepends:
     js_of_ocaml,
     js_of_ocaml.syntax,
@@ -79,6 +81,7 @@ Library ojwidgets
     Ojw_mobile_tools,
     experimental/Ojw_dom,
     experimental/Ojw_alert,
+    experimental/Ojw_popup,
     experimental/Ojw_button,
     experimental/Ojw_dropdown,
     experimental/Ojw_traversable,
