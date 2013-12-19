@@ -36,34 +36,34 @@ let as_dom_elt elt f =
  * ?close is a function called when closing the parent of the close button.
  * *)
 let closeable
-    ?(parent : (#element Js.t -> Dom.node Js.t) option)
-    ?(close : (Dom.node Js.t -> unit) option)
+    ?(get_parent : (#element Js.t -> Dom.node Js.t) option)
+    ?(on_close : (Dom.node Js.t -> unit) option)
     (elt : #element Js.t) =
   elt##classList##add(Js.string "ojw_close");
   (* Function wrapper, if there is no close parameter, so we delete the parent
    * of the close button from the document. *)
   let close_parent p =
-    match close with
+    match on_close with
     | None ->
         Js.Opt.iter (p##parentNode)
           (fun super_parent ->
              removeChild super_parent p)
-    | Some close -> close p
+    | Some on_close -> on_close p
   in
   (* If there is no parent paramter, we use the parent node of the close
    * button. *)
-  match parent with
+  match get_parent with
   | None ->
       (fun () ->
          Js.Opt.iter (elt##parentNode)
            (fun p -> close_parent p))
-  | Some parent ->
+  | Some get_parent ->
       (fun () ->
-         close_parent (parent elt))
+         close_parent (get_parent elt))
 
 
-let closeable_by_click ?parent ?close elt =
-  let f = closeable ?parent ?close elt in
+let closeable_by_click ?get_parent ?on_close elt =
+  let f = closeable ?get_parent ?on_close elt in
   Lwt.async (fun () ->
       Lwt_js_events.clicks elt
         (fun _ _ ->

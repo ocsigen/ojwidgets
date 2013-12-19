@@ -33,13 +33,13 @@ val get_timestamp : unit -> float
 val as_dom_elt : element Js.t -> (element Js.t -> 'a) -> 'a
 
 val closeable :
-     ?parent:((#element as 'a) Js.t -> Dom.node Js.t)
-  -> ?close:(Dom.node Js.t -> unit)
+     ?get_parent:((#element as 'a) Js.t -> Dom.node Js.t)
+  -> ?on_close:(Dom.node Js.t -> unit)
   -> 'a Js.t
   -> (unit -> unit)
 val closeable_by_click :
-     ?parent:((#element as 'a) Js.t -> Dom.node Js.t)
-  -> ?close:(Dom.node Js.t -> unit)
+     ?get_parent:((#element as 'a) Js.t -> Dom.node Js.t)
+  -> ?on_close:(Dom.node Js.t -> unit)
   -> 'a Js.t
   -> unit
 
