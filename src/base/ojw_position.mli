@@ -31,6 +31,13 @@
 open Dom
 open Dom_html
 
+(** The type to determin the value of the position attribute of the javascript
+  * element. *)
+type position = [
+  | `fixed
+  | `absolute
+]
+
 (** The type used by vertical and horizontal orientation *)
 type common_orientation = [
   | `center
@@ -58,6 +65,7 @@ type v_orientation = [
 val relative_coord :
      ?h:h_orientation
   -> ?v:v_orientation
+  -> ?scroll:bool
   -> relative:#element Js.t
   -> #element Js.t
   -> (int * int)
@@ -69,6 +77,8 @@ val relative_coord :
 val relative_move :
      ?h:h_orientation
   -> ?v:v_orientation
+  -> ?scroll:bool
+  -> ?position:position
   -> relative:#element Js.t
   -> #element Js.t
   -> unit
@@ -79,6 +89,7 @@ val relative_move :
 val absolute_coord :
      ?h:h_orientation
   -> ?v:v_orientation
+  -> ?scroll:bool
   -> relative:#element Js.t
   -> #element Js.t
   -> (int * int)
@@ -90,6 +101,8 @@ val absolute_coord :
 val absolute_move :
      ?h:h_orientation
   -> ?v:v_orientation
+  -> ?scroll:bool
+  -> ?position:position
   -> relative:#element Js.t
   -> #element Js.t
   -> unit

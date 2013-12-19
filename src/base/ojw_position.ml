@@ -22,6 +22,11 @@ open Dom
 open Dom_html
 open Ojw_pervasives
 
+type position = [
+  | `fixed
+  | `absolute
+]
+
 type common_orientation = [
   | `center
 ]
@@ -36,9 +41,14 @@ type v_orientation = [
   | common_orientation
 ]
 
+let attr_of_position = function
+  | `fixed -> Js.string "fixed"
+  | `absolute -> Js.string "absolute"
+
 let relative_coord
       ?(h : h_orientation = `center)
       ?(v : v_orientation = `center)
+      ?(scroll = false)
       ~relative elt =
   let elt' = Ojw_fun.getComputedStyle elt in
   let rel' = Ojw_fun.getComputedStyle relative in
@@ -46,8 +56,11 @@ let relative_coord
   let rel_h' = Size.get_full_height rel' in
   let elt_w' = Size.get_full_width elt' in
   let elt_h' = Size.get_full_height elt' in
-  let s_left = document##body##scrollLeft in
-  let s_top = document##body##scrollTop in
+  let s_left, s_top =
+    if scroll
+    then document##body##scrollLeft, document##body##scrollTop
+    else 0, 0
+  in
   let calc_h = function
        | `right  -> s_left + rel_w'
        | `left   -> s_left - elt_w'
@@ -79,15 +92,10 @@ let relative_coord
     in integer
   in (to_side (hshift,hshift') rect##left, to_side (vshift,vshift') rect##top)
 
-let relative_move ?h ?v ~relative elt =
-  let container_left, container_top = relative_coord ?v ?h ~relative elt in
-  elt##style##top <-  (Ojw_pervasives.pxstring_of_int container_top);
-  elt##style##left <- (Ojw_pervasives.pxstring_of_int container_left);
-  elt##style##position <- Js.string "absolute"
-
 let absolute_coord
       ?(h : h_orientation = `center)
       ?(v : v_orientation = `center)
+      ?(scroll = false)
       ~relative elt =
   let elt' = Ojw_fun.getComputedStyle elt in
   let rel' = Ojw_fun.getComputedStyle relative in
@@ -95,8 +103,11 @@ let absolute_coord
   let rel_h' = Size.get_full_height rel' in
   let elt_w' = Size.get_full_width elt' in
   let elt_h' = Size.get_full_height elt' in
-  let s_left = document##body##scrollLeft in
-  let s_top = document##body##scrollTop in
+  let s_left, s_top =
+    if scroll
+    then document##body##scrollLeft, document##body##scrollTop
+    else 0, 0
+  in
   let hshift,vshift =
     (match h with
        | `right  -> s_left + rel_w' - elt_w'
@@ -111,8 +122,13 @@ let absolute_coord
   let to_side shift x = (int_of_float (Js.to_float x)) + shift in
   (to_side hshift rect##left, to_side vshift rect##top)
 
-let absolute_move ?h ?v ~relative elt =
-  let container_left, container_top = absolute_coord ?v ?h ~relative elt in
-  elt##style##top <- (Ojw_pervasives.pxstring_of_int container_top);
-  elt##style##left <- (Ojw_pervasives.pxstring_of_int container_left);
-  elt##style##position <- Js.string "absolute"
+let generic_move ?(position = `absolute) (left, top) elt =
+  elt##style##top <-  (Ojw_pervasives.pxstring_of_int top);
+  elt##style##left <- (Ojw_pervasives.pxstring_of_int left);
+  elt##style##position <- attr_of_position position
+
+let relative_move ?h ?v ?scroll ?position ~relative elt =
+  generic_move ?position (relative_coord ?v ?h ?scroll ~relative elt) elt
+
+let absolute_move ?h ?v ?scroll ?position ~relative elt =
+  generic_move ?position (absolute_coord ?v ?h ?scroll ~relative elt) elt
