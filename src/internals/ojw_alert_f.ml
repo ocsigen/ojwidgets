@@ -83,7 +83,8 @@ module Make
   let created_alerts = ref ([] : alert Js.t list)
 
   let get_display elt' =
-    Js.string (match (Js.to_string elt'##style##display) with
+    let elt' = Ojw_fun.getComputedStyle elt' in
+    Js.string (match (Js.to_string elt'##display) with
         | "none" -> "block" (* should we force ? *)
         | "" -> "block" (* should we force ? *)
         | display -> display
@@ -116,17 +117,20 @@ module Make
 
     if not allow_outer_clicks then begin
       created_alerts := (elt' :> alert Js.t)::!created_alerts;
-      prevent_outer_clicks elt';
+      prevent_outer_clicks elt;
     end;
 
     let display = get_display elt' in
 
     elt'##_show <-
     meth (fun this () ->
-      before elt;
-      Ojw_event.dispatchEvent this (Ojw_event.customEvent Event.S.show);
-      this##style##display <- display;
-      after elt;
+      if not this##visible() then begin
+        (* Could blink, FIXME: should be set after the [before] function. *)
+        this##style##display <- display;
+        before elt;
+        Ojw_event.dispatchEvent this (Ojw_event.customEvent Event.S.show);
+        after elt;
+      end;
     );
 
     elt'##_hide <-
@@ -172,6 +176,9 @@ module Make
     let display = get_display elt' in
 
     let internal_show ?(event = true) ?(update_display = true) this =
+      (* Could blink, FIXME: should be set after the [before] function. *)
+      if update_display then
+        this##style##display <- display;
       lwt () = before elt in
       lwt cnt = f elt in
       List.iter
@@ -179,8 +186,6 @@ module Make
         (cnt);
       if event then
         Ojw_event.dispatchEvent this (Ojw_event.customEvent Event.S.show);
-      if update_display then
-        this##style##display <- display;
       lwt () = after elt in
       Lwt.return ()
     in
