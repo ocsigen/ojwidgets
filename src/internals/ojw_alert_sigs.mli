@@ -62,6 +62,8 @@ module type T = sig
   end
 
   val prevent_outer_clicks : #Dom_html.element Js.t -> unit
+  exception Close_button_not_in_popup
+  val closeable_by_click : D.element D.elt -> D.element D.elt
 
   val alert :
      ?show:bool
