@@ -328,7 +328,6 @@ module Make
       Lwt_js_events.keyups (D.to_dom_elt elt)
         (fun e _ ->
            let keycode = e##keyCode in
-           let value = Js.to_string elt'##value in
            (* Ignore up and down to prevent clear and refresh *)
            if keycode = 38 || keycode = 40 then Lwt.return ()
            else begin

@@ -202,7 +202,7 @@ module Make
                   elt'##prev(); prevent := true
               | 40 -> (* down *)
                   elt'##next(); prevent := true
-              | _ as keycode -> ());
+              | _ -> ());
              lwt () =
                if !prevent
                then lwt _ = on_keydown e in Lwt.return ()
