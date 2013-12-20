@@ -14,6 +14,27 @@ module type T = sig
       | `Explicit
   ]
 
+  class type traversable_detail_event = object
+    method by : by Js.meth
+  end
+
+  class type traversable_event = [traversable_detail_event] Ojw_event.customEvent
+
+  module Event : sig
+    type event = traversable_event Js.t Dom.Event.typ
+
+    val actives : event
+  end
+
+  val active : ?use_capture:bool -> #Dom_html.eventTarget Js.t -> traversable_event Js.t Lwt.t
+
+  val actives :
+    ?cancel_handler:bool
+    -> ?use_capture:bool
+    -> D.element D.elt
+    -> (traversable_event Js.t -> unit Lwt.t -> unit Lwt.t)
+    -> unit Lwt.t
+
   class type traversable = object
     inherit Ojw_base_widget.widget
 
@@ -27,35 +48,14 @@ module type T = sig
     method isTraversable : bool Js.meth
   end
 
-  class type traversable_detail_event = object
-    method by : by Js.meth
-  end
-
-  class type traversable_event = [traversable_detail_event] Ojw_event.customEvent
-
-  module Event : sig
-    type event = traversable_event Js.t Dom.Event.typ
-
-    val actives : event
-  end
-
   module Style : sig
     val traversable_cls : string
     val traversable_elt_cls : string
     val selected_cls : string
   end
 
-  val active : ?use_capture:bool -> #Dom_html.eventTarget Js.t -> traversable_event Js.t Lwt.t
-
-  val actives :
-    ?cancel_handler:bool
-    -> ?use_capture:bool
-    -> D.element D.elt
-    -> (traversable_event Js.t -> unit Lwt.t -> unit Lwt.t)
-    -> unit Lwt.t
-
   val traversable :
-      ?enable_link : bool
+     ?enable_link : bool
   -> ?focus : bool
   -> ?is_traversable : (#traversable Js.t -> bool)
   -> ?on_keydown : (Dom_html.keyboardEvent Js.t -> bool Lwt.t)
