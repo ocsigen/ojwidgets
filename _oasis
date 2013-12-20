@@ -104,5 +104,5 @@ Document "ojwidgets-api"
   Install: true
   InstallDir: $htmldir/api
   BuildTools: ocamldoc
-  XOCamlbuildPath: src
+  XOCamlbuildPath: .
   XOCamlbuildLibraries: ojwidgets.base, ojwidgets.internals, ojwidgets
