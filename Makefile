@@ -1,4 +1,4 @@
-DOCFLAGS:= "-docflags -colorize-code,-charset,utf-8 $(DOCFLAGS)"
+DOCFLAGS:= "-docflags -stars,-colorize-code,-charset,utf-8 $(DOCFLAGS)"
 
 # OASIS_START
 # DO NOT EDIT (digest: bc1e05bfc8b39b664f29dae8dbd3ebbb)

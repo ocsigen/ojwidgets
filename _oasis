@@ -12,48 +12,90 @@ License: LGPL-3.0
 BuildTools: ocamlbuild
 Plugins: META (0.3), DevFiles (0.3)
 
-Library "ojwidgets"
-  Path: src
+Library base
+  Path: src/base
   Modules:
-    Ojw_button,
-    Ojw_fun,
-    Ojw_jcrop,
+    Ojw_pervasives,
     Ojw_log,
-    Ojw_misc,
-    Ojw_popup,
-    Ojw_scrollbar,
-    Ojw_slide_event,
-    Ojw_slider,
-    Ojw_unit,
-    Ojw_swipejs,
-    Ojw_hookjs,
-    Ojw_hammer_swipe,
-    Ojw_jsstorage,
+    Ojw_fun,
+    Ojw_position,
+    Ojw_base_widget,
+    Ojw_active_set,
     Ojw_tools,
-    Ojw_event_tools,
-    Ojw_mobile_tools
+    Ojw_event
   InternalModules:
-    Internals,
-    Scrollbar_f,
-    button/functor/Button_alert_f,
-    button/Button_alert,
-    button/functor/Button_f,
-    button/Button,
-    button/functor/Button_show_hide_f,
-    button/Button_show_hide,
-    button/functor/Button_show_hide_focus_f,
-    button/Button_show_hide_focus,
-    jcrop/Jcrop,
-    log/Log,
-    misc/Option,
-    misc/Size
+    Option,
+    Base,
+    Ojw_list,
+    Size
+  CompiledObject: byte
+  FindlibParent: ojwidgets
+  BuildDepends:
+    js_of_ocaml,
+    js_of_ocaml.syntax,
+    lwt,
+    lwt.syntax,
+    react
+
+Library internals
+  Path: src/internals
+  Modules:
+    Ojw_dom_sigs,
+    Ojw_alert_f,
+    Ojw_button_f,
+    Ojw_dropdown_f,
+    Ojw_traversable_f,
+    Ojw_completion_f,
+    Ojw_scrollbar_f,
+    Ojw_popup_f,
+    Ojw_alert_sigs,
+    Ojw_button_sigs,
+    Ojw_dropdown_sigs,
+    Ojw_traversable_sigs,
+    Ojw_completion_sigs,
+    Ojw_scrollbar_sigs,
+    Ojw_popup_sigs
   BuildDepends:
     js_of_ocaml,
     js_of_ocaml.syntax,
     lwt,
     lwt.syntax,
     react,
-    ojquery
+    ojquery,
+    ojwidgets.base
+  CompiledObject: byte
+  FindlibParent: ojwidgets
+
+Library ojwidgets
+  Path: src
+  Modules:
+    Ojw_jcrop,
+    Ojw_scrollbar,
+    Ojw_slide_event,
+    Ojw_slider,
+    Ojw_swipejs,
+    Ojw_hookjs,
+    Ojw_hammer_swipe,
+    Ojw_jsstorage,
+    Ojw_event_tools,
+    Ojw_mobile_tools,
+    experimental/Ojw_dom,
+    experimental/Ojw_alert,
+    experimental/Ojw_popup,
+    experimental/Ojw_button,
+    experimental/Ojw_dropdown,
+    experimental/Ojw_traversable,
+    experimental/Ojw_completion
+  InternalModules:
+    jcrop/Jcrop
+  BuildDepends:
+    js_of_ocaml,
+    js_of_ocaml.syntax,
+    lwt,
+    lwt.syntax,
+    react,
+    ojquery,
+    ojwidgets.internals
   CompiledObject: byte
 
 Document "ojwidgets-api"
@@ -62,5 +104,5 @@ Document "ojwidgets-api"
   Install: true
   InstallDir: $htmldir/api
   BuildTools: ocamldoc
-  XOCamlbuildPath: .
-  XOCamlbuildLibraries: ojwidgets
+  XOCamlbuildPath: src
+  XOCamlbuildLibraries: ojwidgets.base, ojwidgets.internals, ojwidgets
