@@ -1,5 +1,5 @@
 # OASIS_START
-# DO NOT EDIT (digest: b28765de9ddd83f84e6ad74522eaacf7)
+# DO NOT EDIT (digest: d78f112056cc30da434a2901ae848dd8)
 base/Ojw_pervasives
 base/Ojw_log
 base/Ojw_fun
@@ -15,12 +15,14 @@ internals/Ojw_dropdown_f
 internals/Ojw_traversable_f
 internals/Ojw_completion_f
 internals/Ojw_scrollbar_f
+internals/Ojw_popup_f
 internals/Ojw_alert_sigs
 internals/Ojw_button_sigs
 internals/Ojw_dropdown_sigs
 internals/Ojw_traversable_sigs
 internals/Ojw_completion_sigs
 internals/Ojw_scrollbar_sigs
+internals/Ojw_popup_sigs
 Ojw_jcrop
 Ojw_scrollbar
 Ojw_slide_event
@@ -33,6 +35,7 @@ Ojw_event_tools
 Ojw_mobile_tools
 experimental/Ojw_dom
 experimental/Ojw_alert
+experimental/Ojw_popup
 experimental/Ojw_button
 experimental/Ojw_dropdown
 experimental/Ojw_traversable
