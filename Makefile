@@ -40,4 +40,4 @@ setup.data:
 # OASIS_STOP
 
 wikidoc: setup.data build
-	$(SETUP) -build ojwidgets-api.wikidocdir/index.wiki
+	$(SETUP) -build ojwidgets-api.wikidocdir/index.wiki $(DOCFLAGS)
