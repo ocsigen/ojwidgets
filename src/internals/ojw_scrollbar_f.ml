@@ -1,8 +1,3 @@
-(* This file is needed by oasis/ocamlbuild for now.
-   It will not be needed with the next version of oasis.
-   It must stay strictly eual to his .mli
-*)
-
 module Make (D : Ojw_dom_sigs.T)
 
   = struct
