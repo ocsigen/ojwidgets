@@ -24,6 +24,7 @@ Session.vim
 ### OASIS ###
 setup.data
 setup.log
+setup.exe
 
 ### OCamlbuild ###
 _build

@@ -1,0 +1,40 @@
+
+##
+## Usage:
+##
+## If the released version is tagged in the main repository, use:
+##
+##   make -f Makefile.dist
+##
+## If the tag has not been pushed, use:
+##
+##   make -f Makefile.dist REPO=${PWD}
+##
+## otherwise, use:
+##
+##   make -f Makefile.dist REPO=${PWD} VERSION=master
+##
+
+VERSION?=$(shell grep Version: _oasis | cut -d ' ' -f 2)
+REPO?=https://github.com/ocsigen/ojwidget
+
+all: dist sign
+
+dist:
+	@rm -rf ojwidget-${VERSION} \
+	        ojwidget-${VERSION}.tar.gz \
+	        ojwidget-${VERSION}.tar.gz.asc
+	git clone --local -b ${VERSION} ${REPO} ojwidget-${VERSION}
+	oasis -C ojwidget-${VERSION} setup
+	sed -i "s/SETUP := setup-dev.exe/SETUP := setup.exe/" \
+	    ojwidget-${VERSION}/Makefile
+	cd ojwidget-${VERSION} && rm -rf .git .gitignore Makefile.dist
+	tar cvzf ojwidget-${VERSION}.tar.gz ojwidget-${VERSION}
+	@rm -rf ojwidget-${VERSION}
+
+sign: ojwidget-${VERSION}.tar.gz.asc
+
+ojwidget-${VERSION}.tar.gz.asc: ojwidget-${VERSION}.tar.gz
+	gpg --armor -b $^
+
+.PHONY: dist sign

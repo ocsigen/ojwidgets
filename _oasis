@@ -1,4 +1,4 @@
-OASISFormat: 0.3
+OASISFormat: 0.4
 Name: ojwidgets
 Version: 0.1
 Synopsis: Widgets for browser applications written in OCaml.
@@ -11,6 +11,7 @@ Authors:
 License: LGPL-3.0
 BuildTools: ocamlbuild
 Plugins: META (0.3), DevFiles (0.3)
+AlphaFeatures: pure_interface, compiled_setup_ml
 
 Library base
   Path: src/base

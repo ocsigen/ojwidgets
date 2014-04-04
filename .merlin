@@ -1,0 +1,9 @@
+S src
+S src/experimental
+S src/internal
+
+PKG js_of_ocaml
+
+B _build/src
+B _build/src/experimental
+B _build_src/experimental
