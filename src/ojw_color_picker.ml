@@ -3,7 +3,9 @@
    Author : Enguerrand Decorne
 *)
 
-type t = (Dom_html.canvasElement Js.t * Dom_html.canvasElement Js.t * int * string ref)
+type t = (Dom_html.canvasElement Js.t * Dom_html.canvasElement Js.t *
+          int * (int * int * int) ref)
+
 
 let point ctx x y (r, g, b) =
   let pixel = ctx##createImageData(1, 1) in
@@ -33,10 +35,6 @@ let hsv_to_rgb h s v =
   255. *. (b +. m)
 
 let get_ctx canvas = canvas##getContext (Dom_html._2d_)
-
-let rgb_of_floats r g b =
-  let intf = int_of_float in
-  CSS.Color.rgb (intf r) (intf g) (intf b)
 
 let draw_hue ctx width =
   let w = 360. in
@@ -70,11 +68,10 @@ let draw_sv ctx hue x y size =
 
 let init_handler (dom_hue, dom_sv, width, color) =
   let get_rgb pixel =
-    let float = float_of_int in
     let r = Dom_html.pixel_get pixel 0 in
     let g = Dom_html.pixel_get pixel 1 in
     let b = Dom_html.pixel_get pixel 2 in
-    float r, float g, float b
+    r, g, b
   in
   let get_coord ev canvas =
     let x, y = Dom_html.elementClientPosition canvas in
@@ -88,7 +85,7 @@ let init_handler (dom_hue, dom_sv, width, color) =
          let ctx = get_ctx dom_sv in
          let rgbdata = ctx##getImageData(x, y, 1, 1)##data in
          let r, g, b = get_rgb rgbdata in
-         color := CSS.Color.string_of_t (rgb_of_floats r g b);
+         color := r, g, b;
          Lwt.return ()
       ));
   Lwt_js_events.async
@@ -100,7 +97,7 @@ let init_handler (dom_hue, dom_sv, width, color) =
          let ctx_hue = get_ctx dom_hue in
          let rgbdata = ctx_hue##getImageData(x, y, 1, 1)##data in
          let r, g, b = get_rgb rgbdata in
-         color := CSS.Color.string_of_t (rgb_of_floats r g b);
+         color := r, g, b;
          Lwt.return ()
       ))
 
@@ -114,12 +111,13 @@ let append_at elt (hue, sv, _, _) =
   Dom.appendChild div_hue hue;
   Dom.appendChild div_sv sv
 
-let get_color (_, _, _, color) = !color
+let get_rgb (_, _, _, color) =
+  !color
 
 let create ?(width = 100) _ =
   let hue = Dom_html.createCanvas Dom_html.document in
   let sv = Dom_html.createCanvas Dom_html.document in
-  let color = ref "#000000" in
+  let color = ref (0, 0, 0) in
   hue##width <- 360;
   sv##width <- width;
   hue##height <- 20;
