@@ -7,14 +7,13 @@ type t = (Dom_html.canvasElement Js.t * Dom_html.canvasElement Js.t *
           int * (int * int * int) ref)
 
 
-let point ctx x y (r, g, b) =
-  let pixel = ctx##createImageData(1, 1) in
-  let rgbdata = pixel##data in
-  Dom_html.pixel_set rgbdata 0 (int_of_float r);
-  Dom_html.pixel_set rgbdata 1 (int_of_float g);
-  Dom_html.pixel_set rgbdata 2 (int_of_float b);
-  Dom_html.pixel_set rgbdata 3 255;
-  ctx##putImageData(pixel, x , y)
+let set_point rgbdata x y w (r, g, b) =
+  let line_offset = (int_of_float y) * w in
+  let offset = ((int_of_float x) + line_offset) * 4 in
+  Dom_html.pixel_set rgbdata (offset + 0) (int_of_float r);
+  Dom_html.pixel_set rgbdata (offset + 1) (int_of_float g);
+  Dom_html.pixel_set rgbdata (offset + 2) (int_of_float b);
+  Dom_html.pixel_set rgbdata (offset + 3) 255
 
 let hsv_to_rgb h s v =
   let c = v *. s in
@@ -37,6 +36,8 @@ let hsv_to_rgb h s v =
 let get_ctx canvas = canvas##getContext (Dom_html._2d_)
 
 let draw_hue ctx width =
+  let image = ctx##createImageData(360, 20) in
+  let rgbdata = image##data in
   let w = 360. in
   let inc = 360. /. 360. in
   let rec aux i =
@@ -44,19 +45,22 @@ let draw_hue ctx width =
         begin
           let rgb = hsv_to_rgb i 1. 1. in
           for y=0 to 20 do
-            point ctx i (float_of_int y) rgb;
+            set_point rgbdata i (float_of_int y) 360 rgb;
           done;
           aux (i +. inc)
         end
-  in aux 0.
+  in aux 0.;
+  ctx##putImageData(image, 0. , 0.)
 
 let draw_sv ctx hue x y size =
+  let image = ctx##createImageData(size, size) in
+  let rgbdata = image##data in
   let cur_inc i = (1. /. size) *. i in
   let rec inner_aux s v =
     if s >= size then () else
       begin
         let rgb = hsv_to_rgb hue (cur_inc v) (cur_inc s) in
-        point ctx (x +. s) (y +. v) rgb;
+        set_point rgbdata (x +. s) (y +. v) (int_of_float size) rgb;
         inner_aux (s +. 1.) v
       end
   in let rec aux v =
@@ -64,7 +68,8 @@ let draw_sv ctx hue x y size =
       begin
         inner_aux 0. v;
         aux (v +. 1.)
-      end in aux 0.
+      end in aux 0.;
+  ctx##putImageData(image, 0. , 0.)
 
 let init_handler (dom_hue, dom_sv, width, color) =
   let get_rgb pixel =
