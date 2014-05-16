@@ -110,6 +110,9 @@ let append_at elt (hue, sv, _, _) =
   let div = Dom_html.createDiv Dom_html.document in
   let div_hue = Dom_html.createDiv Dom_html.document in
   let div_sv = Dom_html.createDiv Dom_html.document in
+  div_hue##className <- Js.string "ojw_colorpicker_sv";
+  div_sv##className <- Js.string "ojw_colorpicker_hue";
+  div##className <- Js.string "ojw_colorpicker";
   Dom.appendChild elt div;
   Dom.appendChild div div_hue;
   Dom.appendChild div div_sv;
