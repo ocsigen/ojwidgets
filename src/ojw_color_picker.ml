@@ -3,9 +3,12 @@
    Author : Enguerrand Decorne
 *)
 
-type t = (Dom_html.canvasElement Js.t * Dom_html.canvasElement Js.t *
-          int * (int * int * int) ref)
-
+type t = { hue_canvas : Dom_html.canvasElement Js.t;
+           hue_cover : Dom_html.canvasElement Js.t;
+           sv_canvas : Dom_html.canvasElement Js.t;
+           sv_cover : Dom_html.canvasElement Js.t;
+           width : int;
+           mutable rgb : int * int * int }
 
 let set_point rgbdata x y w (r, g, b) =
   let line_offset = (int_of_float y) * w in
@@ -34,6 +37,21 @@ let hsv_to_rgb h s v =
   255. *. (b +. m)
 
 let get_ctx canvas = canvas##getContext (Dom_html._2d_)
+
+let draw_hue_cover colorp x =
+  let ctx = get_ctx colorp.hue_cover in
+  colorp.hue_cover##width <- 360;
+  ctx##strokeStyle <- Js.string "rgba(255, 255, 255, 192)";
+  ctx##strokeRect(x, 0., 1., 20.)
+
+let draw_sv_cover colorp x y =
+  let ctx = get_ctx colorp.sv_cover in
+  let pi = 4.0 *. atan 1.0 in
+  colorp.sv_cover##width <- colorp.width;
+  ctx##strokeStyle <- Js.string "rgba(255, 255, 255, 192)";
+  ctx##beginPath ();
+  ctx##arc(x, y, 5., 0., (2. *. pi), Js._false);
+  ctx##stroke ()
 
 let draw_hue ctx width =
   let image = ctx##createImageData(360, 20) in
@@ -71,7 +89,7 @@ let draw_sv ctx hue x y size =
       end in aux 0.;
   ctx##putImageData(image, 0. , 0.)
 
-let init_handler (dom_hue, dom_sv, width, color) =
+let init_handler colorp =
   let get_rgb pixel =
     let r = Dom_html.pixel_get pixel 0 in
     let g = Dom_html.pixel_get pixel 1 in
@@ -85,51 +103,67 @@ let init_handler (dom_hue, dom_sv, width, color) =
   in
   Lwt_js_events.async
   (fun () ->
-     Lwt_js_events.clicks dom_sv (fun ev _ ->
-         let x, y = get_coord ev dom_sv in
-         let ctx = get_ctx dom_sv in
+     Lwt_js_events.clicks colorp.sv_cover (fun ev _ ->
+         let x, y = get_coord ev colorp.sv_canvas in
+         let ctx = get_ctx colorp.sv_canvas in
          let rgbdata = ctx##getImageData(x, y, 1, 1)##data in
          let r, g, b = get_rgb rgbdata in
-         color := r, g, b;
+         colorp.rgb <- r, g, b;
+         draw_sv_cover colorp x y;
          Lwt.return ()
       ));
   Lwt_js_events.async
    (fun () ->
-     Lwt_js_events.clicks dom_hue (fun ev _ ->
-         let x, y = get_coord ev dom_hue in
-         let ctx_sv = get_ctx dom_sv in
-         draw_sv ctx_sv (float_of_int x) 0. 0. (float_of_int width);
-         let ctx_hue = get_ctx dom_hue in
+     Lwt_js_events.clicks colorp.hue_cover (fun ev _ ->
+         let x, y = get_coord ev colorp.hue_canvas in
+         let ctx_sv = get_ctx colorp.sv_canvas in
+         draw_sv ctx_sv (float_of_int x) 0. 0. (float_of_int colorp.width);
+         let ctx_hue = get_ctx colorp.hue_canvas in
          let rgbdata = ctx_hue##getImageData(x, y, 1, 1)##data in
          let r, g, b = get_rgb rgbdata in
-         color := r, g, b;
+         colorp.rgb <- r, g, b;
+         draw_hue_cover colorp x;
+         draw_sv_cover colorp colorp.width colorp.width;
          Lwt.return ()
       ))
 
-let append_at elt (hue, sv, _, _) =
+let append_at elt colorp =
   let div = Dom_html.createDiv Dom_html.document in
   let div_hue = Dom_html.createDiv Dom_html.document in
   let div_sv = Dom_html.createDiv Dom_html.document in
   div_hue##className <- Js.string "ojw_colorpicker_sv";
   div_sv##className <- Js.string "ojw_colorpicker_hue";
   div##className <- Js.string "ojw_colorpicker";
+  colorp.sv_canvas##style##position <- Js.string "absolute";
+  colorp.sv_canvas##style##zIndex <- Js.string "-1";
+  colorp.hue_canvas##style##position <- Js.string "absolute";
+  colorp.hue_canvas##style##zIndex <- Js.string "-1";
   Dom.appendChild elt div;
   Dom.appendChild div div_hue;
   Dom.appendChild div div_sv;
-  Dom.appendChild div_hue hue;
-  Dom.appendChild div_sv sv
+  Dom.appendChild div_hue colorp.hue_canvas;
+  Dom.appendChild div_hue colorp.hue_cover;
+  Dom.appendChild div_sv colorp.sv_canvas;
+  Dom.appendChild div_sv colorp.sv_cover
 
-let get_rgb (_, _, _, color) =
-  !color
+let get_rgb colorp =
+  colorp.rgb
 
 let create ?(width = 100) _ =
   let hue = Dom_html.createCanvas Dom_html.document in
   let sv = Dom_html.createCanvas Dom_html.document in
-  let color = ref (0, 0, 0) in
+  let hue_cover = Dom_html.createCanvas Dom_html.document in
+  let sv_cover = Dom_html.createCanvas Dom_html.document in
+  let color = 0, 0, 0 in
   hue##width <- 360;
+  hue_cover##width <- 360;
   sv##width <- width;
+  sv_cover##width <- width;
   hue##height <- 20;
+  hue_cover##height <- 20;
   sv##height <- width;
+  sv_cover##height <- width;
   draw_hue (get_ctx hue) width;
   draw_sv (get_ctx sv) 0. 0. 0. (float_of_int width);
-  hue, sv, width, color
+  {hue_canvas = hue; hue_cover = hue_cover; sv_canvas = sv;
+   sv_cover = sv_cover; width = width; rgb = color }
