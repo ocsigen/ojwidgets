@@ -1,0 +1,17 @@
+opam-version: "1"
+maintainer: "dev@ocsigen.org"
+version: "dev"
+build: [
+  [make]
+  [make "install"]
+]
+remove: [
+  ["ocamlfind" "remove" "ojwidgets"]
+]
+depends: [
+  "ocamlfind"
+  "js_of_ocaml"
+  "ojquery" {>= "dev"}
+  ## OASIS is not required in released version
+  "oasis" {>= "0.4.4"}
+]
