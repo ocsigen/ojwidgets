@@ -10,6 +10,7 @@ remove: [
 ]
 depends: [
   "ocamlfind"
+  "deriving"
   "js_of_ocaml"
   "ojquery" {>= "dev"}
   ## OASIS is not required in released version
