@@ -46,8 +46,11 @@ let () =
 
              (* Api: use an introduction page with categories *)
              tag_file "ojwidgets-api.docdir/index.html" ["apiref"];
-             dep ["apiref"] ["apiref-intro"];
-             flag ["apiref"] & S[A "-intro"; P "apiref-intro"; A"-colorize-code"];
+             dep ["apiref"] ["doc/intro.text"];
+             flag ["apiref"] & S[A "-intro"; P "doc/intro.text";
+                                 A"-t"; A"Ojwidgets user guide";
+                                 A"-colorize-code" ; A"-short-functors" ;
+                                 A"-charset"; P "utf-8" ];
 
              (* the "-bin-annot" flag was introduced in ocaml-4.00 *)
              (* the "bin_annot" tag was only introduced in ocamlbuild-4.01 *)
@@ -56,25 +59,3 @@ let () =
 
          | _ ->
              ())
-
-let () =
-  Ocamlbuild_plugin.dispatch dispatch_default;;
-
-let doc_intro = "doc/intro.text" in
-
-let open Ocamlbuild_plugin in
-dispatch
-  (function hook ->
-      dispatch_default hook ;
-      match hook with
-        | After_rules ->
-            dep ["ocaml"; "doc"; "extension:html"] & [doc_intro] ;
-            flag ["ocaml"; "doc"; "extension:html"] &
-            (S[A"-t"; A"Ojwidgets user guide";
-               A"-intro"; P doc_intro;
-               A"-colorize-code";
-               A"-short-functors";
-               A"-charset"; P "utf-8"
-              ]);
-        | _ -> ()
-  )
