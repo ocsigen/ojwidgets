@@ -1,0 +1,44 @@
+# OASIS_START
+# DO NOT EDIT (digest: 6c56ae271a245f18f3f639f4f2d28dc3)
+src/base/Ojw_pervasives
+src/base/Ojw_log
+src/base/Ojw_fun
+src/base/Ojw_position
+src/base/Ojw_base_widget
+src/base/Ojw_active_set
+src/base/Ojw_tools
+src/base/Ojw_event
+src/internals/Ojw_dom_sigs
+src/internals/Ojw_alert_f
+src/internals/Ojw_button_f
+src/internals/Ojw_dropdown_f
+src/internals/Ojw_traversable_f
+src/internals/Ojw_completion_f
+src/internals/Ojw_scrollbar_f
+src/internals/Ojw_popup_f
+src/internals/Ojw_alert_sigs
+src/internals/Ojw_button_sigs
+src/internals/Ojw_dropdown_sigs
+src/internals/Ojw_traversable_sigs
+src/internals/Ojw_completion_sigs
+src/internals/Ojw_scrollbar_sigs
+src/internals/Ojw_popup_sigs
+src/Ojw_jcrop
+src/Ojw_scrollbar
+src/Ojw_slide_event
+src/Ojw_slider
+src/Ojw_swipejs
+src/Ojw_hookjs
+src/Ojw_hammer_swipe
+src/Ojw_jsstorage
+src/Ojw_event_tools
+src/Ojw_mobile_tools
+src/Ojw_color_picker
+src/experimental/Ojw_dom
+src/experimental/Ojw_alert
+src/experimental/Ojw_popup
+src/experimental/Ojw_button
+src/experimental/Ojw_dropdown
+src/experimental/Ojw_traversable
+src/experimental/Ojw_completion
+# OASIS_STOP

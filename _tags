@@ -1,4 +1,59 @@
 # OASIS_START
-# DO NOT EDIT (digest: d41d8cd98f00b204e9800998ecf8427e)
+# DO NOT EDIT (digest: c70c7cd571e3f15ee2391b31cd744451)
+# Ignore VCS directories, you can use the same kind of rule outside
+# OASIS_START/STOP if you want to exclude directories that contains
+# useless stuff for the build process
+<**/.svn>: -traverse
+<**/.svn>: not_hygienic
+".bzr": -traverse
+".bzr": not_hygienic
+".hg": -traverse
+".hg": not_hygienic
+".git": -traverse
+".git": not_hygienic
+"_darcs": -traverse
+"_darcs": not_hygienic
+# Library base
+"src/base/base.cmxs": use_base
+<src/base/*.ml{,i}>: pkg_js_of_ocaml
+<src/base/*.ml{,i}>: pkg_js_of_ocaml.syntax
+<src/base/*.ml{,i}>: pkg_lwt
+<src/base/*.ml{,i}>: pkg_lwt.syntax
+<src/base/*.ml{,i}>: pkg_react
+# Library internals
+"src/internals/internals.cmxs": use_internals
+<src/internals/*.ml{,i}>: pkg_js_of_ocaml
+<src/internals/*.ml{,i}>: pkg_js_of_ocaml.syntax
+<src/internals/*.ml{,i}>: pkg_lwt
+<src/internals/*.ml{,i}>: pkg_lwt.syntax
+<src/internals/*.ml{,i}>: pkg_ojquery
+<src/internals/*.ml{,i}>: pkg_react
+<src/internals/*.ml{,i}>: use_base
+# Library ojwidgets
+"src/ojwidgets.cmxs": use_ojwidgets
+<src/*.ml{,i}>: pkg_js_of_ocaml
+<src/*.ml{,i}>: pkg_js_of_ocaml.syntax
+<src/*.ml{,i}>: pkg_lwt
+<src/*.ml{,i}>: pkg_lwt.syntax
+<src/*.ml{,i}>: pkg_ojquery
+<src/*.ml{,i}>: pkg_react
+<src/*.ml{,i}>: use_base
+<src/*.ml{,i}>: use_internals
+<src/experimental/*.ml{,i}>: pkg_js_of_ocaml
+<src/experimental/*.ml{,i}>: pkg_js_of_ocaml.syntax
+<src/experimental/*.ml{,i}>: pkg_lwt
+<src/experimental/*.ml{,i}>: pkg_lwt.syntax
+<src/experimental/*.ml{,i}>: pkg_ojquery
+<src/experimental/*.ml{,i}>: pkg_react
+<src/experimental/*.ml{,i}>: use_base
+<src/experimental/*.ml{,i}>: use_internals
+<src/jcrop/*.ml{,i}>: pkg_js_of_ocaml
+<src/jcrop/*.ml{,i}>: pkg_js_of_ocaml.syntax
+<src/jcrop/*.ml{,i}>: pkg_lwt
+<src/jcrop/*.ml{,i}>: pkg_lwt.syntax
+<src/jcrop/*.ml{,i}>: pkg_ojquery
+<src/jcrop/*.ml{,i}>: pkg_react
+<src/jcrop/*.ml{,i}>: use_base
+<src/jcrop/*.ml{,i}>: use_internals
 # OASIS_STOP
 <src/**/*.ml>: syntax_camlp4o
