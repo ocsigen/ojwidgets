@@ -1,4 +1,4 @@
-
+{1 Ojwidgets - API Reference}
 Ojwidgets is a library of web widget for OCaml and {{:http://ocsigen.org/js_of_ocaml/}js_of_ocaml}.
 It contains widgets, useful functions when developing web interface in OCaml and bindings to some Javascript widgets.
 
