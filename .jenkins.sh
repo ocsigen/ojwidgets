@@ -6,8 +6,8 @@ opam install --verbose ojwidgets
 
 do_build_doc () {
   make wikidoc
-  cp -Rf _build/ojwidgets-api.wikidocdir/*.wiki $(API_DIR)
-  cp -Rf doc/manual-wiki/*.wiki $(MANUAL_SRC_DIR)/
+  cp -Rf _build/ojwidgets-api.wikidocdir/*.wiki ${API_DIR}
+  cp -Rf doc/manual-wiki/*.wiki ${MANUAL_SRC_DIR}/
 }
 
 do_remove () {
