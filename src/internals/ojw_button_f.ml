@@ -204,6 +204,7 @@ module Make
       ?set ?pressed
       ?predicate
       ?allow_outer_clicks
+      ?(closeable_by_button = true)
       ?before
       ?after
       elt elt_alert =
@@ -224,6 +225,12 @@ module Make
 
     ignore (Alert.alert ?allow_outer_clicks ~on_outer_click ~before ~after elt_alert);
     Alert.prevent_outer_clicks elt;
+
+    Lwt.async (fun () ->
+      pre_unpresses elt
+        (fun _ _ ->
+           elt'##prevent(Js.bool (not closeable_by_button));
+           Lwt.return ()));
 
     Lwt.async (fun () ->
       presses elt
@@ -253,6 +260,7 @@ module Make
       ?set ?pressed
       ?predicate
       ?allow_outer_clicks
+      ?(closeable_by_button = true)
       ?before
       ?after
       elt elt_alert f =
@@ -279,6 +287,12 @@ module Make
     meth (fun this () ->
       elt_alert'##update();
     );
+
+    Lwt.async (fun () ->
+      pre_unpresses elt
+        (fun _ _ ->
+           elt'##prevent(Js.bool (not closeable_by_button));
+           Lwt.return ()));
 
     Lwt.async (fun () ->
       presses elt

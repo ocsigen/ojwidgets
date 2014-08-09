@@ -189,6 +189,7 @@ module type T = sig
     -> ?pressed:bool
     -> ?predicate:(unit -> bool Lwt.t)
     -> ?allow_outer_clicks:bool
+    -> ?closeable_by_button:bool
     -> ?before:(D.element D.elt -> Alert.D.element Alert.D.elt -> unit)
     -> ?after:(D.element D.elt -> Alert.D.element Alert.D.elt-> unit)
     -> D.element D.elt
@@ -208,6 +209,7 @@ module type T = sig
     -> ?pressed:bool
     -> ?predicate:(unit -> bool Lwt.t)
     -> ?allow_outer_clicks:bool
+    -> ?closeable_by_button:bool
     -> ?before:(D.element D.elt -> Alert.D.element Alert.D.elt -> unit Lwt.t)
     -> ?after:(D.element D.elt -> Alert.D.element Alert.D.elt-> unit Lwt.t)
     -> D.element D.elt
