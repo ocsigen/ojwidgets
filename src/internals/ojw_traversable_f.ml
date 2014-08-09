@@ -213,8 +213,14 @@ module Make
            end else Lwt.return ()
         ));
 
-    let is_child_of child parent =
-      (parent##compareDocumentPosition(child) land 16) = 16
+    let is_child_of child (parent : Dom.node Js.t) =
+      (* Previous implementation was:
+       *
+       * (parent##compareDocumentPosition(child) land 16) = 16
+       *
+       * *)
+      let module Dp = Dom.DocumentPosition in
+      Dp.has (parent##compareDocumentPosition(child)) Dp.contains
     in
     Lwt.async (fun () ->
       Lwt_js_events.clicks elt'
@@ -235,7 +241,7 @@ module Make
                               else (()))
                           end)
                    in
-                   if is_child_of (elt :> Dom.node Js.t) elt'
+                   if is_child_of (elt :> Dom.node Js.t) (elt' :> Dom.node Js.t)
                    then aux (elt :> Dom.node Js.t))));
            Lwt.return ()));
 

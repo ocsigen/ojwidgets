@@ -70,19 +70,20 @@ let draw_hue ctx width =
   in aux 0.;
   ctx##putImageData(image, 0. , 0.)
 
-let draw_sv ctx hue x y size =
+let draw_sv ctx hue x y (size : int) =
+  let size' = float_of_int size in
   let image = ctx##createImageData(size, size) in
   let rgbdata = image##data in
-  let cur_inc i = (1. /. size) *. i in
+  let cur_inc i = (1. /. size') *. i in
   let rec inner_aux s v =
-    if s >= size then () else
+    if s >= size' then () else
       begin
         let rgb = hsv_to_rgb hue (cur_inc v) (cur_inc s) in
-        set_point rgbdata (x +. s) (y +. v) (int_of_float size) rgb;
+        set_point rgbdata (x +. s) (y +. v) size rgb;
         inner_aux (s +. 1.) v
       end
   in let rec aux v =
-    if v >= size then () else
+    if v >= size' then () else
       begin
         inner_aux 0. v;
         aux (v +. 1.)
@@ -105,25 +106,28 @@ let init_handler colorp =
   (fun () ->
      Lwt_js_events.clicks colorp.sv_cover (fun ev _ ->
          let x, y = get_coord ev colorp.sv_canvas in
+         let x', y' = float_of_int x, float_of_int y in
          let ctx = get_ctx colorp.sv_canvas in
-         let rgbdata = ctx##getImageData(x, y, 1, 1)##data in
+         let rgbdata = ctx##getImageData(x', y', 1., 1.)##data in
          let r, g, b = get_rgb rgbdata in
          colorp.rgb <- r, g, b;
-         draw_sv_cover colorp x y;
+         draw_sv_cover colorp x' y';
          Lwt.return ()
       ));
   Lwt_js_events.async
    (fun () ->
      Lwt_js_events.clicks colorp.hue_cover (fun ev _ ->
          let x, y = get_coord ev colorp.hue_canvas in
+         let x', y' = float_of_int x, float_of_int y in
          let ctx_sv = get_ctx colorp.sv_canvas in
-         draw_sv ctx_sv (float_of_int x) 0. 0. (float_of_int colorp.width);
+         draw_sv ctx_sv x' 0. 0. colorp.width;
          let ctx_hue = get_ctx colorp.hue_canvas in
-         let rgbdata = ctx_hue##getImageData(x, y, 1, 1)##data in
+         let rgbdata = ctx_hue##getImageData(x', y', 1., 1.)##data in
          let r, g, b = get_rgb rgbdata in
          colorp.rgb <- r, g, b;
-         draw_hue_cover colorp x;
-         draw_sv_cover colorp colorp.width colorp.width;
+         draw_hue_cover colorp x';
+         let cwidth' = float_of_int colorp.width in
+         draw_sv_cover colorp cwidth' cwidth';
          Lwt.return ()
       ))
 
@@ -164,6 +168,6 @@ let create ?(width = 100) _ =
   sv##height <- width;
   sv_cover##height <- width;
   draw_hue (get_ctx hue) width;
-  draw_sv (get_ctx sv) 0. 0. 0. (float_of_int width);
+  draw_sv (get_ctx sv) 0. 0. 0. width;
   {hue_canvas = hue; hue_cover = hue_cover; sv_canvas = sv;
    sv_cover = sv_cover; width = width; rgb = color }
