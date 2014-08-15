@@ -7,14 +7,14 @@ Sources are available {{: https://github.com/ocsigen/ojwidgets }here}.
 {2 Pure OCaml widgets }
 
 {!modules:
- Ojw_scrollbar
- Ojw_jsstorage
+ Ojw_base_widget
  Ojw_alert
+ Ojw_popup
  Ojw_button
  Ojw_dropdown
  Ojw_traversable
  Ojw_completion
- Ojw_base_widget
+ Ojw_scrollbar
  Ojw_active_set
 }
 
@@ -22,6 +22,7 @@ Sources are available {{: https://github.com/ocsigen/ojwidgets }here}.
 
 {!modules:
  Ojw_pervasives
+ Ojw_jsstorage
  Ojw_fun
  Ojw_log
  Ojw_tools
