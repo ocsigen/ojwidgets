@@ -52,12 +52,14 @@ Sources are available {{: https://github.com/ocsigen/ojwidgets }here}.
 {!modules:
  Ojw_dom_sigs
  Ojw_alert_f
+ Ojw_popup_f
  Ojw_button_f
  Ojw_dropdown_f
  Ojw_traversable_f
  Ojw_completion_f
  Ojw_scrollbar_f
  Ojw_alert_sigs
+ Ojw_popup_sigs
  Ojw_button_sigs
  Ojw_dropdown_sigs
  Ojw_traversable_sigs
