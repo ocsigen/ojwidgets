@@ -104,4 +104,5 @@ module Make
   let closeable_by_click = Alert.closeable_by_click
 
   let to_popup = Alert.to_alert
+  let to_dyn_popup = Alert.to_dyn_alert
 end
