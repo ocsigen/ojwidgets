@@ -1,22 +1,22 @@
 (*
- * Copyright (c) 2011 Tapmodo Interactive LLC,
- * http://github.com/tapmodo/Jcrop
+   Copyright (c) 2011 Tapmodo Interactive LLC,
+   http://github.com/tapmodo/Jcrop
 
- * Permission is hereby granted, free of charge, to any person obtaining
- * a copy of this software and associated documentation files (the
- * "Software"), to deal in the Software without restriction, including
- * without limitation the rights to use, copy, modify, merge, publish,
- * distribute, sublicense, and/or sell copies of the Software, and to
- * permit persons to whom the Software is furnished to do so, subject to
- * the following conditions:
+   Permission is hereby granted, free of charge, to any person obtaining
+   a copy of this software and associated documentation files (the
+   "Software"), to deal in the Software without restriction, including
+   without limitation the rights to use, copy, modify, merge, publish,
+   distribute, sublicense, and/or sell copies of the Software, and to
+   permit persons to whom the Software is furnished to do so, subject to
+   the following conditions:
 
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
+   The above copyright notice and this permission notice shall be
+   included in all copies or substantial portions of the Software.
  *)
 
 (*
- * Author: Charly Chevalier
- * *)
+   Author: Charly Chevalier
+   *)
 
 (* Type used to constraint usage of parameters of Jcrop's callbacks *)
 class type param = object
@@ -80,6 +80,6 @@ object(self)
     Js.Unsafe.coerce (Ojquery.js_jQelt (elt :> Dom_html.element Js.t))
   in
   (* We can't use the extension syntax of jsoo, because Jcrop is not a valid
-   * identifier, so we use meth_call instead. *)
+     identifier, so we use meth_call instead. *)
   (Js.Unsafe.meth_call img "Jcrop" [| Js.Unsafe.inject opt |])
 end

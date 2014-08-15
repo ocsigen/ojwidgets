@@ -38,10 +38,10 @@ module Make
     let elt' = (Js.Unsafe.coerce (Button.to_button elt) :> dropdown' Js.t) in
 
     (* Don't use the 'this' argument because it correspond to dropdown content
-     * and not the button used by the dropdown.
-     *
-     * FIXME: Should we check if 'pressed' method is not undefined ? It should
-     * never happen.. *)
+       and not the button used by the dropdown.
+      
+       FIXME: Should we check if 'pressed' method is not undefined ? It should
+       never happen.. *)
     let is_traversable = match is_traversable with
       | None -> (fun _ -> Js.to_bool (elt'##pressed))
       | Some f -> (fun _ -> f (Js.Unsafe.coerce elt'))

@@ -1,9 +1,9 @@
 (* Hammer.JS - v1.0.6dev - 2013-07-31
- * http://eightmedia.github.com/hammer.js
- *
- * Binding by Arnaud Parant
- * Copyright (c) 2013 Jorik Tangelder <j.tangelder@gmail.com>;
- * Licensed under the MIT license
+   http://eightmedia.github.com/hammer.js
+  
+   Binding by Arnaud Parant
+   Copyright (c) 2013 Jorik Tangelder <j.tangelder@gmail.com>;
+   Licensed under the MIT license
  *)
 
 (* Fake type to hide js obj type *)

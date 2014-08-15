@@ -33,15 +33,15 @@ let as_dom_elt elt f =
   ret
 
 (* ?parent is a function which returns the parent of the close button.
- * ?close is a function called when closing the parent of the close button.
- * *)
+   ?close is a function called when closing the parent of the close button.
+   *)
 let closeable
     ?(get_parent : (#element Js.t -> Dom.node Js.t) option)
     ?(on_close : (Dom.node Js.t -> unit) option)
     (elt : #element Js.t) =
   elt##classList##add(Js.string "ojw_close");
   (* Function wrapper, if there is no close parameter, so we delete the parent
-   * of the close button from the document. *)
+     of the close button from the document. *)
   let close_parent p =
     match on_close with
     | None ->
@@ -51,7 +51,7 @@ let closeable
     | Some on_close -> on_close p
   in
   (* If there is no parent paramter, we use the parent node of the close
-   * button. *)
+     button. *)
   match get_parent with
   | None ->
       (fun () ->

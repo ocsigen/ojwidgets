@@ -1,9 +1,9 @@
 (*
- * Swipe 2.0
- *
- * Arnaud Parant
- * Copyright 2013, MIT License
- *
+   Swipe 2.0
+  
+   Arnaud Parant
+   Copyright 2013, MIT License
+  
  *)
 
 type jq_elt = Ojquery.t

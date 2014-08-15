@@ -42,8 +42,8 @@ module type T = sig
     -> unit Lwt.t
 
   (** This events is triggered when a click occurs outside of an alert box
-    * or outside of an element immune to out clicks. Only [alerts] which are
-    * [visible] received the event. *)
+      or outside of an element immune to out clicks. Only [alerts] which are
+      [visible] received the event. *)
   val outer_clicks :
     ?cancel_handler:bool
     -> ?use_capture:bool
@@ -54,41 +54,41 @@ module type T = sig
   (** {2 Types for alerts} *)
 
   (** [alert] provides methods to [show] or [hide] their content. The content
-    * of the alert is static. *)
+      of the alert is static. *)
   class type alert = object
     (** Base widget. *)
     inherit Ojw_base_widget.widget
 
     (** This method returns [true] if the content of the [alert] is currently
-      * shown. [false] if not. *)
+        shown. [false] if not. *)
     method visible : bool Js.meth
     (** Show the content of the [alert].
-      *
-      * If the method is called during the [alert] is already [visible], this
-      * method has no effect. *)
+       
+        If the method is called during the [alert] is already [visible], this
+        method has no effect. *)
     method show : unit Js.meth
     (** Hide the content of the [alert]. *)
     method hide : unit Js.meth
   end
 
   (** [dyn_alert] provides the same method as above, except for [show] which
-    * must be used inside of the [Lwt] thread. The content of the alert is
-    * dynamically generated using a function (see below). The content can be
-    * refreshed using the method [update]. *)
+      must be used inside of the [Lwt] thread. The content of the alert is
+      dynamically generated using a function (see below). The content can be
+      refreshed using the method [update]. *)
   class type dyn_alert = object
     inherit Ojw_base_widget.widget
 
     (** This method returns [true] if the content of the [alert] is currently
-      * shown. [false] if not. *)
+        shown. [false] if not. *)
     method visible : bool Js.meth
     (** Call the function associated to the [alert] to generate his content and
-     * make visible the [alert].
-     *
-     * If the method is called during the [alert] is already [visible], this
-     * method has no effect. *)
+       make visible the [alert].
+      
+       If the method is called during the [alert] is already [visible], this
+       method has no effect. *)
     method show : unit Lwt.t Js.meth
     (** Hide the content of the [alert]. If already hidden, the method has no
-      * effect. *)
+        effect. *)
     method hide : unit Js.meth
     (** Refresh the content of the [alert] if it is visible. *)
     method update : unit Lwt.t Js.meth
@@ -100,14 +100,14 @@ module type T = sig
   exception Close_button_not_in_alert
 
   (** Provides the behaviour of automatically [hide] an [alert] if the
-    * element is clicked.
-    *
-    * The parent is found using bubble iteration (iterate through parents
-    * node). Nodes with a class {b "ojw_alert"} or {b "ojw_dyn_alert"} are
-    * considered as terminal node during this process.
-    *
-    * If no parent are found during the process, the exception
-    * [Close_button_not_in_alert] is raised. *)
+      element is clicked.
+     
+      The parent is found using bubble iteration (iterate through parents
+      node). Nodes with a class {b "ojw_alert"} or {b "ojw_dyn_alert"} are
+      considered as terminal node during this process.
+     
+      If no parent are found during the process, the exception
+      [Close_button_not_in_alert] is raised. *)
   val closeable_by_click : D.element D.elt -> D.element D.elt
 
   (* FIXME: use another module ? Which corresponds to any dom elements ? *)
@@ -117,14 +117,14 @@ module type T = sig
   (** {2 Construction functions} *)
 
   (** Provides behaviours of the [alert] class to an element.
-    *
-    * The [show] parameter indicates whether or not the alert must be displayed
-    * at start.
-    * [allow_outer_clicks] allows or not outer clicks for the [alert].
-    * [on_outer_click] function is called when a click outside of the alert
-    * occurs.
-    * The function [before] and [after] are respectively called before and after
-    * the [alert] is shown. *)
+     
+      The [show] parameter indicates whether or not the alert must be displayed
+      at start.
+      [allow_outer_clicks] allows or not outer clicks for the [alert].
+      [on_outer_click] function is called when a click outside of the alert
+      occurs.
+      The function [before] and [after] are respectively called before and after
+      the [alert] is shown. *)
   val alert :
      ?show:bool
   -> ?allow_outer_clicks:bool
@@ -136,17 +136,17 @@ module type T = sig
 
 
   (** Provides behaviours of the [dyn_alert] class to an element.
-    *
-    * The parameters are the same a [alert] function above.
-    *
-    * To construct a [dyn_alert] you must provides the container
-    * on which the dynamic content will be added when the method
-    * [show] or [update] is called.
-    *
-    * When the [dyn_alert] is hidden (using [hide]), the content is removed
-    * from the container.
-    *
-    * [update] should only be called when a [dyn_alert] is [visible]. *)
+     
+      The parameters are the same a [alert] function above.
+     
+      To construct a [dyn_alert] you must provides the container
+      on which the dynamic content will be added when the method
+      [show] or [update] is called.
+     
+      When the [dyn_alert] is hidden (using [hide]), the content is removed
+      from the container.
+     
+      [update] should only be called when a [dyn_alert] is [visible]. *)
   val dyn_alert :
      ?show:bool
   -> ?allow_outer_clicks:bool
@@ -160,13 +160,13 @@ module type T = sig
   (** {2 Conversion functions} *)
 
   (** Tests if an element is an alert or not and returns it as a [alert]
-    * instance. *)
+      instance. *)
   val to_alert :
      D.element D.elt
   -> alert Js.t
 
   (** Tests if an element is an dyn_alert or not and returns it as a [dyn_alert]
-    * instance. *)
+      instance. *)
   val to_dyn_alert :
      D.element D.elt
   -> dyn_alert Js.t

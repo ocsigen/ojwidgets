@@ -103,7 +103,7 @@ module Make
     let set_input v = elt'##value <- v in
 
     (* Returns [true] if there is an active element and
-     * if it has a data-value attribute *)
+       if it has a data-value attribute *)
     let set_input_with_active () =
       let elt_traversable' = Tr.to_traversable elt_traversable in
       Js.Opt.iter (elt_traversable'##getActive ())
@@ -128,12 +128,12 @@ module Make
       elt'##_selected <- true;
     in
     (* Reset the context of the completion widget.
-     * - _needUpdate: indicates whether or not the [refresh] function (parameter)
-     * should be called during the next action.
-     * - _selected: indicates if an element has been selected (by pressing
-     * enter/tab)
-     * - #clear(): will removes all the nodes of the completion widgets.
-     * *)
+       - _needUpdate: indicates whether or not the [refresh] function (parameter)
+       should be called during the next action.
+       - _selected: indicates if an element has been selected (by pressing
+       enter/tab)
+       - #clear(): will removes all the nodes of the completion widgets.
+       *)
     let reset_context () =
       Ojw_log.log "reset_context";
        elt'##_needUpdate <- true;
@@ -141,7 +141,7 @@ module Make
        elt'##_choices <- [];
     in
     (* This function will be used by the [traversable] widget. [true] means
-     * that the event will be prevented. *)
+       that the event will be prevented. *)
     let on_keydown e =
       let elt_traversable' = Tr.D.to_dom_elt elt_traversable in
       let has_content = elt_traversable'##childNodes##length <> 0 in
@@ -160,7 +160,7 @@ module Make
     let is_completed_by = is_completed_by ~sensitive ~accents ~from_start in
 
     (* Epurate the given list using [is_completed_by]. [on_fail] will be
-     * called when an item does not match. *)
+       called when an item does not match. *)
     let epur ?on_fail ~get_attr l =
       let value = elt'##value in
       let rec aux rl = function
@@ -180,8 +180,8 @@ module Make
       in aux [] l
     in
     (* Indicates when a dropdown content (list of li under the input) must be
-     * shown or not and also indicates when keydowns events should be handled
-     * or not. *)
+       shown or not and also indicates when keydowns events should be handled
+       or not. *)
     let is_traversable dd =
       Js.to_bool dd##pressed || dd##traversable##childNodes##length > 0
     in
@@ -250,7 +250,7 @@ module Make
       in
       let value = elt'##value in
       (* We can use the epured items to insert only nodes which are not already
-       * inserted. *)
+         inserted. *)
       let rec soft_refresh n = function
         | [] -> ()
         | hd::tl ->
@@ -268,7 +268,7 @@ module Make
             end
       in soft_refresh (List.length el) (elt'##_choices);
       (* If we remove the element which was selected, so we're going to
-       * select the first element as default one. *)
+         select the first element as default one. *)
       if !selected_has_been_removed then
         set_first_as_selected ()
     in
@@ -322,7 +322,7 @@ module Make
            Lwt.return ()));
 
     (* Using keyups make sure to capture the very first character of the input
-     * when it is empty. (keydowns is trigger before the input value changed)
+       when it is empty. (keydowns is trigger before the input value changed)
      *)
     Lwt.async (fun () ->
       Lwt_js_events.keyups (D.to_dom_elt elt)
@@ -333,7 +333,7 @@ module Make
            else begin
              let elt_traversable' = Tr.to_traversable elt_traversable in
              (* delete/backspace: reset_context, we're going to update the
-              * dropdown content. *)
+                dropdown content. *)
              (* If the value of the input is empty, we reset the context. *)
              let value = Js.to_string elt'##value in
              Ojw_log.log ("old:"^elt'##_oldValue);
@@ -375,12 +375,12 @@ module Make
              if prevent then
                Dom.preventDefault e;
              (* Get the new value of the input value. Maybe it has been cleared
-              * *)
+                *)
              let value = Js.to_string elt'##value in
              (* We store the current value to compare it next time. We use
-              * keyups to catch the last character entered. (keydowns is trigger
-              * before the input value changed)
-              * *)
+                keyups to catch the last character entered. (keydowns is trigger
+                before the input value changed)
+                *)
              elt'##_oldValue <- value;
              if value = ""
              then (elt'##clear(); Lwt.return ())

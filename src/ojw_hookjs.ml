@@ -1,9 +1,9 @@
 (*
- * Hook
- * Version: 1.1
- * Author: Jordan Singer, Brandon Jacoby, Adam Girton
- * Copyright (c) 2013 - Hook.  All rights reserved.
- * http://www.usehook.com
+   Hook
+   Version: 1.1
+   Author: Jordan Singer, Brandon Jacoby, Adam Girton
+   Copyright (c) 2013 - Hook.  All rights reserved.
+   http://www.usehook.com
  *)
 
 type t = Ojquery.t

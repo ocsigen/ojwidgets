@@ -167,7 +167,7 @@ module Make
     meth (fun this by item ->
       Js.Opt.case ((Content.to_dom_elt item)##parentNode)
         (* if there is no parent, so item is not a child of
-         * the traversable element *)
+           the traversable element *)
         (fun () -> ())
         (fun parent ->
            if not (parent = ((D.to_dom_elt elt) :> Dom.node Js.t))
@@ -215,10 +215,10 @@ module Make
 
     let is_child_of child (parent : Dom.node Js.t) =
       (* Previous implementation was:
-       *
-       * (parent##compareDocumentPosition(child) land 16) = 16
-       *
-       * *)
+        
+         (parent##compareDocumentPosition(child) land 16) = 16
+        
+         *)
       let module Dp = Dom.DocumentPosition in
       Dp.has (parent##compareDocumentPosition(child)) Dp.contains
     in
