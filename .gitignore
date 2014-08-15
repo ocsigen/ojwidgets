@@ -9,3 +9,4 @@ setup.log
 **/*~
 setup.exe
 setup-dev.exe
+.*.sw*
