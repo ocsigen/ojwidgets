@@ -16,13 +16,13 @@ Sources are available {{: https://github.com/ocsigen/ojwidgets }here}.
  Ojw_completion
  Ojw_scrollbar
  Ojw_active_set
+ Ojw_slider
 }
 
 {2 Utilities }
 
 {!modules:
  Ojw_pervasives
- Ojw_jsstorage
  Ojw_fun
  Ojw_log
  Ojw_tools
@@ -35,16 +35,21 @@ Sources are available {{: https://github.com/ocsigen/ojwidgets }here}.
 
 {!modules:
  Ojw_jcrop
- Ojw_slider
- Ojw_swipejs
- Ojw_hookjs
- Ojw_hammer_swipe
 }
 
 {2 Experimental }
 
 {!modules:
+ Ojw_jsstorage
  Ojw_slide_event
+}
+
+{2 Experimental Javascript bindings }
+
+{!modules:
+ Ojw_swipejs
+ Ojw_hookjs
+ Ojw_hammer_swipe
 }
 
 {2 Internals }
