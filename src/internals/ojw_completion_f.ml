@@ -21,7 +21,7 @@ module Utils = struct
         let regex =
           if from_start
           then ("^" ^ pattern) ^ "|^\\s" ^ pattern
-          else pattern
+          else (".*" ^ pattern ^ ".*")
         in
         if sensitive
         then M.regexp regex
