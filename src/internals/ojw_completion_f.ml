@@ -66,6 +66,7 @@ module Make
     method _choices : Tr.Content.element Tr.Content.elt list Js.prop
     method _needUpdate : bool Js.prop
     method _selected : bool Js.prop
+    method _selectedValue : string Js.prop
     method _oldValue : string Js.prop
 
     method _confirm : (#completion Js.t, unit -> unit Lwt.t) Js.meth_callback Js.prop
@@ -96,21 +97,26 @@ module Make
 
     elt'##classList##add(Js.string "ojw_completion");
 
+    let get_data_value_to_match n =
+      (Js.Unsafe.coerce n)##getAttribute(Js.string "data-value-to-match")
+    in
+
     let get_data_value n =
       (Js.Unsafe.coerce n)##getAttribute(Js.string "data-value")
     in
 
     let set_input v = elt'##value <- v in
+    let set_selected_value v = elt'##_selectedValue <- v in
 
     (* Returns [true] if there is an active element and
-       if it has a data-value attribute *)
-    let set_input_with_active () =
+       if it has a data-value-to-display attribute *)
+    let set_input_and_set_selected_value_with_active () =
       let elt_traversable' = Tr.to_traversable elt_traversable in
       Js.Opt.iter (elt_traversable'##getActive ())
         (fun act ->
            let act' = Tr.Content.to_dom_elt act in
-           Js.Opt.iter (get_data_value act')
-             (fun value -> set_input value))
+           Js.Opt.iter (get_data_value_to_match act') set_input;
+           Js.Opt.iter (get_data_value act') set_selected_value)
     in
     (* Set the first element (if one) of the dropdown as selected. *)
     let set_first_as_selected () =
@@ -120,9 +126,9 @@ module Make
            (Tr.to_traversable elt_traversable)
            ##setActive(Tr.Content.of_dom_elt (Js.Unsafe.coerce first)));
     in
-    (* Set the input value to the data-value of the selected element. *)
+    (* Set the input value to the data-value-to-display of the selected element. *)
     let set_as_selected () =
-      set_input_with_active ();
+      set_input_and_set_selected_value_with_active ();
       elt'##clear();
       elt'##_needUpdate <- false;
       elt'##_selected <- true;
@@ -209,7 +215,7 @@ module Make
         if not auto_match
         then Lwt.return (rl)
         else Lwt.return
-            (epur ~get_attr:(fun a -> get_data_value (Tr.Content.to_dom_elt a)) rl)
+            (epur ~get_attr:(fun a -> get_data_value_to_match (Tr.Content.to_dom_elt a)) rl)
       in
       let mapn n f l =
         if n < 0 then failwith "limit, invalid argument";
@@ -242,11 +248,11 @@ module Make
       let el =
         (* The list of epured items. Those which didn't match the input
            value have been removed during [epur] function. *)
-        epur ~on_fail:remove_and_reset ~get_attr:get_data_value
+        epur ~on_fail:remove_and_reset ~get_attr:get_data_value_to_match
           (Dom.list_of_nodeList (elt_traversable'##childNodes))
       in
       let is_same node =
-        List.exists (fun n -> (get_data_value n) = (get_data_value node)) el
+        List.exists (fun n -> (get_data_value_to_match n) = (get_data_value_to_match node)) el
       in
       let value = elt'##value in
       (* We can use the epured items to insert only nodes which are not already
@@ -257,7 +263,7 @@ module Make
             if n >= limit then ()
             else begin
               let hd' = Tr.Content.to_dom_elt hd in
-              Js.Opt.case (get_data_value hd')
+              Js.Opt.case (get_data_value_to_match hd')
                 (fun () -> soft_refresh n tl)
                 (fun data_value ->
                    if not (is_same hd')
@@ -284,13 +290,13 @@ module Make
 
     elt'##_confirm <-
     meth (fun this () ->
-       let value = elt'##value in
+       let selected_value = elt'##_selectedValue in
        if clear_input_on_confirm then begin
          set_input (Js.string "");
          elt'##_oldValue <- "";
        end;
        elt'##clear();
-       on_confirm (Js.to_string value);
+       on_confirm selected_value;
     );
 
     elt'##_oldValue <- "";
@@ -303,7 +309,7 @@ module Make
              (fun detail ->
                 (match detail##by() with
                  | `Click ->
-                     set_input_with_active ();
+                     set_input_and_set_selected_value_with_active ();
                      (* Re-give the focus to the input after a click *)
                      (Js.Unsafe.coerce (D.to_dom_elt elt))##focus()
                  | _ -> ()));
@@ -367,7 +373,7 @@ module Make
                    end
                | 38 | 40 -> (* up/down *)
                    if adaptive then begin
-                     set_input_with_active ();
+                     set_input_and_set_selected_value_with_active ();
                      Lwt.return true
                    end else Lwt.return false
                | _ -> Lwt.return false
