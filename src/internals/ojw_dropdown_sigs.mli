@@ -29,22 +29,29 @@ module type T = sig
   (** {2 Construction functions} *)
 
   (** Provides behaviours of dropdown menu.
-     
+
       Some of the parameters are the same as [Ojw_button] and [Ojw_traversable].
-     
+
       The parameters [v] and [h] (respectively vertical and horizontal)
       corresponds to the orientation of the menu.
-     
+
       You can use [hover] and [hover_timeout] if you want your [dropdown]
       triggered during hover javascript events. The [dropdown] waits
       [hover_timeout] seconds before hiding the menu.
-     
+
       The [dropdown] is traversable only when it is opened.
-     
+
       @see 'Ojw_button'.
       @see 'Ojw_traversable'.
       @see 'Ojw_position'.
       *)
+(*VVV FIX!
+  MISSING: DOC ON OTHER OPTIONAL ARGUMENTS.
+  What is the is_traversable function? etc.
+  What does it mean if the dropdown is not traversable?
+  (+ explain what means "traversable" in the doc on this element)
+  When is the predicate evaluated? (before opening? after opening? closing? etc)
+*)
   val dropdown :
      ?v : Ojw_position.v_orientation
   -> ?h : Ojw_position.h_orientation
